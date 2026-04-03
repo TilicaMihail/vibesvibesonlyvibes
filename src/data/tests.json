@@ -1,0 +1,292 @@
+[
+  {
+    "id": "test-1",
+    "courseId": "course-1",
+    "contentNodeId": "cn-5",
+    "title": "Chapter 1 Quiz — JavaScript Basics",
+    "isAIGenerated": false,
+    "createdAt": "2024-03-01T00:00:00Z",
+    "questions": [
+      {
+        "id": "q1-1", "testId": "test-1", "type": "single", "topicTag": "fundamentals",
+        "text": "What does 'var' do in JavaScript?",
+        "options": [
+          { "id": "q1-1-a", "text": "Declares a block-scoped variable", "isCorrect": false },
+          { "id": "q1-1-b", "text": "Declares a function-scoped variable", "isCorrect": true },
+          { "id": "q1-1-c", "text": "Declares a constant", "isCorrect": false },
+          { "id": "q1-1-d", "text": "Imports a module", "isCorrect": false }
+        ],
+        "explanation": "'var' creates function-scoped variables, unlike 'let' and 'const' which are block-scoped."
+      },
+      {
+        "id": "q1-2", "testId": "test-1", "type": "single", "topicTag": "fundamentals",
+        "text": "Which of the following is NOT a primitive type in JavaScript?",
+        "options": [
+          { "id": "q1-2-a", "text": "string", "isCorrect": false },
+          { "id": "q1-2-b", "text": "number", "isCorrect": false },
+          { "id": "q1-2-c", "text": "array", "isCorrect": true },
+          { "id": "q1-2-d", "text": "boolean", "isCorrect": false }
+        ],
+        "explanation": "Arrays are objects in JavaScript, not primitives. Primitives include string, number, boolean, null, undefined, symbol, and bigint."
+      },
+      {
+        "id": "q1-3", "testId": "test-1", "type": "true_false", "topicTag": "fundamentals",
+        "text": "JavaScript is a statically typed language.",
+        "options": [
+          { "id": "q1-3-a", "text": "True", "isCorrect": false },
+          { "id": "q1-3-b", "text": "False", "isCorrect": true }
+        ],
+        "explanation": "JavaScript is dynamically typed — variable types are determined at runtime."
+      },
+      {
+        "id": "q1-4", "testId": "test-1", "type": "single", "topicTag": "variables",
+        "text": "What is the output of: typeof null?",
+        "options": [
+          { "id": "q1-4-a", "text": "\"null\"", "isCorrect": false },
+          { "id": "q1-4-b", "text": "\"undefined\"", "isCorrect": false },
+          { "id": "q1-4-c", "text": "\"object\"", "isCorrect": true },
+          { "id": "q1-4-d", "text": "\"boolean\"", "isCorrect": false }
+        ],
+        "explanation": "This is a well-known JavaScript quirk: typeof null returns 'object', which is considered a bug in the language."
+      },
+      {
+        "id": "q1-5", "testId": "test-1", "type": "multiple", "topicTag": "variables",
+        "text": "Which keywords declare block-scoped variables? (Select all that apply)",
+        "options": [
+          { "id": "q1-5-a", "text": "var", "isCorrect": false },
+          { "id": "q1-5-b", "text": "let", "isCorrect": true },
+          { "id": "q1-5-c", "text": "const", "isCorrect": true },
+          { "id": "q1-5-d", "text": "function", "isCorrect": false }
+        ],
+        "explanation": "'let' and 'const' are both block-scoped. 'var' is function-scoped."
+      }
+    ]
+  },
+  {
+    "id": "test-2",
+    "courseId": "course-1",
+    "contentNodeId": "cn-9",
+    "title": "Chapter 2 Quiz — Functions & Scope",
+    "isAIGenerated": false,
+    "createdAt": "2024-03-05T00:00:00Z",
+    "questions": [
+      {
+        "id": "q2-1", "testId": "test-2", "type": "single", "topicTag": "functions",
+        "text": "Which of the following is an arrow function?",
+        "options": [
+          { "id": "q2-1-a", "text": "function add(a, b) { return a + b; }", "isCorrect": false },
+          { "id": "q2-1-b", "text": "const add = (a, b) => a + b;", "isCorrect": true },
+          { "id": "q2-1-c", "text": "add = function(a, b) { return a + b; }", "isCorrect": false },
+          { "id": "q2-1-d", "text": "def add(a, b): return a + b", "isCorrect": false }
+        ],
+        "explanation": "Arrow functions use the => syntax, introduced in ES6."
+      },
+      {
+        "id": "q2-2", "testId": "test-2", "type": "true_false", "topicTag": "scope",
+        "text": "Arrow functions have their own 'this' binding.",
+        "options": [
+          { "id": "q2-2-a", "text": "True", "isCorrect": false },
+          { "id": "q2-2-b", "text": "False", "isCorrect": true }
+        ],
+        "explanation": "Arrow functions do NOT have their own 'this'. They inherit 'this' from the enclosing lexical context."
+      },
+      {
+        "id": "q2-3", "testId": "test-2", "type": "single", "topicTag": "closures",
+        "text": "What is a closure in JavaScript?",
+        "options": [
+          { "id": "q2-3-a", "text": "A function that has no return value", "isCorrect": false },
+          { "id": "q2-3-b", "text": "A function that remembers variables from its outer scope", "isCorrect": true },
+          { "id": "q2-3-c", "text": "A method to close a connection", "isCorrect": false },
+          { "id": "q2-3-d", "text": "An immediately invoked function", "isCorrect": false }
+        ],
+        "explanation": "A closure is a function that retains access to variables from its enclosing scope even after that scope has closed."
+      },
+      {
+        "id": "q2-4", "testId": "test-2", "type": "single", "topicTag": "hoisting",
+        "text": "What is hoisting in JavaScript?",
+        "options": [
+          { "id": "q2-4-a", "text": "Moving import statements to the top", "isCorrect": false },
+          { "id": "q2-4-b", "text": "JavaScript's behavior of moving declarations to the top of scope", "isCorrect": true },
+          { "id": "q2-4-c", "text": "A way to optimize performance", "isCorrect": false },
+          { "id": "q2-4-d", "text": "Compiling JavaScript to bytecode", "isCorrect": false }
+        ],
+        "explanation": "Hoisting moves variable and function declarations to the top of their containing scope during compilation."
+      },
+      {
+        "id": "q2-5", "testId": "test-2", "type": "single", "topicTag": "functions",
+        "text": "What does the 'arguments' object contain?",
+        "options": [
+          { "id": "q2-5-a", "text": "Command-line arguments", "isCorrect": false },
+          { "id": "q2-5-b", "text": "All arguments passed to a regular function", "isCorrect": true },
+          { "id": "q2-5-c", "text": "Function parameters with default values", "isCorrect": false },
+          { "id": "q2-5-d", "text": "Named parameters only", "isCorrect": false }
+        ],
+        "explanation": "The 'arguments' object is available inside regular functions and contains all passed arguments. Note: it is NOT available in arrow functions."
+      }
+    ]
+  },
+  {
+    "id": "test-3",
+    "courseId": "course-2",
+    "contentNodeId": "cn-13",
+    "title": "Chapter 1 Quiz — React Introduction",
+    "isAIGenerated": false,
+    "createdAt": "2024-03-08T00:00:00Z",
+    "questions": [
+      {
+        "id": "q3-1", "testId": "test-3", "type": "single", "topicTag": "react-basics",
+        "text": "What is JSX?",
+        "options": [
+          { "id": "q3-1-a", "text": "A new JavaScript version", "isCorrect": false },
+          { "id": "q3-1-b", "text": "A syntax extension for JavaScript that looks like HTML", "isCorrect": true },
+          { "id": "q3-1-c", "text": "A CSS preprocessor", "isCorrect": false },
+          { "id": "q3-1-d", "text": "A testing framework", "isCorrect": false }
+        ],
+        "explanation": "JSX is a syntax extension that allows you to write HTML-like code in JavaScript files."
+      },
+      {
+        "id": "q3-2", "testId": "test-3", "type": "true_false", "topicTag": "components",
+        "text": "React components must always return a single root element.",
+        "options": [
+          { "id": "q3-2-a", "text": "True", "isCorrect": false },
+          { "id": "q3-2-b", "text": "False", "isCorrect": true }
+        ],
+        "explanation": "React Fragments (<></>) allow returning multiple elements without a wrapper div."
+      },
+      {
+        "id": "q3-3", "testId": "test-3", "type": "single", "topicTag": "props",
+        "text": "How are props passed to a React component?",
+        "options": [
+          { "id": "q3-3-a", "text": "Via global variables", "isCorrect": false },
+          { "id": "q3-3-b", "text": "Via HTML-like attributes in JSX", "isCorrect": true },
+          { "id": "q3-3-c", "text": "Via function return values", "isCorrect": false },
+          { "id": "q3-3-d", "text": "Via the window object", "isCorrect": false }
+        ],
+        "explanation": "Props are passed like HTML attributes: <Component propName={value} />"
+      }
+    ]
+  },
+  {
+    "id": "test-4",
+    "courseId": "course-2",
+    "contentNodeId": "cn-16",
+    "title": "Chapter 2 Quiz — Hooks",
+    "isAIGenerated": false,
+    "createdAt": "2024-03-12T00:00:00Z",
+    "questions": [
+      {
+        "id": "q4-1", "testId": "test-4", "type": "single", "topicTag": "useState",
+        "text": "What does useState return?",
+        "options": [
+          { "id": "q4-1-a", "text": "Only the current state value", "isCorrect": false },
+          { "id": "q4-1-b", "text": "An array with [stateValue, setterFunction]", "isCorrect": true },
+          { "id": "q4-1-c", "text": "A promise that resolves to the state", "isCorrect": false },
+          { "id": "q4-1-d", "text": "An object with get and set methods", "isCorrect": false }
+        ],
+        "explanation": "useState returns a tuple: [currentState, setterFunction]. The setter triggers a re-render."
+      },
+      {
+        "id": "q4-2", "testId": "test-4", "type": "single", "topicTag": "useEffect",
+        "text": "When does useEffect with an empty dependency array [] run?",
+        "options": [
+          { "id": "q4-2-a", "text": "On every render", "isCorrect": false },
+          { "id": "q4-2-b", "text": "Only once after the first render", "isCorrect": true },
+          { "id": "q4-2-c", "text": "Before every render", "isCorrect": false },
+          { "id": "q4-2-d", "text": "Never", "isCorrect": false }
+        ],
+        "explanation": "An empty dependency array means the effect runs only once after the initial render, similar to componentDidMount."
+      },
+      {
+        "id": "q4-3", "testId": "test-4", "type": "true_false", "topicTag": "hooks-rules",
+        "text": "Hooks can be called inside conditionals and loops.",
+        "options": [
+          { "id": "q4-3-a", "text": "True", "isCorrect": false },
+          { "id": "q4-3-b", "text": "False", "isCorrect": true }
+        ],
+        "explanation": "The Rules of Hooks require that hooks are only called at the top level of a function component, never inside conditions, loops, or nested functions."
+      }
+    ]
+  },
+  {
+    "id": "test-5",
+    "courseId": "course-3",
+    "contentNodeId": "cn-19",
+    "title": "Chapter 1 Quiz — Python Basics",
+    "isAIGenerated": false,
+    "createdAt": "2024-03-10T00:00:00Z",
+    "questions": [
+      {
+        "id": "q5-1", "testId": "test-5", "type": "single", "topicTag": "python-basics",
+        "text": "Which library is most commonly used for data manipulation in Python?",
+        "options": [
+          { "id": "q5-1-a", "text": "NumPy", "isCorrect": false },
+          { "id": "q5-1-b", "text": "Matplotlib", "isCorrect": false },
+          { "id": "q5-1-c", "text": "Pandas", "isCorrect": true },
+          { "id": "q5-1-d", "text": "Scikit-learn", "isCorrect": false }
+        ],
+        "explanation": "Pandas provides the DataFrame structure which is the cornerstone of data manipulation in Python."
+      },
+      {
+        "id": "q5-2", "testId": "test-5", "type": "true_false", "topicTag": "python-basics",
+        "text": "Python uses indentation to define code blocks.",
+        "options": [
+          { "id": "q5-2-a", "text": "True", "isCorrect": true },
+          { "id": "q5-2-b", "text": "False", "isCorrect": false }
+        ],
+        "explanation": "Python uses indentation (whitespace) rather than curly braces to define code blocks."
+      },
+      {
+        "id": "q5-3", "testId": "test-5", "type": "single", "topicTag": "python-basics",
+        "text": "How do you import Pandas in Python?",
+        "options": [
+          { "id": "q5-3-a", "text": "include pandas as pd", "isCorrect": false },
+          { "id": "q5-3-b", "text": "require('pandas')", "isCorrect": false },
+          { "id": "q5-3-c", "text": "import pandas as pd", "isCorrect": true },
+          { "id": "q5-3-d", "text": "using pandas;", "isCorrect": false }
+        ],
+        "explanation": "Python uses the 'import' keyword. The 'as pd' alias is a convention."
+      }
+    ]
+  },
+  {
+    "id": "test-6",
+    "courseId": "course-3",
+    "contentNodeId": "cn-22",
+    "title": "Chapter 2 Quiz — Pandas",
+    "isAIGenerated": false,
+    "createdAt": "2024-03-14T00:00:00Z",
+    "questions": [
+      {
+        "id": "q6-1", "testId": "test-6", "type": "single", "topicTag": "dataframes",
+        "text": "What does df.head() return?",
+        "options": [
+          { "id": "q6-1-a", "text": "The last 5 rows", "isCorrect": false },
+          { "id": "q6-1-b", "text": "The first 5 rows by default", "isCorrect": true },
+          { "id": "q6-1-c", "text": "Column names", "isCorrect": false },
+          { "id": "q6-1-d", "text": "Summary statistics", "isCorrect": false }
+        ],
+        "explanation": "df.head() returns the first n rows (5 by default). Use df.tail() for the last rows."
+      },
+      {
+        "id": "q6-2", "testId": "test-6", "type": "single", "topicTag": "dataframes",
+        "text": "How do you read a CSV file with Pandas?",
+        "options": [
+          { "id": "q6-2-a", "text": "pd.load_csv('file.csv')", "isCorrect": false },
+          { "id": "q6-2-b", "text": "pd.read_csv('file.csv')", "isCorrect": true },
+          { "id": "q6-2-c", "text": "pd.open('file.csv')", "isCorrect": false },
+          { "id": "q6-2-d", "text": "pd.import_csv('file.csv')", "isCorrect": false }
+        ],
+        "explanation": "pd.read_csv() is the standard way to read CSV files into a DataFrame."
+      },
+      {
+        "id": "q6-3", "testId": "test-6", "type": "true_false", "topicTag": "dataframes",
+        "text": "df.shape returns (columns, rows).",
+        "options": [
+          { "id": "q6-3-a", "text": "True", "isCorrect": false },
+          { "id": "q6-3-b", "text": "False", "isCorrect": true }
+        ],
+        "explanation": "df.shape returns (rows, columns) — rows first, then columns."
+      }
+    ]
+  }
+]

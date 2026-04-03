@@ -1,0 +1,9 @@
+[
+  {
+    "id": "org-1",
+    "name": "Acme Learning Co.",
+    "slug": "acme",
+    "description": "A leading provider of online education solutions.",
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "prog-1",
+    "studentId": "u-student-1",
+    "courseId": "course-1",
+    "completionPercent": 60,
+    "lastAccessedAt": "2024-03-15T14:00:00Z",
+    "testSessionIds": ["ts-1", "ts-2"],
+    "resourceProgress": [
+      { "contentNodeId": "cn-2", "completed": true, "completedAt": "2024-03-10T09:00:00Z", "timeSpentSeconds": 180 },
+      { "contentNodeId": "cn-3", "completed": true, "completedAt": "2024-03-10T09:30:00Z", "timeSpentSeconds": 720 },
+      { "contentNodeId": "cn-4", "completed": true, "completedAt": "2024-03-10T09:45:00Z", "timeSpentSeconds": 60 },
+      { "contentNodeId": "cn-5", "completed": true, "completedAt": "2024-03-10T10:12:00Z", "timeSpentSeconds": 720 },
+      { "contentNodeId": "cn-7", "completed": true, "completedAt": "2024-03-15T13:30:00Z", "timeSpentSeconds": 300 },
+      { "contentNodeId": "cn-8", "completed": false, "timeSpentSeconds": 200 }
+    ]
+  },
+  {
+    "id": "prog-2",
+    "studentId": "u-student-1",
+    "courseId": "course-2",
+    "completionPercent": 25,
+    "lastAccessedAt": "2024-03-20T10:00:00Z",
+    "testSessionIds": [],
+    "resourceProgress": [
+      { "contentNodeId": "cn-11", "completed": true, "completedAt": "2024-03-20T10:00:00Z", "timeSpentSeconds": 240 }
+    ]
+  },
+  {
+    "id": "prog-3",
+    "studentId": "u-student-2",
+    "courseId": "course-1",
+    "completionPercent": 100,
+    "lastAccessedAt": "2024-03-12T11:00:00Z",
+    "testSessionIds": ["ts-3"],
+    "resourceProgress": [
+      { "contentNodeId": "cn-2", "completed": true, "completedAt": "2024-03-11T08:00:00Z", "timeSpentSeconds": 240 },
+      { "contentNodeId": "cn-3", "completed": true, "completedAt": "2024-03-11T08:30:00Z", "timeSpentSeconds": 750 },
+      { "contentNodeId": "cn-4", "completed": true, "completedAt": "2024-03-11T08:45:00Z", "timeSpentSeconds": 120 },
+      { "contentNodeId": "cn-5", "completed": true, "completedAt": "2024-03-11T09:15:00Z", "timeSpentSeconds": 900 },
+      { "contentNodeId": "cn-7", "completed": true, "completedAt": "2024-03-12T10:00:00Z", "timeSpentSeconds": 360 },
+      { "contentNodeId": "cn-8", "completed": true, "completedAt": "2024-03-12T10:30:00Z", "timeSpentSeconds": 1080 },
+      { "contentNodeId": "cn-9", "completed": true, "completedAt": "2024-03-12T11:00:00Z", "timeSpentSeconds": 480 }
+    ]
+  }
+]
