@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Test, Question } from '@/types';
 
@@ -51,6 +51,9 @@ export async function POST(
     createdAt: new Date().toISOString(),
     questions: selected,
   };
+
+  const allTests = loadData<Test>('tests.json');
+  saveData('tests.json', [...allTests, newTest]);
 
   return Response.json(newTest);
 }

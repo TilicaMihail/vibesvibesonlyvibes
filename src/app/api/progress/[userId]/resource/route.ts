@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { CourseProgress, ContentNode, ResourceProgress } from '@/types';
 
@@ -74,6 +74,13 @@ export async function POST(
     completionPercent,
     lastAccessedAt: now,
   };
+
+  const isNew = !allProgress.find((p) => p.id === updated.id);
+  const newAllProgress = isNew
+    ? [...allProgress, updated]
+    : allProgress.map((p) => (p.id === updated.id ? updated : p));
+
+  saveData('progress.json', newAllProgress);
 
   return Response.json(updated);
 }

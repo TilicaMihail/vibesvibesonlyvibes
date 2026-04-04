@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { User } from '@/types';
 
@@ -75,6 +75,8 @@ export async function POST(request: Request) {
     createdAt: new Date().toISOString(),
     ...body,
   } as User;
+
+  saveData('users.json', [...users, newUser]);
 
   const { password: _p, ...userPublic } = newUser;
 

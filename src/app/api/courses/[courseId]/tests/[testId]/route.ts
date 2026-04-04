@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Test } from '@/types';
 
@@ -47,6 +47,8 @@ export async function PUT(
 
   const body = await request.json() as Partial<Test>;
   const updated: Test = { ...test, ...body, id: test.id };
+
+  saveData('tests.json', tests.map((t) => (t.id === testId ? updated : t)));
 
   return Response.json(updated);
 }

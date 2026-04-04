@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Class } from '@/types';
 
@@ -50,6 +50,9 @@ export async function POST(request: Request) {
     teacherIds: [],
     ...body,
   };
+
+  const classes = loadData<Class>('classes.json');
+  saveData('classes.json', [...classes, newClass]);
 
   return Response.json(newClass, { status: 201 });
 }

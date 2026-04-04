@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Test } from '@/types';
 
@@ -41,6 +41,9 @@ export async function POST(
     ...body,
     courseId,
   };
+
+  const tests = loadData<Test>('tests.json');
+  saveData('tests.json', [...tests, newTest]);
 
   return Response.json(newTest, { status: 201 });
 }

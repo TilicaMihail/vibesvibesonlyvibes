@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Test, TestSession, Question } from '@/types';
 
@@ -65,6 +65,9 @@ export async function POST(request: Request) {
     timeLimitSeconds: body.timeLimitSeconds,
     questions: selectedQuestions,
   };
+
+  const sessions = loadData<TestSession>('test-sessions.json');
+  saveData('test-sessions.json', [...sessions, session]);
 
   return Response.json(session, { status: 201 });
 }

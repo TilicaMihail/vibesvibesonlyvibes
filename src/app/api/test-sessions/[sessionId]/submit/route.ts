@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { TestSession, Test, SessionAnswer } from '@/types';
 
@@ -77,6 +77,8 @@ export async function POST(
     status: 'submitted',
     submittedAt: new Date().toISOString(),
   };
+
+  saveData('test-sessions.json', sessions.map((s) => (s.id === sessionId ? updated : s)));
 
   return Response.json(updated);
 }

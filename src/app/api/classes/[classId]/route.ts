@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Class, User, UserPublic } from '@/types';
 
@@ -67,6 +67,8 @@ export async function PUT(
   };
 
   const updated: Class = { ...cls, ...body, id: cls.id };
+
+  saveData('classes.json', classes.map((c) => (c.id === classId ? updated : c)));
 
   return Response.json(updated);
 }

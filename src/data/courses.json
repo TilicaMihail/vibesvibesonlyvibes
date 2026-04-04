@@ -6,11 +6,16 @@
     "title": "Introduction to JavaScript",
     "description": "Learn JavaScript from the ground up. This course covers variables, functions, objects, and modern ES6+ features.",
     "visibility": "class",
-    "classIds": ["cls-1"],
-    "enrolledStudentIds": ["u-student-1", "u-student-2"],
+    "classIds": [
+      "cls-1"
+    ],
+    "enrolledStudentIds": [
+      "u-student-1",
+      "u-student-2"
+    ],
     "isArchived": false,
     "createdAt": "2024-02-10T00:00:00Z",
-    "updatedAt": "2024-03-01T00:00:00Z"
+    "updatedAt": "2026-04-04T07:32:50.142Z"
   },
   {
     "id": "course-2",
@@ -20,7 +25,10 @@
     "description": "Build modern web applications with React. Covers hooks, state management, and component architecture.",
     "visibility": "public",
     "classIds": [],
-    "enrolledStudentIds": ["u-student-1", "u-student-3"],
+    "enrolledStudentIds": [
+      "u-student-1",
+      "u-student-3"
+    ],
     "isArchived": false,
     "createdAt": "2024-02-20T00:00:00Z",
     "updatedAt": "2024-03-10T00:00:00Z"
@@ -32,8 +40,13 @@
     "title": "Python for Data Analysis",
     "description": "Master Python libraries like Pandas, NumPy, and Matplotlib for data analysis and visualization.",
     "visibility": "class",
-    "classIds": ["cls-2"],
-    "enrolledStudentIds": ["u-student-4", "u-student-5"],
+    "classIds": [
+      "cls-2"
+    ],
+    "enrolledStudentIds": [
+      "u-student-4",
+      "u-student-5"
+    ],
     "isArchived": false,
     "createdAt": "2024-02-25T00:00:00Z",
     "updatedAt": "2024-03-05T00:00:00Z"

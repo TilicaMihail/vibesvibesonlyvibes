@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Course, User, UserPublic } from '@/types';
 
@@ -62,6 +62,8 @@ export async function POST(
     updatedAt: new Date().toISOString(),
   };
 
+  saveData('courses.json', courses.map((c) => (c.id === courseId ? updated : c)));
+
   return Response.json(updated);
 }
 
@@ -89,6 +91,8 @@ export async function DELETE(
     enrolledStudentIds: course.enrolledStudentIds.filter((id) => id !== studentId),
     updatedAt: new Date().toISOString(),
   };
+
+  saveData('courses.json', courses.map((c) => (c.id === courseId ? updated : c)));
 
   return Response.json(updated);
 }

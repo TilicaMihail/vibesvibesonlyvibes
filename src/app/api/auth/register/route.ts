@@ -1,6 +1,6 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { encodeToken } from '@/lib/jwt';
-import type { User } from '@/types';
+import type { User, Organization } from '@/types';
 
 export async function POST(request: Request) {
   const {
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Email already in use' }, { status: 409 });
   }
 
-  const org = {
+  const org: Organization = {
     id: `org-${Date.now()}`,
     name: organizationName,
     slug: organizationSlug,
@@ -44,6 +44,10 @@ export async function POST(request: Request) {
     isActive: true,
     createdAt: new Date().toISOString(),
   };
+
+  const orgs = loadData<Organization>('organizations.json');
+  saveData('organizations.json', [...orgs, org]);
+  saveData('users.json', [...users, newUser]);
 
   const token = encodeToken({
     userId: newUser.id,

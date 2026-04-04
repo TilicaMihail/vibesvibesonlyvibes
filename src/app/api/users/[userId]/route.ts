@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { User } from '@/types';
 
@@ -48,6 +48,9 @@ export async function PUT(
 
   const body = await request.json() as Partial<User>;
   const updated: User = { ...user, ...body, id: user.id };
+
+  saveData('users.json', users.map((u) => (u.id === userId ? updated : u)));
+
   const { password: _p, ...userPublic } = updated;
 
   return Response.json(userPublic);
@@ -71,6 +74,9 @@ export async function PATCH(
   }
 
   const updated: User = { ...user, isActive: !user.isActive };
+
+  saveData('users.json', users.map((u) => (u.id === userId ? updated : u)));
+
   const { password: _p, ...userPublic } = updated;
 
   return Response.json(userPublic);

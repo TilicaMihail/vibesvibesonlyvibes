@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Course } from '@/types';
 
@@ -50,6 +50,7 @@ export async function PUT(
     description?: string;
     visibility?: Course['visibility'];
     classIds?: string[];
+    isArchived?: boolean;
   };
 
   const updated: Course = {
@@ -58,6 +59,8 @@ export async function PUT(
     id: course.id,
     updatedAt: new Date().toISOString(),
   };
+
+  saveData('courses.json', courses.map((c) => (c.id === courseId ? updated : c)));
 
   return Response.json(updated);
 }

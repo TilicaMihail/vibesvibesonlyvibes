@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Course } from '@/types';
 
@@ -58,6 +58,9 @@ export async function POST(request: Request) {
     updatedAt: now,
     ...body,
   };
+
+  const courses = loadData<Course>('courses.json');
+  saveData('courses.json', [...courses, newCourse]);
 
   return Response.json(newCourse, { status: 201 });
 }

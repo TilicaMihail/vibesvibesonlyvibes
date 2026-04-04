@@ -1,4 +1,4 @@
-import { loadData } from '@/lib/dataLoader';
+import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Organization } from '@/types';
 
@@ -39,6 +39,8 @@ export async function PUT(request: Request) {
 
   const body = await request.json() as Partial<Organization>;
   const updated: Organization = { ...org, ...body, id: org.id };
+
+  saveData('organizations.json', orgs.map((o) => (o.id === org.id ? updated : o)));
 
   return Response.json(updated);
 }
