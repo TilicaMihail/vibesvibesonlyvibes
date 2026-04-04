@@ -6,9 +6,8 @@ import ProgressBar from '@/components/ui/ProgressBar';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
 import Spinner from '@/components/ui/Spinner';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { startSession, answerQuestion, navigateTo, tick, setDone } from '@/store/slices/testRunnerSlice';
-import { useGetTestSessionQuery } from '@/services/testSessionsApi';
-import { useSubmitTestSessionMutation } from '@/services/testSessionsApi';
+import { startSession, answerQuestion, navigateTo, tick } from '@/store/slices/testRunnerSlice';
+import { useGetTestSessionQuery, useSubmitTestSessionMutation } from '@/services/testSessionsApi';
 
 export default function TestRunnerPage({ params }: { params: Promise<{ courseId: string; sessionId: string }> }) {
   const { courseId, sessionId } = use(params);
@@ -18,7 +17,7 @@ export default function TestRunnerPage({ params }: { params: Promise<{ courseId:
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const { data: session, isLoading } = useGetTestSessionQuery(sessionId);
-  const [submitSession, { isLoading: submitting }] = useSubmitTestSessionMutation();
+  const [submitSession] = useSubmitTestSessionMutation();
 
   useEffect(() => {
     if (session && runner.sessionId !== sessionId) {
@@ -69,9 +68,9 @@ export default function TestRunnerPage({ params }: { params: Promise<{ courseId:
     <div className="max-w-2xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-sm text-gray-500">Question {runner.currentIndex + 1} of {questions.length}</span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">Question {runner.currentIndex + 1} of {questions.length}</span>
         {runner.timeRemainingSeconds > 0 && (
-          <span className={`font-mono text-sm font-bold px-3 py-1 rounded-lg ${isLowTime ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-700'}`}>
+          <span className={`font-mono text-sm font-bold px-3 py-1 rounded-lg ${isLowTime ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>
             ⏱ {formatTime(runner.timeRemainingSeconds)}
           </span>
         )}
@@ -80,8 +79,8 @@ export default function TestRunnerPage({ params }: { params: Promise<{ courseId:
       <div className="mb-6"><ProgressBar value={progress} size="md" color="indigo" /></div>
 
       {/* Question */}
-      <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
-        <p className="text-lg font-medium text-gray-900 mb-6">{currentQ.text}</p>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-4">
+        <p className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-6">{currentQ.text}</p>
 
         <div className="space-y-3">
           {currentQ.options.map(opt => {
@@ -99,10 +98,10 @@ export default function TestRunnerPage({ params }: { params: Promise<{ courseId:
                     dispatch(answerQuestion({ questionId: currentQ.id, optionIds: [opt.id] }));
                   }
                 }}
-                className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-colors ${selected ? 'border-indigo-500 bg-indigo-50 text-indigo-800' : 'border-gray-200 hover:border-gray-300 text-gray-700'}`}
+                className={`cursor-pointer w-full text-left px-4 py-3 rounded-lg border-2 transition-colors ${selected ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-800 dark:text-indigo-200' : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 text-gray-700 dark:text-gray-300'}`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-5 h-5 rounded-${currentQ.type === 'multiple' ? 'sm' : 'full'} border-2 flex items-center justify-center ${selected ? 'border-indigo-500 bg-indigo-500' : 'border-gray-300'}`}>
+                  <div className={`w-5 h-5 rounded-${currentQ.type === 'multiple' ? 'sm' : 'full'} border-2 flex items-center justify-center ${selected ? 'border-indigo-500 bg-indigo-500' : 'border-gray-300 dark:border-gray-600'}`}>
                     {selected && <span className="text-white text-xs">✓</span>}
                   </div>
                   <span className="text-sm">{opt.text}</span>
@@ -124,7 +123,7 @@ export default function TestRunnerPage({ params }: { params: Promise<{ courseId:
             <button
               key={i}
               onClick={() => dispatch(navigateTo(i))}
-              className={`w-7 h-7 rounded text-xs font-medium ${i === runner.currentIndex ? 'bg-indigo-600 text-white' : runner.answers[questions[i].id]?.length ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-400'}`}
+              className={`cursor-pointer w-7 h-7 rounded text-xs font-medium ${i === runner.currentIndex ? 'bg-indigo-600 text-white' : runner.answers[questions[i].id]?.length ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500'}`}
             >
               {i + 1}
             </button>

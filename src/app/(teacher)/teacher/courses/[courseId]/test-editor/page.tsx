@@ -59,22 +59,22 @@ export default function TestEditorPage({ params }: { params: Promise<{ courseId:
     <div className="flex gap-6">
       {/* Sidebar: existing tests */}
       <div className="w-64 shrink-0">
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <div className="px-4 py-3 border-b border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-700">Saved Tests</h3>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Saved Tests</h3>
           </div>
           {testsLoading ? (
             <div className="flex justify-center py-4"><Spinner size="sm" /></div>
           ) : tests.length === 0 ? (
-            <p className="px-4 py-4 text-xs text-gray-400">No tests yet</p>
+            <p className="px-4 py-4 text-xs text-gray-400 dark:text-gray-500">No tests yet</p>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-gray-100 dark:divide-gray-700">
               {tests.map(t => (
                 <div key={t.id} className="px-4 py-3">
-                  <p className="text-sm font-medium text-gray-800 truncate">{t.title}</p>
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{t.title}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Badge variant={t.isAIGenerated ? 'primary' : 'neutral'}>{t.isAIGenerated ? 'AI' : 'Manual'}</Badge>
-                    <span className="text-xs text-gray-400">{t.questions.length} questions</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500">{t.questions.length} questions</span>
                   </div>
                 </div>
               ))}
@@ -82,27 +82,27 @@ export default function TestEditorPage({ params }: { params: Promise<{ courseId:
           )}
         </div>
         <div className="mt-3">
-          <Link href={`/teacher/courses/${courseId}`} className="text-sm text-gray-400 hover:text-gray-700">← Back to course</Link>
+          <Link href={`/teacher/courses/${courseId}`} className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">← Back to course</Link>
         </div>
       </div>
 
       {/* Main area */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-xl font-bold text-gray-900">Test Editor</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">Test Editor</h1>
         </div>
 
         <Tabs tabs={TABS} activeTab={tab} onChange={t => { setTab(t); setQuestions([]); setTestTitle(''); }} />
 
         <div className="mt-4 space-y-4">
           {tab === 'ai' && (
-            <div className="bg-white border border-gray-200 rounded-xl p-5">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
               <AIGeneratePanel courseId={courseId} onGenerated={handleGenerated} />
             </div>
           )}
 
           {tab === 'manual' && (
-            <div className="bg-white border border-gray-200 rounded-xl p-5">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
               {!showForm ? (
                 <Button variant="secondary" onClick={() => { setEditingIdx(null); setShowForm(true); }}>+ Add Question</Button>
               ) : (
@@ -117,7 +117,7 @@ export default function TestEditorPage({ params }: { params: Promise<{ courseId:
 
           {questions.length > 0 && (
             <div className="space-y-3">
-              <h2 className="text-sm font-semibold text-gray-700">Questions ({questions.length})</h2>
+              <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Questions ({questions.length})</h2>
               {questions.map((q, i) => (
                 <QuestionCard
                   key={i}
@@ -127,7 +127,7 @@ export default function TestEditorPage({ params }: { params: Promise<{ courseId:
                   onDelete={() => setQuestions(prev => prev.filter((_, idx) => idx !== i))}
                 />
               ))}
-              <div className="bg-white border border-gray-200 rounded-xl p-4 flex items-end gap-4">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-end gap-4">
                 <div className="flex-1">
                   <Input label="Test Title" value={testTitle} onChange={e => setTestTitle(e.target.value)} placeholder="Give this test a name" />
                 </div>

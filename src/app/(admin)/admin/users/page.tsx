@@ -136,7 +136,7 @@ export default function UsersPage() {
             avatarUrl={row.avatarUrl}
             size="md"
           />
-          <span className="font-medium text-gray-900">
+          <span className="font-medium text-gray-900 dark:text-gray-100">
             {row.firstName} {row.lastName}
           </span>
         </div>
@@ -146,7 +146,7 @@ export default function UsersPage() {
       key: 'email',
       header: 'Email',
       render: (_: unknown, row: UserPublic) => (
-        <span className="text-gray-600">{row.email}</span>
+        <span className="text-gray-600 dark:text-gray-300">{row.email}</span>
       ),
     },
     {
@@ -172,7 +172,7 @@ export default function UsersPage() {
       key: 'createdAt',
       header: 'Joined',
       render: (_: unknown, row: UserPublic) => (
-        <span className="text-gray-500 text-sm">
+        <span className="text-gray-500 dark:text-gray-400 text-sm">
           {new Date(row.createdAt).toLocaleDateString(undefined, {
             year: 'numeric',
             month: 'short',
@@ -197,7 +197,7 @@ export default function UsersPage() {
             variant="ghost"
             size="sm"
             onClick={() => setToggleTarget(row)}
-            className={row.isActive ? 'text-red-500 hover:bg-red-50' : 'text-green-600 hover:bg-green-50'}
+            className={row.isActive ? 'text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20' : 'text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'}
           >
             {row.isActive ? 'Deactivate' : 'Activate'}
           </Button>
@@ -211,8 +211,8 @@ export default function UsersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">User Management</h1>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             {total} user{total !== 1 ? 's' : ''} total
           </p>
         </div>

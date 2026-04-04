@@ -39,25 +39,25 @@ export default function TestGenerationPage({ params }: { params: Promise<{ cours
 
   return (
     <div className="max-w-lg mx-auto">
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href={`/student/courses/${courseId}/study`} className="hover:text-indigo-600">← Back to course</Link>
+      <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 mb-6">
+        <Link href={`/student/courses/${courseId}/study`} className="hover:text-indigo-600 dark:hover:text-indigo-400">← Back to course</Link>
       </div>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Generate Test</h1>
-      <p className="text-gray-500 text-sm mb-6">Configure your personalized test session</p>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Generate Test</h1>
+      <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Configure your personalized test session</p>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-6">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-6">
         {/* Topics */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Selected Topics</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Selected Topics</label>
           {topics.length === 0 ? (
-            <p className="text-gray-400 text-sm italic">No topics selected — the test will cover all available content</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm italic">No topics selected — the test will cover all available content</p>
           ) : (
             <div className="flex flex-wrap gap-2">
               {topics.map(t => (
-                <span key={t} className="inline-flex items-center gap-1 bg-indigo-100 text-indigo-700 text-sm px-3 py-1 rounded-full">
+                <span key={t} className="inline-flex items-center gap-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm px-3 py-1 rounded-full">
                   {t}
-                  <button onClick={() => setTopics(ts => ts.filter(x => x !== t))} className="hover:text-indigo-900 ml-1">×</button>
+                  <button onClick={() => setTopics(ts => ts.filter(x => x !== t))} className="cursor-pointer hover:text-indigo-900 dark:hover:text-indigo-100 ml-1">×</button>
                 </span>
               ))}
             </div>
@@ -66,38 +66,38 @@ export default function TestGenerationPage({ params }: { params: Promise<{ cours
 
         {/* Count */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Questions: <strong className="text-indigo-600">{count}</strong>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Questions: <strong className="text-indigo-600 dark:text-indigo-400">{count}</strong>
           </label>
           <input
             type="range" min={3} max={20} value={count}
             onChange={e => setCount(Number(e.target.value))}
             className="w-full accent-indigo-600"
           />
-          <div className="flex justify-between text-xs text-gray-400 mt-1"><span>3</span><span>20</span></div>
+          <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1"><span>3</span><span>20</span></div>
         </div>
 
         {/* Timer */}
         <div>
           <div className="flex items-center gap-3 mb-3">
-            <input type="checkbox" id="timer" checked={timerEnabled} onChange={e => setTimerEnabled(e.target.checked)} className="w-4 h-4 text-indigo-600 rounded" />
-            <label htmlFor="timer" className="text-sm font-medium text-gray-700">Enable timer</label>
+            <input type="checkbox" id="timer" checked={timerEnabled} onChange={e => setTimerEnabled(e.target.checked)} className="cursor-pointer w-4 h-4 text-indigo-600 rounded" />
+            <label htmlFor="timer" className="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300">Enable timer</label>
           </div>
           {timerEnabled && (
             <div>
-              <label className="block text-sm text-gray-600 mb-1">Duration: <strong>{timerMinutes} min</strong></label>
+              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Duration: <strong>{timerMinutes} min</strong></label>
               <input
                 type="range" min={5} max={60} value={timerMinutes}
                 onChange={e => setTimerMinutes(Number(e.target.value))}
                 className="w-full accent-indigo-600"
               />
-              <div className="flex justify-between text-xs text-gray-400 mt-1"><span>5 min</span><span>60 min</span></div>
+              <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1"><span>5 min</span><span>60 min</span></div>
             </div>
           )}
         </div>
 
         {tests.length === 0 && (
-          <div className="bg-amber-50 border border-amber-200 text-amber-700 rounded-lg p-3 text-sm">
+          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 rounded-lg p-3 text-sm">
             ⚠️ No tests available for this course yet. Ask your teacher to create tests.
           </div>
         )}

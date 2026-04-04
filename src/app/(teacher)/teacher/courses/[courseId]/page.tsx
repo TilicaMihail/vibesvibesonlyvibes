@@ -30,25 +30,25 @@ export default function CourseDetailsPage({ params }: { params: Promise<{ course
   }
 
   if (isLoading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
-  if (!course) return <div className="text-center py-20 text-gray-400">Course not found</div>;
+  if (!course) return <div className="text-center py-20 text-gray-400 dark:text-gray-500">Course not found</div>;
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
-        <Link href="/teacher/courses" className="hover:text-indigo-600">My Courses</Link>
+      <div className="flex items-center gap-2 mb-4 text-sm text-gray-500 dark:text-gray-400">
+        <Link href="/teacher/courses" className="hover:text-indigo-600 dark:hover:text-indigo-400">My Courses</Link>
         <span>/</span>
-        <span className="text-gray-900 font-medium">{course.title}</span>
+        <span className="text-gray-900 dark:text-gray-100 font-medium">{course.title}</span>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-bold text-gray-900">{course.title}</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{course.title}</h1>
               <Badge variant={VIS[course.visibility]}>{course.visibility}</Badge>
             </div>
-            <p className="text-gray-500">{course.description}</p>
-            <p className="text-xs text-gray-400 mt-2">👥 {course.enrolledStudentIds.length} enrolled • Updated {new Date(course.updatedAt).toLocaleDateString()}</p>
+            <p className="text-gray-500 dark:text-gray-400">{course.description}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">👥 {course.enrolledStudentIds.length} enrolled • Updated {new Date(course.updatedAt).toLocaleDateString()}</p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <Button variant="secondary" onClick={() => setEditOpen(true)}>Edit</Button>
@@ -66,31 +66,31 @@ export default function CourseDetailsPage({ params }: { params: Promise<{ course
 
       <div className="mt-4">
         {tab === 'content' && (
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
             <ContentTreeReadOnly nodes={nodes} />
           </div>
         )}
         {tab === 'students' && (
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
             {students.length === 0 ? (
-              <div className="py-12 text-center text-gray-400">No students enrolled yet</div>
+              <div className="py-12 text-center text-gray-400 dark:text-gray-500">No students enrolled yet</div>
             ) : (
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
                   <tr>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Student</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Email</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 uppercase">Status</th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Student</th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Email</th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {students.map(s => (
-                    <tr key={s.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <tr key={s.id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                       <td className="px-4 py-3 flex items-center gap-2">
                         <Avatar name={`${s.firstName} ${s.lastName}`} size="sm" />
-                        <span className="text-sm font-medium text-gray-800">{s.firstName} {s.lastName}</span>
+                        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{s.firstName} {s.lastName}</span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-500">{s.email}</td>
+                      <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{s.email}</td>
                       <td className="px-4 py-3"><Badge variant={s.isActive ? 'success' : 'danger'}>{s.isActive ? 'Active' : 'Inactive'}</Badge></td>
                     </tr>
                   ))}

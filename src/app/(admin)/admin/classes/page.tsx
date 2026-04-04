@@ -16,17 +16,17 @@ import type { Class } from '@/types'
 // ---------------------------------------------------------------------------
 function ClassCard({ cls }: { cls: Class }) {
   return (
-    <div className="flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow duration-150 overflow-hidden">
+    <div className="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-150 overflow-hidden">
       <div className="flex-1 p-5">
-        <h3 className="text-base font-semibold text-gray-900 leading-snug">{cls.name}</h3>
+        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 leading-snug">{cls.name}</h3>
         {cls.description && (
-          <p className="mt-1.5 text-sm text-gray-500 line-clamp-2">{cls.description}</p>
+          <p className="mt-1.5 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{cls.description}</p>
         )}
 
-        <div className="mt-4 flex items-center gap-4 text-xs text-gray-500">
+        <div className="mt-4 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
           <span className="flex items-center gap-1">
             <svg
-              className="h-4 w-4 text-gray-400"
+              className="h-4 w-4 text-gray-400 dark:text-gray-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -42,7 +42,7 @@ function ClassCard({ cls }: { cls: Class }) {
           </span>
           <span className="flex items-center gap-1">
             <svg
-              className="h-4 w-4 text-gray-400"
+              className="h-4 w-4 text-gray-400 dark:text-gray-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -58,7 +58,7 @@ function ClassCard({ cls }: { cls: Class }) {
           </span>
         </div>
 
-        <p className="mt-2 text-xs text-gray-400">
+        <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
           Created{' '}
           {new Date(cls.createdAt).toLocaleDateString(undefined, {
             year: 'numeric',
@@ -68,10 +68,10 @@ function ClassCard({ cls }: { cls: Class }) {
         </p>
       </div>
 
-      <div className="border-t border-gray-100 bg-gray-50 px-5 py-3">
+      <div className="border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 px-5 py-3">
         <Link
           href={`/admin/classes/${cls.id}`}
-          className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+          className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
         >
           Manage &rarr;
         </Link>
@@ -85,13 +85,13 @@ function ClassCard({ cls }: { cls: Class }) {
 // ---------------------------------------------------------------------------
 function SkeletonCard() {
   return (
-    <div className="animate-pulse rounded-xl border border-gray-200 bg-white p-5 shadow-sm space-y-3">
-      <div className="h-5 w-3/4 rounded bg-gray-200" />
-      <div className="h-4 w-full rounded bg-gray-100" />
-      <div className="h-4 w-2/3 rounded bg-gray-100" />
+    <div className="animate-pulse rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm space-y-3">
+      <div className="h-5 w-3/4 rounded bg-gray-200 dark:bg-gray-600" />
+      <div className="h-4 w-full rounded bg-gray-100 dark:bg-gray-700" />
+      <div className="h-4 w-2/3 rounded bg-gray-100 dark:bg-gray-700" />
       <div className="mt-4 flex gap-4">
-        <div className="h-3 w-20 rounded bg-gray-100" />
-        <div className="h-3 w-20 rounded bg-gray-100" />
+        <div className="h-3 w-20 rounded bg-gray-100 dark:bg-gray-700" />
+        <div className="h-3 w-20 rounded bg-gray-100 dark:bg-gray-700" />
       </div>
     </div>
   )
@@ -136,9 +136,9 @@ export default function ClassesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Classes</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Classes</h1>
           {!classesLoading && (
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
               {classes?.length ?? 0} class{(classes?.length ?? 0) !== 1 ? 'es' : ''}
             </p>
           )}

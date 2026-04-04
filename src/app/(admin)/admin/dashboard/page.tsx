@@ -16,16 +16,16 @@ interface KpiCardProps {
 
 function KpiCard({ label, value, isLoading }: KpiCardProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm">
       {isLoading ? (
         <div className="animate-pulse space-y-2">
-          <div className="h-8 w-16 rounded bg-gray-200" />
-          <div className="h-4 w-24 rounded bg-gray-100" />
+          <div className="h-8 w-16 rounded bg-gray-200 dark:bg-gray-600" />
+          <div className="h-4 w-24 rounded bg-gray-100 dark:bg-gray-700" />
         </div>
       ) : (
         <>
-          <p className="text-2xl font-bold text-indigo-600">{value}</p>
-          <p className="mt-1 text-sm text-gray-500">{label}</p>
+          <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{value}</p>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{label}</p>
         </>
       )}
     </div>
@@ -46,12 +46,12 @@ function GettingStartedChecklist({ items }: { items: ChecklistItem[] }) {
   if (remaining.length === 0) return null
 
   return (
-    <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-6">
-      <h2 className="text-base font-semibold text-indigo-900 mb-3">Getting Started</h2>
+    <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 rounded-xl p-6">
+      <h2 className="text-base font-semibold text-indigo-900 dark:text-indigo-200 mb-3">Getting Started</h2>
       <ul className="space-y-2">
         {remaining.map((item) => (
           <li key={item.label} className="flex items-start gap-3">
-            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-indigo-300 text-indigo-400">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-indigo-300 dark:border-indigo-600 text-indigo-400 dark:text-indigo-500">
               <svg
                 className="h-3 w-3"
                 fill="none"
@@ -64,7 +64,7 @@ function GettingStartedChecklist({ items }: { items: ChecklistItem[] }) {
             </span>
             <Link
               href={item.href}
-              className="text-sm text-indigo-700 underline underline-offset-2 hover:text-indigo-900"
+              className="text-sm text-indigo-700 dark:text-indigo-300 underline underline-offset-2 hover:text-indigo-900 dark:hover:text-indigo-100"
             >
               {item.label}
             </Link>
@@ -89,16 +89,16 @@ function QuickLinkCard({ title, description, href, icon }: QuickLinkCardProps) {
   return (
     <Link
       href={href}
-      className="group flex gap-4 items-start rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-indigo-300 hover:shadow-md transition-all duration-150"
+      className="group flex gap-4 items-start rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md transition-all duration-150"
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100 transition-colors">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 transition-colors">
         {icon}
       </span>
       <div>
-        <p className="font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors">
+        <p className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">
           {title}
         </p>
-        <p className="mt-0.5 text-sm text-gray-500">{description}</p>
+        <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">{description}</p>
       </div>
     </Link>
   )
@@ -129,8 +129,8 @@ export default function AdminDashboardPage() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Page header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Overview of your organization&apos;s e-learning platform.
         </p>
       </div>
@@ -149,33 +149,33 @@ export default function AdminDashboardPage() {
       {/* Org info + Quick links */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Org info card */}
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-1">
-          <h2 className="mb-4 text-base font-semibold text-gray-900">Organization</h2>
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm lg:col-span-1">
+          <h2 className="mb-4 text-base font-semibold text-gray-900 dark:text-gray-100">Organization</h2>
           {orgLoading ? (
             <div className="animate-pulse space-y-3">
-              <div className="h-5 w-40 rounded bg-gray-200" />
-              <div className="h-4 w-28 rounded bg-gray-100" />
-              <div className="h-4 w-36 rounded bg-gray-100" />
+              <div className="h-5 w-40 rounded bg-gray-200 dark:bg-gray-600" />
+              <div className="h-4 w-28 rounded bg-gray-100 dark:bg-gray-700" />
+              <div className="h-4 w-36 rounded bg-gray-100 dark:bg-gray-700" />
             </div>
           ) : org ? (
             <dl className="space-y-3">
               <div>
-                <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">
+                <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
                   Name
                 </dt>
-                <dd className="mt-0.5 text-sm font-medium text-gray-900">{org.name}</dd>
+                <dd className="mt-0.5 text-sm font-medium text-gray-900 dark:text-gray-100">{org.name}</dd>
               </div>
               <div>
-                <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">
+                <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
                   Slug
                 </dt>
-                <dd className="mt-0.5 font-mono text-sm text-gray-700">{org.slug}</dd>
+                <dd className="mt-0.5 font-mono text-sm text-gray-700 dark:text-gray-300">{org.slug}</dd>
               </div>
               <div>
-                <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">
+                <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
                   Member since
                 </dt>
-                <dd className="mt-0.5 text-sm text-gray-700">
+                <dd className="mt-0.5 text-sm text-gray-700 dark:text-gray-300">
                   {new Date(org.createdAt).toLocaleDateString(undefined, {
                     year: 'numeric',
                     month: 'long',
@@ -184,21 +184,21 @@ export default function AdminDashboardPage() {
               </div>
               {org.description && (
                 <div>
-                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-400">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
                     Description
                   </dt>
-                  <dd className="mt-0.5 text-sm text-gray-600">{org.description}</dd>
+                  <dd className="mt-0.5 text-sm text-gray-600 dark:text-gray-400">{org.description}</dd>
                 </div>
               )}
             </dl>
           ) : (
-            <p className="text-sm text-gray-400">No organization data available.</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">No organization data available.</p>
           )}
         </div>
 
         {/* Quick links */}
         <div className="space-y-3 lg:col-span-2">
-          <h2 className="text-base font-semibold text-gray-900">Quick Links</h2>
+          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">Quick Links</h2>
           <QuickLinkCard
             title="Manage Users"
             description="Add, edit, or deactivate students, teachers, and admins."

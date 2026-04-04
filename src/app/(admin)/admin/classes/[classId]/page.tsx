@@ -50,15 +50,15 @@ export default function ClassManagementPage({
     return (
       <div className="max-w-4xl mx-auto space-y-6 animate-pulse">
         <div className="flex items-center gap-3">
-          <div className="h-4 w-20 rounded bg-gray-200" />
-          <div className="h-8 w-64 rounded bg-gray-200" />
+          <div className="h-4 w-20 rounded bg-gray-200 dark:bg-gray-600" />
+          <div className="h-8 w-64 rounded bg-gray-200 dark:bg-gray-600" />
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-6 space-y-4">
-          <div className="h-6 w-48 rounded bg-gray-200" />
-          <div className="h-4 w-full rounded bg-gray-100" />
-          <div className="h-4 w-3/4 rounded bg-gray-100" />
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 space-y-4">
+          <div className="h-6 w-48 rounded bg-gray-200 dark:bg-gray-600" />
+          <div className="h-4 w-full rounded bg-gray-100 dark:bg-gray-700" />
+          <div className="h-4 w-3/4 rounded bg-gray-100 dark:bg-gray-700" />
         </div>
-        <div className="h-48 rounded-xl border border-gray-200 bg-white" />
+        <div className="h-48 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800" />
       </div>
     )
   }
@@ -66,10 +66,10 @@ export default function ClassManagementPage({
   if (!cls) {
     return (
       <div className="max-w-4xl mx-auto py-16 text-center">
-        <p className="text-gray-500">Class not found.</p>
+        <p className="text-gray-500 dark:text-gray-400">Class not found.</p>
         <Link
           href="/admin/classes"
-          className="mt-4 inline-block text-sm text-indigo-600 hover:text-indigo-800"
+          className="mt-4 inline-block text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
         >
           &larr; Back to Classes
         </Link>
@@ -83,7 +83,7 @@ export default function ClassManagementPage({
       <div className="flex flex-wrap items-center gap-3">
         <Link
           href="/admin/classes"
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
         >
           <svg
             className="h-4 w-4"
@@ -96,42 +96,42 @@ export default function ClassManagementPage({
           </svg>
           Classes
         </Link>
-        <span className="text-gray-300">/</span>
-        <h1 className="text-2xl font-bold text-gray-900">{cls.name}</h1>
+        <span className="text-gray-300 dark:text-gray-600">/</span>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{cls.name}</h1>
         {cls.isArchived && (
           <Badge variant="warning">Archived</Badge>
         )}
       </div>
 
       {/* Class info card */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h2 className="text-base font-semibold text-gray-900">{cls.name}</h2>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">{cls.name}</h2>
             {cls.description && (
-              <p className="mt-1 text-sm text-gray-500">{cls.description}</p>
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{cls.description}</p>
             )}
 
             {/* Teachers */}
             <div className="mt-4">
-              <p className="text-xs font-medium uppercase tracking-wide text-gray-400 mb-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2">
                 Teachers
               </p>
               {classTeachers.length === 0 ? (
-                <p className="text-sm text-gray-400 italic">No teachers assigned.</p>
+                <p className="text-sm text-gray-400 dark:text-gray-500 italic">No teachers assigned.</p>
               ) : (
                 <div className="flex flex-wrap gap-2">
                   {classTeachers.map((t) => (
                     <div
                       key={t.id}
-                      className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1"
+                      className="flex items-center gap-2 rounded-full border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 px-3 py-1"
                     >
                       <Avatar
                         name={`${t.firstName} ${t.lastName}`}
                         avatarUrl={t.avatarUrl}
                         size="sm"
                       />
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-gray-700 dark:text-gray-300">
                         {t.firstName} {t.lastName}
                       </span>
                     </div>
@@ -141,7 +141,7 @@ export default function ClassManagementPage({
             </div>
 
             {/* Meta */}
-            <p className="mt-3 text-xs text-gray-400">
+            <p className="mt-3 text-xs text-gray-400 dark:text-gray-500">
               Created{' '}
               {new Date(cls.createdAt).toLocaleDateString(undefined, {
                 year: 'numeric',
@@ -163,8 +163,8 @@ export default function ClassManagementPage({
       </div>
 
       {/* Students section */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-gray-900 mb-4">Students</h2>
+      <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
+        <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-4">Students</h2>
         <StudentEnrollmentPanel
           classId={classId}
           currentStudentIds={cls.studentIds}

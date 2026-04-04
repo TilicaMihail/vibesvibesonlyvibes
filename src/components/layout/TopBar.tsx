@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
@@ -36,6 +37,8 @@ export default function TopBar() {
   const router = useRouter()
   const user = useAppSelector((state) => state.auth.user)
   const darkMode = useAppSelector((state) => state.ui.darkMode)
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   const orgName = 'EduPlatform'
 
@@ -84,19 +87,21 @@ export default function TopBar() {
       <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{orgName}</span>
 
       <div className="flex items-center gap-3">
-        {user && (
-          <span className="text-sm text-gray-600 dark:text-gray-300 hidden sm:block">
-            {fullName}
-          </span>
-        )}
+        {/* Always rendered to keep DOM structure stable between server and client */}
+        <span
+          className="text-sm text-gray-600 dark:text-gray-300 hidden sm:block"
+          suppressHydrationWarning
+        >
+          {user ? fullName : ''}
+        </span>
 
         {/* Dark mode toggle */}
         <button
           onClick={() => dispatch(toggleDarkMode())}
-          className="cursor-pointer p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-          aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          className="cursor-pointer p-2 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          aria-label="Toggle dark mode"
         >
-          {darkMode ? <SunIcon /> : <MoonIcon />}
+          {mounted && darkMode ? <SunIcon /> : <MoonIcon />}
         </button>
 
         <Dropdown
