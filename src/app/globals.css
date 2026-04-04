@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
-/* Enable class-based dark mode: dark: utilities activate when any ancestor has the .dark class */
+/* Dark mode variant */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
+  /* Brand palette — warm earth tones */
+  --color-brand:        #a27246;
+  --color-brand-light:  #c4a882;
+  --color-brand-dark:   #7a5530;
+  --color-cream:        #f6f3e7;
+  --color-cream-dark:   #e8e0cc;
+  --color-dark:         #29241f;
+  --color-dark-mid:     #4a3728;
+  --color-dark-light:   #6b5744;
 
   --font-sans: "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px; /* offset for fixed navbar */
 }
 
 body {
@@ -27,4 +31,133 @@ body {
 .dark body {
   background-color: #111827;
   color: #f9fafb;
+}
+
+/* ─── Continuous doodle + hero animations ───────────────────────────────── */
+
+@keyframes float-up {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-14px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes float-down {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(14px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes sway {
+  0%   { transform: rotate(-5deg); }
+  50%  { transform: rotate(5deg); }
+  100% { transform: rotate(-5deg); }
+}
+
+@keyframes drift-up {
+  0%   { transform: translateY(10vh); opacity: 0.045; }
+  80%  { opacity: 0.045; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes underline-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.animate-float-up    { animation: float-up   4s ease-in-out infinite; }
+.animate-float-down  { animation: float-down 5s ease-in-out infinite; }
+.animate-sway        { animation: sway        6s ease-in-out infinite; }
+.animate-spin-slow   { animation: spin-slow  24s linear infinite; }
+.animate-fade-in-up  { animation: fade-in-up  0.65s ease both; }
+.animate-fade-in     { animation: fade-in     0.5s ease both; }
+
+/* Ghost words that drift upward continuously */
+.ghost-word {
+  animation: drift-up 20s linear infinite;
+  font-size: clamp(6rem, 20vw, 18rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #29241f;
+  opacity: 0.045;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Floating label pattern */
+.float-label-group {
+  position: relative;
+}
+.float-label-group input:focus + label,
+.float-label-group input:not(:placeholder-shown) + label {
+  top: 0.5rem;
+  font-size: 0.7rem;
+  color: #a27246;
+}
+.float-label-group label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: #6b5744;
+  transition: top 0.18s ease, font-size 0.18s ease, color 0.18s ease;
+  pointer-events: none;
+  background: transparent;
+}
+.float-label-group input {
+  padding-top: 1.25rem;
+  padding-bottom: 0.5rem;
+}
+
+/* ─── Browser autofill — override yellow background ─────────────────────── */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #29241f !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Nav link hover underline */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: #a27246;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
 }
