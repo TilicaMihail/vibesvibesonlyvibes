@@ -18,12 +18,10 @@ export default function SearchInput({
   const [localValue, setLocalValue] = useState(value)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Sync external value changes into local state (e.g., parent resets the field)
   useEffect(() => {
     setLocalValue(value)
   }, [value])
 
-  // Debounce: fire onChange 300 ms after the user stops typing
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(() => {
@@ -42,8 +40,7 @@ export default function SearchInput({
 
   return (
     <div className={['relative flex items-center', className].filter(Boolean).join(' ')}>
-      {/* Search icon */}
-      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+      <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 dark:text-gray-500">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-4 w-4"
@@ -67,19 +64,21 @@ export default function SearchInput({
         onChange={(e) => setLocalValue(e.target.value)}
         placeholder={placeholder}
         className={[
-          'block w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 text-sm text-gray-900',
-          'placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500',
+          'block w-full rounded-lg border border-gray-300 dark:border-gray-600',
+          'bg-white dark:bg-gray-700',
+          'py-2 pl-9 text-sm text-gray-900 dark:text-gray-100',
+          'placeholder-gray-400 dark:placeholder-gray-500',
+          'focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500',
           'transition-colors duration-150',
           localValue ? 'pr-8' : 'pr-3',
         ].join(' ')}
       />
 
-      {/* Clear button */}
       {localValue && (
         <button
           type="button"
           onClick={handleClear}
-          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors"
+          className="cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           aria-label="Clear search"
         >
           <span aria-hidden="true" className="text-lg leading-none select-none">

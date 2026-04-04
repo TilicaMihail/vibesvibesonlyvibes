@@ -1,0 +1,103 @@
+[
+  {
+    "id": "u-admin-1",
+    "organizationId": "org-1",
+    "email": "admin@acme.com",
+    "password": "admin123",
+    "firstName": "Alice",
+    "lastName": "Admin",
+    "role": "admin",
+    "isActive": true,
+    "createdAt": "2024-01-02T00:00:00Z"
+  },
+  {
+    "id": "u-teacher-1",
+    "organizationId": "org-1",
+    "email": "bob@acme.com",
+    "password": "teacher123",
+    "firstName": "Bob",
+    "lastName": "Builder",
+    "role": "teacher",
+    "isActive": true,
+    "assignmentScope": "organization",
+    "createdAt": "2024-01-03T00:00:00Z"
+  },
+  {
+    "id": "u-teacher-2",
+    "organizationId": "org-1",
+    "email": "carol@acme.com",
+    "password": "teacher123",
+    "firstName": "Carol",
+    "lastName": "Chen",
+    "role": "teacher",
+    "isActive": true,
+    "assignmentScope": "class",
+    "createdAt": "2024-01-04T00:00:00Z"
+  },
+  {
+    "id": "u-student-1",
+    "organizationId": "org-1",
+    "email": "dan@acme.com",
+    "password": "student123",
+    "firstName": "Dan",
+    "lastName": "Davis",
+    "role": "student",
+    "isActive": true,
+    "createdAt": "2024-01-05T00:00:00Z"
+  },
+  {
+    "id": "u-student-2",
+    "organizationId": "org-1",
+    "email": "eve@acme.com",
+    "password": "student123",
+    "firstName": "Eve",
+    "lastName": "Evans",
+    "role": "student",
+    "isActive": true,
+    "createdAt": "2024-01-06T00:00:00Z"
+  },
+  {
+    "id": "u-student-3",
+    "organizationId": "org-1",
+    "email": "frank@acme.com",
+    "password": "student123",
+    "firstName": "Frank",
+    "lastName": "Foster",
+    "role": "student",
+    "isActive": true,
+    "createdAt": "2024-01-07T00:00:00Z"
+  },
+  {
+    "id": "u-student-4",
+    "organizationId": "org-1",
+    "email": "grace@acme.com",
+    "password": "student123",
+    "firstName": "Grace",
+    "lastName": "Green",
+    "role": "student",
+    "isActive": false,
+    "createdAt": "2024-01-08T00:00:00Z"
+  },
+  {
+    "id": "u-student-5",
+    "organizationId": "org-1",
+    "email": "henry@acme.com",
+    "password": "student123",
+    "firstName": "Henry",
+    "lastName": "Harris",
+    "role": "student",
+    "isActive": true,
+    "createdAt": "2024-01-09T00:00:00Z"
+  },
+  {
+    "id": "u-student-6",
+    "organizationId": "org-1",
+    "email": "iris@acme.com",
+    "password": "student123",
+    "firstName": "Iris",
+    "lastName": "Ingram",
+    "role": "student",
+    "isActive": true,
+    "createdAt": "2024-01-10T00:00:00Z"
+  }
+]

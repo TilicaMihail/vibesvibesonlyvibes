@@ -14,10 +14,9 @@ interface EmptyStateProps {
 export default function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-      {/* Inbox / folder SVG illustration */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="mb-4 h-14 w-14 text-gray-300"
+        className="mb-4 h-14 w-14 text-gray-300 dark:text-gray-600"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -31,10 +30,10 @@ export default function EmptyState({ title, description, action }: EmptyStatePro
         />
       </svg>
 
-      <h3 className="text-base font-semibold text-gray-900 mb-1">{title}</h3>
+      <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">{title}</h3>
 
       {description && (
-        <p className="text-sm text-gray-500 max-w-xs mb-4">{description}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs mb-4">{description}</p>
       )}
 
       {action && (

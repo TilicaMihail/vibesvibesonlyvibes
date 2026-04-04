@@ -9,12 +9,12 @@ interface BadgeProps {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  success: 'bg-green-100 text-green-800',
-  warning: 'bg-yellow-100 text-yellow-800',
-  danger: 'bg-red-100 text-red-800',
-  info: 'bg-blue-100 text-blue-800',
-  neutral: 'bg-gray-100 text-gray-600',
-  primary: 'bg-indigo-100 text-indigo-800',
+  success: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400',
+  warning: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400',
+  danger:  'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400',
+  info:    'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400',
+  neutral: 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300',
+  primary: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-400',
 }
 
 export default function Badge({

@@ -55,9 +55,9 @@ export default function AdminSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-full shrink-0">
+    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col h-full shrink-0">
       <div className="p-6">
-        <span className="text-xl font-bold text-indigo-600">EduPlatform</span>
+        <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">EduPlatform</span>
       </div>
 
       <nav className="flex-1 px-3 pb-6 space-y-1">
@@ -70,8 +70,8 @@ export default function AdminSidebar() {
               className={[
                 'px-3 py-2 rounded-lg flex items-center gap-3 text-sm font-medium transition-colors duration-150',
                 isActive
-                  ? 'bg-indigo-50 text-indigo-600'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                  ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100',
               ].join(' ')}
             >
               {item.icon}

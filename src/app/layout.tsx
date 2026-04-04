@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import StoreProvider from '@/components/StoreProvider';
+import ThemeProvider from '@/components/ThemeProvider';
 import ToastContainer from '@/components/ui/ToastContainer';
 
 export const metadata: Metadata = {
@@ -10,11 +11,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <body className="h-full">
         <StoreProvider>
-          {children}
-          <ToastContainer />
+          <ThemeProvider>
+            {children}
+            <ToastContainer />
+          </ThemeProvider>
         </StoreProvider>
       </body>
     </html>

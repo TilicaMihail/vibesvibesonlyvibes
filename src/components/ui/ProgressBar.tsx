@@ -31,9 +31,7 @@ export default function ProgressBar({
   return (
     <div className="flex items-center gap-3">
       <div
-        className={['flex-1 bg-gray-200 rounded-full overflow-hidden', trackHeightClasses[size]].join(
-          ' ',
-        )}
+        className={['flex-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden', trackHeightClasses[size]].join(' ')}
         role="progressbar"
         aria-valuenow={clamped}
         aria-valuemin={0}
@@ -49,7 +47,7 @@ export default function ProgressBar({
       </div>
 
       {showLabel && (
-        <span className="shrink-0 text-sm font-medium text-gray-600 w-10 text-right">
+        <span className="shrink-0 text-sm font-medium text-gray-600 dark:text-gray-400 w-10 text-right">
           {clamped}%
         </span>
       )}

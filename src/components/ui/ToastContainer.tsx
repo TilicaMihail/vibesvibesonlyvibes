@@ -4,8 +4,6 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { removeToast, Toast } from '@/store/slices/uiSlice'
 
-// ─── Per-toast display ────────────────────────────────────────────────────────
-
 interface ToastItemProps {
   toast: Toast
   onRemove: (id: string) => void
@@ -16,15 +14,7 @@ const toastConfig = {
     borderColor: 'border-green-500',
     iconColor: 'text-green-500',
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5 shrink-0"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        aria-hidden="true"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
       </svg>
     ),
@@ -33,20 +23,8 @@ const toastConfig = {
     borderColor: 'border-red-500',
     iconColor: 'text-red-500',
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5 shrink-0"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M6 18L18 6M6 6l12 12"
-        />
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     ),
   },
@@ -54,20 +32,8 @@ const toastConfig = {
     borderColor: 'border-blue-500',
     iconColor: 'text-blue-500',
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5 shrink-0"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 110 20A10 10 0 0112 2z"
-        />
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 110 20A10 10 0 0112 2z" />
       </svg>
     ),
   },
@@ -86,32 +52,23 @@ function ToastItem({ toast, onRemove }: ToastItemProps) {
       role="alert"
       aria-live="assertive"
       className={[
-        'flex items-start gap-3 bg-white shadow-lg rounded-lg p-4 border-l-4 w-80 max-w-full',
+        'flex items-start gap-3 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 border-l-4 w-80 max-w-full',
         'animate-[slideInRight_0.2s_ease-out]',
         cfg.borderColor,
       ].join(' ')}
     >
-      {/* Type icon */}
       <span className={cfg.iconColor}>{cfg.icon}</span>
-
-      {/* Message */}
-      <p className="flex-1 text-sm text-gray-700 leading-snug">{toast.message}</p>
-
-      {/* Close button */}
+      <p className="flex-1 text-sm text-gray-700 dark:text-gray-200 leading-snug">{toast.message}</p>
       <button
         onClick={() => onRemove(toast.id)}
-        className="shrink-0 text-gray-400 hover:text-gray-600 transition-colors mt-0.5"
+        className="cursor-pointer shrink-0 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors mt-0.5"
         aria-label="Dismiss notification"
       >
-        <span aria-hidden="true" className="text-lg leading-none select-none">
-          &times;
-        </span>
+        <span aria-hidden="true" className="text-lg leading-none select-none">&times;</span>
       </button>
     </div>
   )
 }
-
-// ─── Container ───────────────────────────────────────────────────────────────
 
 export default function ToastContainer() {
   const dispatch = useAppDispatch()
@@ -123,7 +80,6 @@ export default function ToastContainer() {
 
   return (
     <>
-      {/* Keyframe injection — Tailwind v4 doesn't need a config for arbitrary animations */}
       <style>{`
         @keyframes slideInRight {
           from { opacity: 0; transform: translateX(1.5rem); }
