@@ -31,14 +31,14 @@ export default function ContentTree({ nodes, selectedId, onSelect, onAdd, onDele
         <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Content</span>
         <button
           onClick={() => onAdd('chapter', null)}
-          className="text-xs text-indigo-600 hover:text-indigo-800 font-medium"
+          className="text-xs text-brand hover:text-indigo-800 font-medium"
         >+ Chapter</button>
       </div>
       <div className="flex-1 overflow-y-auto py-2">
         {tree.length === 0 && (
           <div className="px-4 py-6 text-center">
             <p className="text-gray-400 text-sm">No chapters yet.</p>
-            <button onClick={() => onAdd('chapter', null)} className="mt-2 text-indigo-600 text-sm hover:underline">Add first chapter</button>
+            <button onClick={() => onAdd('chapter', null)} className="mt-2 text-brand text-sm hover:underline">Add first chapter</button>
           </div>
         )}
         {tree.map((chapter, ci) => (
@@ -78,7 +78,7 @@ export default function ContentTree({ nodes, selectedId, onSelect, onAdd, onDele
                     <button
                       key={t}
                       onClick={() => onAdd(t, chapter.id)}
-                      className="text-xs text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 px-1.5 py-0.5 rounded"
+                      className="text-xs text-gray-400 hover:text-brand hover:bg-indigo-50 px-1.5 py-0.5 rounded"
                     >+{t}</button>
                   ))}
                 </div>
@@ -96,7 +96,7 @@ function IconBtn({ children, onClick, title, danger }: { children: React.ReactNo
     <button
       onClick={onClick}
       title={title}
-      className={`w-5 h-5 flex items-center justify-center rounded text-xs ${danger ? 'hover:text-red-600 hover:bg-red-50' : 'hover:text-indigo-600 hover:bg-indigo-50'} text-gray-400`}
+      className={`w-5 h-5 flex items-center justify-center rounded text-xs ${danger ? 'hover:text-red-600 hover:bg-red-50' : 'hover:text-brand hover:bg-indigo-50'} text-gray-400`}
     >{children}</button>
   );
 }

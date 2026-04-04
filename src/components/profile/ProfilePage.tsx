@@ -72,7 +72,7 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">My Profile</h1>
+      <h1 className="text-2xl font-bold text-on-surface">My Profile</h1>
 
       {/* Header card */}
       <Card padding="lg">
@@ -80,11 +80,11 @@ export default function ProfilePage() {
           <Avatar name={`${user.firstName} ${user.lastName}`} size="xl" />
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-1">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{user.firstName} {user.lastName}</h2>
+              <h2 className="text-xl font-bold text-on-surface">{user.firstName} {user.lastName}</h2>
               <Badge variant={roleBadge[user.role]}>{user.role}</Badge>
             </div>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">{user.email}</p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Member since {new Date(user.createdAt).toLocaleDateString()}</p>
+            <p className="text-on-surface-faint text-sm">{user.email}</p>
+            <p className="text-xs text-on-surface-faint mt-1">Member since {new Date(user.createdAt).toLocaleDateString()}</p>
           </div>
           <Button variant="secondary" onClick={() => setEditMode(!editMode)}>
             {editMode ? 'Cancel' : 'Edit Profile'}
@@ -95,7 +95,7 @@ export default function ProfilePage() {
       {/* Edit form */}
       {editMode && (
         <Card padding="lg">
-          <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">Edit Profile</h3>
+          <h3 className="font-semibold text-on-surface mb-4">Edit Profile</h3>
           <div className="grid grid-cols-2 gap-4 mb-4">
             <Input label="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} />
             <Input label="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} />
@@ -126,15 +126,15 @@ export default function ProfilePage() {
         <h3 className="font-semibold text-gray-800 mb-4">Statistics</h3>
         {user.role === 'student' && (
           <div className="grid grid-cols-3 gap-4">
-            <div className="text-center"><div className="text-2xl font-bold text-indigo-600">{studentCourses.length}</div><div className="text-xs text-gray-500 dark:text-gray-400">Courses</div></div>
-            <div className="text-center"><div className="text-2xl font-bold text-indigo-600">{totalTests}</div><div className="text-xs text-gray-500 dark:text-gray-400">Tests Taken</div></div>
-            <div className="text-center"><div className="text-2xl font-bold text-green-600">{progressList.filter(p => p.completionPercent === 100).length}</div><div className="text-xs text-gray-500 dark:text-gray-400">Completed</div></div>
+            <div className="text-center"><div className="text-2xl font-bold text-brand">{studentCourses.length}</div><div className="text-xs text-on-surface-faint">Courses</div></div>
+            <div className="text-center"><div className="text-2xl font-bold text-brand">{totalTests}</div><div className="text-xs text-on-surface-faint">Tests Taken</div></div>
+            <div className="text-center"><div className="text-2xl font-bold text-green-600">{progressList.filter(p => p.completionPercent === 100).length}</div><div className="text-xs text-on-surface-faint">Completed</div></div>
           </div>
         )}
         {user.role === 'teacher' && (
           <div className="grid grid-cols-2 gap-4">
-            <div className="text-center"><div className="text-2xl font-bold text-indigo-600">{courses.length}</div><div className="text-xs text-gray-500 dark:text-gray-400">Courses Created</div></div>
-            <div className="text-center"><div className="text-2xl font-bold text-indigo-600">{courses.reduce((sum, c) => sum + c.enrolledStudentIds.length, 0)}</div><div className="text-xs text-gray-500 dark:text-gray-400">Total Students</div></div>
+            <div className="text-center"><div className="text-2xl font-bold text-brand">{courses.length}</div><div className="text-xs text-on-surface-faint">Courses Created</div></div>
+            <div className="text-center"><div className="text-2xl font-bold text-brand">{courses.reduce((sum, c) => sum + c.enrolledStudentIds.length, 0)}</div><div className="text-xs text-on-surface-faint">Total Students</div></div>
           </div>
         )}
         {user.role === 'admin' && (

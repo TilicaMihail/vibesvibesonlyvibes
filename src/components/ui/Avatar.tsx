@@ -15,11 +15,11 @@ const sizeClasses: Record<AvatarSize, string> = {
 
 // 6 background + text colour pairs derived from hash
 const colorPalette: string[] = [
-  'bg-indigo-500 text-white',
+  'bg-brand text-white',
   'bg-purple-500 text-white',
-  'bg-green-500 text-white',
+  'bg-green-600 text-white',
   'bg-blue-500 text-white',
-  'bg-orange-500 text-white',
+  'bg-brand-dark text-white',
   'bg-pink-500 text-white',
 ]
 

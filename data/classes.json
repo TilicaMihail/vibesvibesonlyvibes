@@ -2,10 +2,19 @@
   {
     "id": "cls-1",
     "organizationId": "org-1",
-    "name": "Web Development Cohort A",
+    "name": "Web Development Cohort Aasdf",
     "description": "Spring 2024 cohort focused on full-stack web development.",
-    "teacherIds": ["u-teacher-1"],
-    "studentIds": ["u-student-1", "u-student-2", "u-student-3"],
+    "teacherIds": [
+      "u-teacher-1"
+    ],
+    "studentIds": [
+      "u-student-3",
+      "u-student-4",
+      "u-student-5",
+      "u-student-6",
+      "u-student-1",
+      "u-student-2"
+    ],
     "isArchived": false,
     "createdAt": "2024-02-01T00:00:00Z"
   },
@@ -14,8 +23,14 @@
     "organizationId": "org-1",
     "name": "Data Science Bootcamp",
     "description": "Intensive data science training program.",
-    "teacherIds": ["u-teacher-2"],
-    "studentIds": ["u-student-4", "u-student-5", "u-student-6"],
+    "teacherIds": [
+      "u-teacher-2"
+    ],
+    "studentIds": [
+      "u-student-4",
+      "u-student-5",
+      "u-student-6"
+    ],
     "isArchived": false,
     "createdAt": "2024-02-15T00:00:00Z"
   }

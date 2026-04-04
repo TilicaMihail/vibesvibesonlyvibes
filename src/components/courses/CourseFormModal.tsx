@@ -46,9 +46,9 @@ export default function CourseFormModal({ isOpen, onClose, onSave, initialData, 
       <div className="space-y-4">
         <Input label="Course Title" value={title} onChange={e => setTitle(e.target.value)} error={errors.title} placeholder="e.g. Introduction to JavaScript" />
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+          <label className="block text-sm font-medium mb-1 text-on-surface-mid" >Description</label>
           <textarea
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+            className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm text-on-surface placeholder-brand-light focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand resize-none"
             rows={4}
             value={description}
             onChange={e => setDescription(e.target.value)}
@@ -57,9 +57,9 @@ export default function CourseFormModal({ isOpen, onClose, onSave, initialData, 
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Visibility</label>
+          <label className="block text-sm font-medium mb-1 text-on-surface-mid" >Visibility</label>
           <select
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand bg-surface-raised"
             value={visibility}
             onChange={e => setVisibility(e.target.value as CourseVisibility)}
           >

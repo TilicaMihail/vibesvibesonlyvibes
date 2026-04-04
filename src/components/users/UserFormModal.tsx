@@ -136,12 +136,12 @@ export default function UserFormModal({
         )}
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Role</label>
+          <label className="mb-1 block text-sm font-medium text-on-surface-mid" >Role</label>
           <select
             value={values.role}
             onChange={(e) => set('role', e.target.value as UserRole)}
             disabled={isLoading}
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-50 disabled:cursor-not-allowed"
+            className="block w-full rounded-lg border border-surface-border px-3 py-2 text-sm text-on-surface bg-surface-raised focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30 disabled:bg-surface disabled:cursor-not-allowed"
           >
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
@@ -151,7 +151,7 @@ export default function UserFormModal({
 
         {values.role === 'teacher' && (
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label className="mb-1 block text-sm font-medium text-on-surface-mid" >
               Assignment Scope
             </label>
             <select
@@ -160,12 +160,12 @@ export default function UserFormModal({
                 set('assignmentScope', e.target.value as 'organization' | 'class')
               }
               disabled={isLoading}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-50 disabled:cursor-not-allowed"
+              className="block w-full rounded-lg border border-surface-border px-3 py-2 text-sm text-on-surface bg-surface-raised focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30 disabled:bg-surface disabled:cursor-not-allowed"
             >
               <option value="organization">Organization-wide</option>
               <option value="class">Class-specific</option>
             </select>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-on-surface-light" >
               Organization-wide teachers can access all classes. Class-specific teachers are
               assigned to individual classes.
             </p>

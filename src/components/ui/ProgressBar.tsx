@@ -1,4 +1,4 @@
-type ProgressColor = 'indigo' | 'green' | 'yellow' | 'red'
+type ProgressColor = 'brand' | 'indigo' | 'green' | 'yellow' | 'red'
 type ProgressSize = 'sm' | 'md'
 
 interface ProgressBarProps {
@@ -9,8 +9,9 @@ interface ProgressBarProps {
 }
 
 const colorClasses: Record<ProgressColor, string> = {
-  indigo: 'bg-indigo-500',
-  green: 'bg-green-500',
+  brand: 'bg-brand',
+  indigo: 'bg-brand',
+  green: 'bg-[#2d6a4f]',
   yellow: 'bg-yellow-500',
   red: 'bg-red-500',
 }
@@ -24,14 +25,14 @@ export default function ProgressBar({
   value,
   size = 'md',
   showLabel = false,
-  color = 'indigo',
+  color = 'brand',
 }: ProgressBarProps) {
   const clamped = Math.min(100, Math.max(0, value))
 
   return (
     <div className="flex items-center gap-3">
       <div
-        className={['flex-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden', trackHeightClasses[size]].join(' ')}
+        className={['flex-1 bg-surface-border rounded-full overflow-hidden', trackHeightClasses[size]].join(' ')}
         role="progressbar"
         aria-valuenow={clamped}
         aria-valuemin={0}
@@ -47,7 +48,7 @@ export default function ProgressBar({
       </div>
 
       {showLabel && (
-        <span className="shrink-0 text-sm font-medium text-gray-600 dark:text-gray-400 w-10 text-right">
+        <span className="shrink-0 text-sm font-medium text-on-surface-muted w-10 text-right">
           {clamped}%
         </span>
       )}

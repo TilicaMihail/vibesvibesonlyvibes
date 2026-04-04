@@ -43,7 +43,7 @@ export default function Dropdown({ trigger, items, align = 'left' }: DropdownPro
       {open && (
         <div
           className={[
-            'absolute mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg py-1 min-w-[160px]',
+            'absolute mt-1 z-50 bg-surface-raised border border-surface-border rounded-lg shadow-lg py-1 min-w-[160px]',
             alignClass,
           ].join(' ')}
           role="menu"

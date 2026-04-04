@@ -18,7 +18,7 @@ export default function QuestionCard({ question, index, onEdit, onDelete }: Prop
           <p className="text-sm text-gray-800 font-medium">{question.text}</p>
         </div>
         <div className="flex items-center gap-1 shrink-0">
-          <button onClick={onEdit} className="text-xs text-gray-400 hover:text-indigo-600 px-2 py-1 hover:bg-indigo-50 rounded">Edit</button>
+          <button onClick={onEdit} className="text-xs text-gray-400 hover:text-brand px-2 py-1 hover:bg-indigo-50 rounded">Edit</button>
           <button onClick={onDelete} className="text-xs text-gray-400 hover:text-red-600 px-2 py-1 hover:bg-red-50 rounded">Delete</button>
         </div>
       </div>

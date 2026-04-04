@@ -8,6 +8,7 @@ export interface Toast {
 
 interface UIState {
   sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
   activeModal: string | null;
   toasts: Toast[];
   darkMode: boolean;
@@ -19,8 +20,14 @@ function getInitialState(): UIState {
       ? localStorage.getItem('darkMode') === 'true'
       : false;
 
+  const sidebarCollapsed =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('sidebarCollapsed') === 'true'
+      : false;
+
   return {
     sidebarOpen: false,
+    sidebarCollapsed,
     activeModal: null,
     toasts: [],
     darkMode,
@@ -50,6 +57,12 @@ const uiSlice = createSlice({
     removeToast(state, action: PayloadAction<string>) {
       state.toasts = state.toasts.filter((t) => t.id !== action.payload);
     },
+    toggleSidebarCollapsed(state) {
+      state.sidebarCollapsed = !state.sidebarCollapsed;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('sidebarCollapsed', String(state.sidebarCollapsed));
+      }
+    },
     toggleDarkMode(state) {
       state.darkMode = !state.darkMode;
       if (typeof window !== 'undefined') {
@@ -66,6 +79,7 @@ export const {
   closeModal,
   addToast,
   removeToast,
+  toggleSidebarCollapsed,
   toggleDarkMode,
 } = uiSlice.actions;
 export default uiSlice.reducer;

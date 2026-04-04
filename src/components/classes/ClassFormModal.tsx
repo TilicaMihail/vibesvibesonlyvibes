@@ -110,9 +110,9 @@ export default function ClassFormModal({
         />
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label className="mb-1 block text-sm font-medium text-on-surface-mid" >
             Description{' '}
-            <span className="font-normal text-gray-400">(optional)</span>
+            <span className="font-normal text-brand-light" >(optional)</span>
           </label>
           <textarea
             value={values.description}
@@ -120,18 +120,18 @@ export default function ClassFormModal({
             rows={3}
             placeholder="Brief description of this class…"
             disabled={isLoading}
-            className="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-50 disabled:cursor-not-allowed"
+            className="block w-full rounded-lg border border-surface-border px-3 py-2 text-sm text-on-surface placeholder-brand-light focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30 disabled:bg-surface disabled:cursor-not-allowed"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label className="mb-1 block text-sm font-medium text-on-surface-mid" >
             Assign Teachers{' '}
-            <span className="font-normal text-gray-400">(optional)</span>
+            <span className="font-normal text-brand-light" >(optional)</span>
           </label>
 
           {teachers.length === 0 ? (
-            <p className="text-sm text-gray-400 italic">No teachers available.</p>
+            <p className="text-sm italic text-brand-light" >No teachers available.</p>
           ) : (
             <>
               <input
@@ -139,11 +139,11 @@ export default function ClassFormModal({
                 value={teacherSearch}
                 onChange={(e) => setTeacherSearch(e.target.value)}
                 placeholder="Search teachers…"
-                className="mb-2 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="mb-2 block w-full rounded-lg border border-surface-border px-3 py-2 text-sm text-on-surface placeholder-brand-light focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
               />
-              <div className="max-h-44 overflow-y-auto rounded-lg border border-gray-200 divide-y divide-gray-100">
+              <div className="max-h-44 overflow-y-auto rounded-lg border border-surface-border divide-y divide-surface">
                 {filteredTeachers.length === 0 ? (
-                  <p className="px-3 py-4 text-sm text-gray-400 text-center">
+                  <p className="px-3 py-4 text-sm text-center text-brand-light" >
                     No teachers match your search.
                   </p>
                 ) : (
@@ -152,13 +152,13 @@ export default function ClassFormModal({
                     return (
                       <label
                         key={teacher.id}
-                        className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors"
+                        className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-surface transition-colors"
                       >
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => toggleTeacher(teacher.id)}
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4 rounded border-surface-border accent-brand focus:ring-brand"
                           disabled={isLoading}
                         />
                         <Avatar
@@ -166,9 +166,9 @@ export default function ClassFormModal({
                           avatarUrl={teacher.avatarUrl}
                           size="sm"
                         />
-                        <span className="text-sm text-gray-800">
+                        <span className="text-sm text-on-surface" >
                           {teacher.firstName} {teacher.lastName}
-                          <span className="ml-1 text-xs text-gray-400">{teacher.email}</span>
+                          <span className="ml-1 text-xs text-brand-light" >{teacher.email}</span>
                         </span>
                       </label>
                     )
@@ -176,9 +176,8 @@ export default function ClassFormModal({
                 )}
               </div>
               {values.teacherIds.length > 0 && (
-                <p className="mt-1 text-xs text-indigo-600">
-                  {values.teacherIds.length} teacher
-                  {values.teacherIds.length > 1 ? 's' : ''} selected
+                <p className="mt-1 text-xs text-brand" >
+                  {values.teacherIds.length} teacher{values.teacherIds.length > 1 ? 's' : ''} selected
                 </p>
               )}
             </>

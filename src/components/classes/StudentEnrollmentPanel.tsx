@@ -71,12 +71,8 @@ export default function StudentEnrollmentPanel({
       header: 'Student',
       render: (_: unknown, row: UserPublic) => (
         <div className="flex items-center gap-3">
-          <Avatar
-            name={`${row.firstName} ${row.lastName}`}
-            avatarUrl={row.avatarUrl}
-            size="sm"
-          />
-          <span className="font-medium text-gray-900 dark:text-gray-100">
+          <Avatar name={`${row.firstName} ${row.lastName}`} avatarUrl={row.avatarUrl} size="sm" />
+          <span className="font-medium text-on-surface" >
             {row.firstName} {row.lastName}
           </span>
         </div>
@@ -86,14 +82,14 @@ export default function StudentEnrollmentPanel({
       key: 'email',
       header: 'Email',
       render: (_: unknown, row: UserPublic) => (
-        <span className="text-gray-600 dark:text-gray-300">{row.email}</span>
+        <span className="text-on-surface-light">{row.email}</span>
       ),
     },
     {
       key: 'createdAt',
       header: 'Joined',
       render: (_: unknown, row: UserPublic) => (
-        <span className="text-gray-500 dark:text-gray-400">
+        <span className="text-brand-light">
           {new Date(row.createdAt).toLocaleDateString(undefined, {
             year: 'numeric',
             month: 'short',
@@ -110,7 +106,7 @@ export default function StudentEnrollmentPanel({
           variant="ghost"
           size="sm"
           onClick={() => setRemoveTarget(row)}
-          className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
+          className="text-red-500 hover:text-red-700 hover:bg-red-50"
         >
           Remove
         </Button>
@@ -123,8 +119,8 @@ export default function StudentEnrollmentPanel({
       {/* KPI + action row */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-2xl font-bold text-indigo-600">{students.length}</span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-2xl font-bold text-brand" >{students.length}</span>
+          <span className="text-sm text-on-surface-light" >
             {students.length === 1 ? 'student' : 'students'} enrolled
           </span>
         </div>
@@ -157,14 +153,14 @@ export default function StudentEnrollmentPanel({
             value={studentSearch}
             onChange={(e) => setStudentSearch(e.target.value)}
             placeholder="Search students…"
-            className="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="block w-full rounded-lg border border-surface-border bg-surface-raised text-on-surface px-3 py-2 text-sm placeholder-brand-light focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
           />
 
-          <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
+          <div className="max-h-64 overflow-y-auto rounded-lg border border-surface-border divide-y divide-surface">
             {allLoading ? (
-              <div className="px-4 py-8 text-center text-sm text-gray-400 dark:text-gray-500">Loading…</div>
+              <div className="px-4 py-8 text-center text-sm text-brand-light" >Loading…</div>
             ) : filteredUnenrolled.length === 0 ? (
-              <div className="px-4 py-8 text-center text-sm text-gray-400 dark:text-gray-500">
+              <div className="px-4 py-8 text-center text-sm text-brand-light" >
                 {unenrolled.length === 0
                   ? 'All students are already enrolled.'
                   : 'No students match your search.'}
@@ -175,13 +171,13 @@ export default function StudentEnrollmentPanel({
                 return (
                   <label
                     key={student.id}
-                    className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-surface transition-colors"
                   >
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleSelect(student.id)}
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 rounded border-surface-border accent-brand"
                     />
                     <Avatar
                       name={`${student.firstName} ${student.lastName}`}
@@ -189,10 +185,10 @@ export default function StudentEnrollmentPanel({
                       size="sm"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                      <p className="text-sm font-medium text-on-surface" >
                         {student.firstName} {student.lastName}
                       </p>
-                      <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{student.email}</p>
+                      <p className="text-xs truncate text-brand-light" >{student.email}</p>
                     </div>
                   </label>
                 )
@@ -201,7 +197,7 @@ export default function StudentEnrollmentPanel({
           </div>
 
           {selectedIds.length > 0 && (
-            <p className="text-xs text-indigo-600">
+            <p className="text-xs text-brand" >
               {selectedIds.length} student{selectedIds.length > 1 ? 's' : ''} selected
             </p>
           )}

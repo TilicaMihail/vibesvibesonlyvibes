@@ -87,7 +87,7 @@ export default function QuestionForm({ initial, onSave, onCancel }: Props) {
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium text-gray-700">Answer Options</label>
-          {type !== 'true_false' && <button onClick={addOption} className="text-xs text-indigo-600 hover:underline">+ Add option</button>}
+          {type !== 'true_false' && <button onClick={addOption} className="text-xs text-brand hover:underline">+ Add option</button>}
         </div>
         <div className="space-y-2">
           {options.map(opt => (
@@ -96,7 +96,7 @@ export default function QuestionForm({ initial, onSave, onCancel }: Props) {
                 type={type === 'multiple' ? 'checkbox' : 'radio'}
                 checked={opt.isCorrect}
                 onChange={e => setCorrect(opt.id, e.target.checked)}
-                className="text-indigo-600"
+                className="text-brand"
               />
               <input
                 type="text"

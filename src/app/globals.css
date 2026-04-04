@@ -1,36 +1,57 @@
 @import "tailwindcss";
 
-/* Dark mode variant */
+/* Dark mode variant — toggled by .dark class on <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Brand palette — warm earth tones */
-  --color-brand:        #a27246;
-  --color-brand-light:  #c4a882;
-  --color-brand-dark:   #7a5530;
-  --color-cream:        #f6f3e7;
-  --color-cream-dark:   #e8e0cc;
-  --color-dark:         #29241f;
-  --color-dark-mid:     #4a3728;
-  --color-dark-light:   #6b5744;
+  /* ── Raw palette ────────────────────────────────────────────────────────
+     Edit these 8 values to retheme the entire app. Nothing else needs to
+     change — all semantic tokens below derive from these.
+     ─────────────────────────────────────────────────────────────────── */
+  --color-brand:        #a27246;   /* warm tan/brown — primary CTA, accents   */
+  --color-brand-light:  #c4a882;   /* lighter tan    — hover states, muted     */
+  --color-brand-dark:   #7a5530;   /* deeper brown   — button hover / pressed  */
+  --color-cream:        #f6f3e7;   /* off-white      — light page backgrounds  */
+  --color-cream-dark:   #e8e0cc;   /* medium cream   — card bg in light mode   */
+  --color-dark:         #29241f;   /* near-black     — sidebar, dark text      */
+  --color-dark-mid:     #4a3728;   /* medium dark    — secondary text on dark  */
+  --color-dark-light:   #6b5744;   /* lighter dark   — muted text on dark      */
+
+  /* ── Semantic surface tokens (light mode defaults) ──────────────────────
+     These automatically flip in dark mode via the .dark overrides below.
+     Use these in all components — never use raw hex in class names.
+     ─────────────────────────────────────────────────────────────────── */
+  --color-surface:           #f6f3e7;  /* page background                    */
+  --color-surface-raised:    #ffffff;  /* card / panel background            */
+  --color-surface-border:    #e8e0cc;  /* dividers, borders                  */
+  --color-on-surface:        #29241f;  /* primary text                       */
+  --color-on-surface-muted:  #6b5744;  /* secondary / description text       */
+  --color-on-surface-faint:  #c4a882;  /* placeholder, timestamp, meta       */
 
   --font-sans: "Inter", system-ui, sans-serif;
 }
 
+/* ── Dark mode overrides ─────────────────────────────────────────────────
+   Warm dark — uses the same earth-tone palette, not cold gray.
+   ─────────────────────────────────────────────────────────────────────── */
+.dark {
+  --color-surface:           #1a1410;
+  --color-surface-raised:    #29241f;
+  --color-surface-border:    #3d3028;
+  --color-on-surface:        #f6f3e7;
+  --color-on-surface-muted:  #c4a882;
+  --color-on-surface-faint:  #6b5744;
+}
+
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 72px; /* offset for fixed navbar */
+  scroll-padding-top: 72px;
 }
 
 body {
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
   font-family: var(--font-sans);
-}
-
-.dark body {
-  background-color: #111827;
-  color: #f9fafb;
 }
 
 /* ─── Continuous doodle + hero animations ───────────────────────────────── */
@@ -97,7 +118,7 @@ body {
   font-size: clamp(6rem, 20vw, 18rem);
   font-weight: 900;
   letter-spacing: -0.04em;
-  color: #29241f;
+  color: var(--color-dark);
   opacity: 0.045;
   user-select: none;
   pointer-events: none;
@@ -112,7 +133,7 @@ body {
 .float-label-group input:not(:placeholder-shown) + label {
   top: 0.5rem;
   font-size: 0.7rem;
-  color: #a27246;
+  color: var(--color-brand);
 }
 .float-label-group label {
   position: absolute;
@@ -120,7 +141,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.9rem;
-  color: #6b5744;
+  color: var(--color-dark-light);
   transition: top 0.18s ease, font-size 0.18s ease, color 0.18s ease;
   pointer-events: none;
   background: transparent;
@@ -153,7 +174,7 @@ input:-webkit-autofill:active {
   left: 0;
   width: 100%;
   height: 1.5px;
-  background: #a27246;
+  background: var(--color-brand);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.25s ease;

@@ -22,15 +22,15 @@ export default function Table<T extends Record<string, unknown>>({
   emptyMessage = 'No data available.',
 }: TableProps<T>) {
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="w-full overflow-x-auto rounded-lg border border-surface-border shadow-sm">
       <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-700">
-        <thead className="bg-gray-50 dark:bg-gray-900">
+        <thead className="bg-surface">
           <tr>
             {columns.map((col) => (
               <th
                 key={col.key}
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400 sticky top-0 bg-gray-50 dark:bg-gray-900"
+                className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-on-surface-faint sticky top-0 bg-surface"
               >
                 {col.header}
               </th>
@@ -38,7 +38,7 @@ export default function Table<T extends Record<string, unknown>>({
           </tr>
         </thead>
 
-        <tbody className="divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800">
+        <tbody className="divide-y divide-gray-100 dark:divide-gray-700 bg-surface-raised">
           {isLoading ? (
             Array.from({ length: SKELETON_ROWS }).map((_, rowIdx) => (
               <tr key={rowIdx} className="animate-pulse">
@@ -53,14 +53,14 @@ export default function Table<T extends Record<string, unknown>>({
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-4 py-10 text-center text-sm text-gray-400 dark:text-gray-500"
+                className="px-4 py-10 text-center text-sm text-on-surface-faint"
               >
                 {emptyMessage}
               </td>
             </tr>
           ) : (
             data.map((row, rowIdx) => (
-              <tr key={rowIdx} className="hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+              <tr key={rowIdx} className="hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-surface-border">
                 {columns.map((col) => (
                   <td key={col.key} className="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">
                     {col.render

@@ -30,10 +30,10 @@ export default function EmptyState({ title, description, action }: EmptyStatePro
         />
       </svg>
 
-      <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">{title}</h3>
+      <h3 className="text-base font-semibold text-on-surface mb-1">{title}</h3>
 
       {description && (
-        <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs mb-4">{description}</p>
+        <p className="text-sm text-on-surface-faint max-w-xs mb-4">{description}</p>
       )}
 
       {action && (

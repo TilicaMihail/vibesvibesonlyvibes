@@ -183,7 +183,7 @@ export default function RegisterPage() {
       }).unwrap()
       dispatch(setCredentials({ user: result.user, token: result.token }))
       document.cookie = `auth_token=${result.token}; path=/; max-age=86400`
-      router.push('/admin/dashboard')
+      router.push('/dashboard')
     } catch (err: unknown) {
       const message =
         err && typeof err === 'object' && 'data' in err

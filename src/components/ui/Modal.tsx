@@ -57,15 +57,15 @@ export default function Modal({
     >
       <div
         className={[
-          'bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-h-[90vh] overflow-y-auto',
+          'bg-surface-raised rounded-xl shadow-xl w-full max-h-[90vh] overflow-y-auto',
           maxWidthClasses[size],
         ].join(' ')}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-surface-border">
           {title ? (
-            <h2 id="modal-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <h2 id="modal-title" className="text-lg font-semibold text-on-surface">
               {title}
             </h2>
           ) : (
@@ -73,7 +73,7 @@ export default function Modal({
           )}
           <button
             onClick={onClose}
-            className="cursor-pointer ml-auto flex h-8 w-8 items-center justify-center rounded-full text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            className="cursor-pointer ml-auto flex h-8 w-8 items-center justify-center rounded-full text-on-surface-faint hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
             aria-label="Close modal"
           >
             <span aria-hidden="true" className="text-xl leading-none select-none">

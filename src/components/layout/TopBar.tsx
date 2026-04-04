@@ -1,33 +1,58 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Avatar from '@/components/ui/Avatar'
 import Dropdown from '@/components/ui/Dropdown'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { logout } from '@/store/slices/authSlice'
-import { toggleDarkMode } from '@/store/slices/uiSlice'
+import { toggleSidebar, toggleDarkMode } from '@/store/slices/uiSlice'
 
-function MoonIcon() {
+const PAGE_TITLES: Record<string, string> = {
+  '/dashboard': 'Dashboard',
+  '/users': 'Users',
+  '/classes': 'Classes',
+  '/courses': 'My Courses',
+  '/progress': 'My Progress',
+  '/profile': 'Profile',
+}
+
+function getPageTitle(pathname: string): string {
+  if (PAGE_TITLES[pathname]) return PAGE_TITLES[pathname]
+  // Dynamic routes
+  if (pathname.includes('/editor')) return 'Course Editor'
+  if (pathname.includes('/test-editor')) return 'Test Editor'
+  if (pathname.includes('/results')) return 'Test Results'
+  if (pathname.includes('/study')) return 'Study'
+  if (pathname.includes('/test/')) return 'Test'
+  if (pathname.includes('/courses/')) return 'Course'
+  if (pathname.includes('/classes/')) return 'Class'
+  return 'EduPlatform'
+}
+
+function HamburgerIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <path d="M3 5h14M3 10h14M3 15h14" />
     </svg>
   )
 }
 
+function MoonIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  )
+}
 function SunIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="5" />
-      <line x1="12" y1="1" x2="12" y2="3" />
-      <line x1="12" y1="21" x2="12" y2="23" />
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-      <line x1="1" y1="12" x2="3" y2="12" />
-      <line x1="21" y1="12" x2="23" y2="12" />
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      <line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
     </svg>
   )
 }
@@ -35,27 +60,22 @@ function SunIcon() {
 export default function TopBar() {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const pathname = usePathname()
   const user = useAppSelector((state) => state.auth.user)
   const darkMode = useAppSelector((state) => state.ui.darkMode)
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
 
-  const orgName = 'EduPlatform'
+  const pageTitle = getPageTitle(pathname)
+  const fullName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
+
+  const profilePath = '/profile'
 
   function handleLogout() {
     dispatch(logout())
     document.cookie = 'auth_token=; max-age=0; path=/'
     router.push('/login')
   }
-
-  const profilePath =
-    user?.role === 'admin'
-      ? '/admin/profile'
-      : user?.role === 'teacher'
-        ? '/teacher/profile'
-        : '/student/profile'
-
-  const fullName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
 
   const dropdownItems = [
     {
@@ -83,22 +103,34 @@ export default function TopBar() {
   ]
 
   return (
-    <header className="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 flex items-center justify-between shrink-0">
-      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{orgName}</span>
+    <header
+      className="h-16 px-4 sm:px-6 flex items-center justify-between shrink-0 border-b bg-surface border-surface-border"
+    >
+      <div className="flex items-center gap-3">
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => dispatch(toggleSidebar())}
+          className="cursor-pointer md:hidden flex items-center justify-center w-9 h-9 rounded-lg transition-colors hover:bg-surface-border text-on-surface-muted"
+          
+          aria-label="Open sidebar"
+        >
+          <HamburgerIcon />
+        </button>
+
+        <h1 className="text-base font-semibold text-on-surface">
+          {pageTitle}
+        </h1>
+      </div>
 
       <div className="flex items-center gap-3">
-        {/* Always rendered to keep DOM structure stable between server and client */}
-        <span
-          className="text-sm text-gray-600 dark:text-gray-300 hidden sm:block"
-          suppressHydrationWarning
-        >
+        <span className="text-sm hidden sm:block text-on-surface-muted">
           {user ? fullName : ''}
         </span>
 
         {/* Dark mode toggle */}
         <button
           onClick={() => dispatch(toggleDarkMode())}
-          className="cursor-pointer p-2 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          className="cursor-pointer p-2 rounded-lg flex items-center justify-center text-on-surface-muted hover:bg-surface-border transition-colors"
           aria-label="Toggle dark mode"
         >
           {mounted && darkMode ? <SunIcon /> : <MoonIcon />}

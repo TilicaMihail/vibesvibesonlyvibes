@@ -52,7 +52,7 @@ function ToastItem({ toast, onRemove }: ToastItemProps) {
       role="alert"
       aria-live="assertive"
       className={[
-        'flex items-start gap-3 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 border-l-4 w-80 max-w-full',
+        'flex items-start gap-3 bg-surface-raised shadow-lg rounded-lg p-4 border-l-4 w-80 max-w-full',
         'animate-[slideInRight_0.2s_ease-out]',
         cfg.borderColor,
       ].join(' ')}
@@ -61,7 +61,7 @@ function ToastItem({ toast, onRemove }: ToastItemProps) {
       <p className="flex-1 text-sm text-gray-700 dark:text-gray-200 leading-snug">{toast.message}</p>
       <button
         onClick={() => onRemove(toast.id)}
-        className="cursor-pointer shrink-0 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors mt-0.5"
+        className="cursor-pointer shrink-0 text-on-surface-faint hover:text-gray-600 dark:hover:text-gray-300 transition-colors mt-0.5"
         aria-label="Dismiss notification"
       >
         <span aria-hidden="true" className="text-lg leading-none select-none">&times;</span>

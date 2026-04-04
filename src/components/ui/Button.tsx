@@ -16,13 +16,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-indigo-600 hover:bg-indigo-700 text-white border border-transparent focus:ring-indigo-500',
+    'bg-brand hover:bg-brand-dark text-cream border border-transparent focus:ring-brand',
   secondary:
-    'bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-gray-300',
+    'bg-surface-raised border border-surface-border text-on-surface hover:bg-surface-border focus:ring-brand',
   danger:
     'bg-red-600 hover:bg-red-700 text-white border border-transparent focus:ring-red-500',
   ghost:
-    'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-transparent focus:ring-gray-300',
+    'text-on-surface-muted hover:bg-surface-border hover:text-on-surface border border-transparent focus:ring-brand',
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -58,7 +58,7 @@ export default function Button({
       disabled={isDisabled}
       className={[
         'inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900',
+        'focus:outline-none focus:ring-2 focus:ring-offset-2',
         'disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer',
         variantClasses[variant],
         sizeClasses[size],
@@ -72,7 +72,7 @@ export default function Button({
       {isLoading && (
         <Spinner
           size={spinnerSizeMap[size]}
-          className={variant === 'secondary' || variant === 'ghost' ? 'text-gray-500 dark:text-gray-400' : 'text-white'}
+          className={variant === 'secondary' || variant === 'ghost' ? 'text-on-surface-muted' : 'text-cream'}
         />
       )}
       {children}

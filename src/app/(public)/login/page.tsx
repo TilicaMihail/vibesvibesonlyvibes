@@ -11,9 +11,9 @@ import type { UserRole } from '@/types/user'
 import { BookDoodle, PencilDoodle, StarDoodle, GradCapDoodle } from '@/components/landing/Doodles'
 
 function roleRedirectPath(role: UserRole): string {
-  if (role === 'admin') return '/admin/dashboard'
-  if (role === 'teacher') return '/teacher/courses'
-  return '/student/courses'
+  if (role === 'admin') return '/dashboard'
+  if (role === 'teacher') return '/courses'
+  return '/courses'
 }
 
 /* Animated counter that counts from 0 to target on mount */
