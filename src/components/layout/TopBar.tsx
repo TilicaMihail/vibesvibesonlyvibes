@@ -68,6 +68,7 @@ export default function TopBar() {
 
   const pageTitle = getPageTitle(pathname)
   const fullName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
+  const displayName = mounted ? fullName : ''
 
   const profilePath = '/profile'
 
@@ -124,7 +125,7 @@ export default function TopBar() {
 
       <div className="flex items-center gap-3">
         <span className="text-sm hidden sm:block text-on-surface-muted">
-          {user ? fullName : ''}
+          {displayName}
         </span>
 
         {/* Dark mode toggle */}

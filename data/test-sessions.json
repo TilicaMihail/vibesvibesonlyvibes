@@ -690,5 +690,159 @@
         "explanation": "Hoisting moves variable and function declarations to the top of their containing scope during compilation."
       }
     ]
+  },
+  {
+    "id": "ts-1775591382079",
+    "status": "in_progress",
+    "startedAt": "2026-04-07T19:49:42.079Z",
+    "answers": [],
+    "studentId": "u-student-1",
+    "courseId": "course-1",
+    "testId": "test-1",
+    "selectedTopics": [],
+    "questionCount": 5,
+    "timeLimitSeconds": 900,
+    "questions": [
+      {
+        "id": "q1-1",
+        "testId": "test-1",
+        "type": "single",
+        "topicTag": "fundamentals",
+        "text": "What does 'var' do in JavaScript?",
+        "options": [
+          {
+            "id": "q1-1-a",
+            "text": "Declares a block-scoped variable",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-1-b",
+            "text": "Declares a function-scoped variable",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-1-c",
+            "text": "Declares a constant",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-1-d",
+            "text": "Imports a module",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "'var' creates function-scoped variables, unlike 'let' and 'const' which are block-scoped."
+      },
+      {
+        "id": "q1-5",
+        "testId": "test-1",
+        "type": "multiple",
+        "topicTag": "variables",
+        "text": "Which keywords declare block-scoped variables? (Select all that apply)",
+        "options": [
+          {
+            "id": "q1-5-a",
+            "text": "var",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-5-b",
+            "text": "let",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-5-c",
+            "text": "const",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-5-d",
+            "text": "function",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "'let' and 'const' are both block-scoped. 'var' is function-scoped."
+      },
+      {
+        "id": "q1-4",
+        "testId": "test-1",
+        "type": "single",
+        "topicTag": "variables",
+        "text": "What is the output of: typeof null?",
+        "options": [
+          {
+            "id": "q1-4-a",
+            "text": "\"null\"",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-4-b",
+            "text": "\"undefined\"",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-4-c",
+            "text": "\"object\"",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-4-d",
+            "text": "\"boolean\"",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "This is a well-known JavaScript quirk: typeof null returns 'object', which is considered a bug in the language."
+      },
+      {
+        "id": "q1-2",
+        "testId": "test-1",
+        "type": "single",
+        "topicTag": "fundamentals",
+        "text": "Which of the following is NOT a primitive type in JavaScript?",
+        "options": [
+          {
+            "id": "q1-2-a",
+            "text": "string",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-2-b",
+            "text": "number",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-2-c",
+            "text": "array",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-2-d",
+            "text": "boolean",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "Arrays are objects in JavaScript, not primitives. Primitives include string, number, boolean, null, undefined, symbol, and bigint."
+      },
+      {
+        "id": "q1-3",
+        "testId": "test-1",
+        "type": "true_false",
+        "topicTag": "fundamentals",
+        "text": "JavaScript is a statically typed language.",
+        "options": [
+          {
+            "id": "q1-3-a",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-3-b",
+            "text": "False",
+            "isCorrect": true
+          }
+        ],
+        "explanation": "JavaScript is dynamically typed — variable types are determined at runtime."
+      }
+    ]
   }
 ]
