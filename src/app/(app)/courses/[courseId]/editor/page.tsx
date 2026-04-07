@@ -72,7 +72,7 @@ export default function CourseEditorPage({ params }: { params: Promise<{ courseI
   if (isLoading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
 
   return (
-    <div className="flex flex-col h-full -m-6">
+    <div className="absolute inset-0 flex flex-col">
       <div className="flex items-center gap-4 px-6 py-3 bg-surface-raised border-b border-surface-border">
         <Link href={`/courses/${courseId}`} className="text-on-surface-faint hover:text-gray-700 dark:hover:text-gray-300">← Back</Link>
         <span className="text-sm font-medium text-on-surface">Course Editor — {course?.title ?? '...'}</span>
@@ -82,7 +82,7 @@ export default function CourseEditorPage({ params }: { params: Promise<{ courseI
         </div>
       </div>
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-72 border-r border-surface-border bg-surface-raised overflow-hidden flex flex-col">
+        <div className="w-72 border-x border-surface-border bg-surface-raised overflow-hidden flex flex-col">
           <ContentTree
             nodes={nodes}
             selectedId={selectedId}

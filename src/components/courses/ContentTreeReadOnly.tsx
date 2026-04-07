@@ -4,9 +4,13 @@ import { buildTree, getTypeIcon } from '@/lib/contentTree';
 import Badge from '@/components/ui/Badge';
 import type { ContentNode } from '@/types';
 
-interface Props { nodes: ContentNode[] }
+interface Props {
+  nodes: ContentNode[]
+  selectedId?: string | null
+  onSelect?: (node: ContentNode) => void
+}
 
-export default function ContentTreeReadOnly({ nodes }: Props) {
+export default function ContentTreeReadOnly({ nodes, selectedId, onSelect }: Props) {
   const tree = buildTree(nodes);
   const [open, setOpen] = useState<Set<string>>(new Set(tree.map(c => c.id)));
 
@@ -31,9 +35,19 @@ export default function ContentTreeReadOnly({ nodes }: Props) {
                 <p className="px-6 py-2 text-xs text-on-surface-faint italic">No resources in this chapter</p>
               )}
               {chapter.children.map(node => (
-                <div key={node.id} className="flex items-center gap-3 px-6 py-2.5 hover:bg-surface transition-colors">
+                <div
+                  key={node.id}
+                  onClick={() => onSelect?.(node)}
+                  className={[
+                    'flex items-center gap-3 px-6 py-2.5 transition-colors',
+                    onSelect ? 'cursor-pointer' : '',
+                    selectedId === node.id
+                      ? 'bg-brand/10 text-brand-light'
+                      : 'hover:bg-surface',
+                  ].join(' ')}
+                >
                   <span className="text-base">{getTypeIcon(node.type)}</span>
-                  <span className="text-sm text-on-surface flex-1">{node.title}</span>
+                  <span className={['text-sm flex-1', selectedId === node.id ? 'text-brand-light font-medium' : 'text-on-surface'].join(' ')}>{node.title}</span>
                   <Badge variant={node.type === 'test' ? 'warning' : node.type === 'video' ? 'info' : 'neutral'}>
                     {node.type}
                   </Badge>

@@ -9,9 +9,10 @@ import Spinner from '@/components/ui/Spinner'
 import Avatar from '@/components/ui/Avatar'
 import ContentTreeReadOnly from '@/components/courses/ContentTreeReadOnly'
 import CourseFormModal from '@/components/courses/CourseFormModal'
+import MarkdownContent from '@/components/ui/MarkdownContent'
 import { useAppSelector } from '@/store/hooks'
 import { useGetCourseQuery, useGetCourseContentQuery, useGetCourseEnrollmentsQuery, useUpdateCourseMutation } from '@/services/coursesApi'
-import type { CourseVisibility } from '@/types'
+import type { ContentNode, CourseVisibility } from '@/types'
 
 const TABS = [{ id: 'content', label: 'Content' }, { id: 'students', label: 'Students' }]
 const VIS: Record<string, 'neutral' | 'info' | 'success'> = { private: 'neutral', class: 'info', public: 'success' }
@@ -19,6 +20,7 @@ const VIS: Record<string, 'neutral' | 'info' | 'success'> = { private: 'neutral'
 function TeacherCourseDetail({ courseId }: { courseId: string }) {
   const [tab, setTab] = useState('content')
   const [editOpen, setEditOpen] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   const { data: course, isLoading } = useGetCourseQuery(courseId)
   const { data: nodes = [] } = useGetCourseContentQuery(courseId)
@@ -29,6 +31,8 @@ function TeacherCourseDetail({ courseId }: { courseId: string }) {
     await updateCourse({ id: courseId, ...data }).unwrap()
     setEditOpen(false)
   }
+
+  const selectedNode: ContentNode | null = nodes.find(n => n.id === selectedId) ?? null
 
   if (isLoading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>
   if (!course) return <div className="text-center py-20 text-on-surface-faint">Course not found</div>
@@ -69,8 +73,64 @@ function TeacherCourseDetail({ courseId }: { courseId: string }) {
 
       <div className="mt-4">
         {tab === 'content' && (
-          <div className="bg-surface-raised rounded-2xl border p-4 border-surface-border">
-            <ContentTreeReadOnly nodes={nodes} />
+          <div className="border border-surface-border rounded-2xl overflow-hidden flex h-[65vh] min-h-96">
+            {/* Left: content tree */}
+            <div className="w-72 shrink-0 bg-surface-raised border-r border-surface-border flex flex-col overflow-hidden">
+              <div className="flex-1 overflow-y-auto p-4">
+                <ContentTreeReadOnly
+                  nodes={nodes}
+                  selectedId={selectedId}
+                  onSelect={n => setSelectedId(n.id)}
+                />
+              </div>
+            </div>
+            {/* Right: content preview */}
+            <div className="flex-1 overflow-y-auto p-6 bg-surface">
+              {!selectedNode ? (
+                <div className="flex flex-col items-center justify-center h-full text-on-surface-faint gap-2">
+                  <div className="text-4xl">👆</div>
+                  <p className="text-sm">Select a resource to preview</p>
+                </div>
+              ) : (
+                <div className="max-w-3xl mx-auto">
+                  <h2 className="text-xl font-bold text-on-surface mb-4">{selectedNode.title}</h2>
+                  {selectedNode.type === 'text' && (
+                    <div className="bg-surface-raised border border-surface-border rounded-xl p-6">
+                      <MarkdownContent>{selectedNode.textContent ?? ''}</MarkdownContent>
+                    </div>
+                  )}
+                  {selectedNode.type === 'video' && selectedNode.videoUrl && (
+                    <div className="rounded-xl overflow-hidden border border-surface-border">
+                      <iframe
+                        src={selectedNode.videoUrl}
+                        className="w-full aspect-video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  )}
+                  {selectedNode.type === 'video' && !selectedNode.videoUrl && (
+                    <div className="bg-surface-raised border border-surface-border rounded-xl p-6 text-on-surface-faint text-sm">No video URL set.</div>
+                  )}
+                  {selectedNode.type === 'file' && (
+                    <div className="bg-surface-raised border border-surface-border rounded-xl p-6 flex items-center gap-4">
+                      <div className="w-12 h-12 bg-brand/10 rounded-lg flex items-center justify-center text-2xl">📎</div>
+                      <div>
+                        <p className="font-medium text-on-surface">{selectedNode.fileName ?? 'File'}</p>
+                        <a href={selectedNode.fileUrl ?? '#'} className="text-sm text-brand hover:underline">Download</a>
+                      </div>
+                    </div>
+                  )}
+                  {selectedNode.type === 'test' && (
+                    <div className="bg-surface-raised border border-surface-border rounded-xl p-6">
+                      <p className="font-medium text-on-surface">Test</p>
+                      <p className="text-sm mt-1 text-on-surface-muted">Tests are managed in the Test Editor.</p>
+                      <Link href={`/courses/${courseId}/test-editor`} className="text-sm text-brand hover:underline mt-2 inline-block">Go to Test Editor →</Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
         {tab === 'students' && (

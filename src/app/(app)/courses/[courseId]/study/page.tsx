@@ -9,6 +9,7 @@ import { useAppSelector } from '@/store/hooks';
 import { useGetCourseQuery, useGetCourseContentQuery } from '@/services/coursesApi';
 import { useGetCourseProgressQuery, useMarkResourceCompleteMutation } from '@/services/progressApi';
 import type { ContentNode } from '@/types';
+import MarkdownContent from '@/components/ui/MarkdownContent';
 
 export default function CourseStudyPage({ params }: { params: Promise<{ courseId: string }> }) {
   const { courseId } = use(params);
@@ -47,7 +48,7 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
   return (
     <div className="absolute inset-0 flex">
       {/* Left sidebar */}
-      <div className="w-72 shrink-0 bg-surface-raised border-r border-surface-border flex flex-col overflow-hidden">
+      <div className="w-72 shrink-0 bg-surface-raised border-x border-surface-border flex flex-col overflow-hidden">
         <div className="p-4 border-b border-surface-border">
           <p className="text-xs text-on-surface-faint mb-1 font-medium truncate">{course?.title}</p>
           <div className="flex justify-between text-xs text-on-surface-faint mb-1.5">
@@ -82,8 +83,8 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
             <h1 className="text-2xl font-bold text-on-surface mb-6">{selectedNode.title}</h1>
 
             {selectedNode.type === 'text' && (
-              <div className="prose prose-sm max-w-none bg-surface-raised border border-surface-border rounded-xl p-6 whitespace-pre-wrap font-mono text-sm text-on-surface leading-relaxed">
-                {selectedNode.textContent ?? ''}
+              <div className="bg-surface-raised border border-surface-border rounded-xl p-6">
+                <MarkdownContent>{selectedNode.textContent ?? ''}</MarkdownContent>
               </div>
             )}
 

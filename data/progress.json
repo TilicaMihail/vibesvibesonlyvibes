@@ -3,8 +3,8 @@
     "id": "prog-1",
     "studentId": "u-student-1",
     "courseId": "course-1",
-    "completionPercent": 56,
-    "lastAccessedAt": "2026-04-07T19:33:46.696Z",
+    "completionPercent": 67,
+    "lastAccessedAt": "2026-04-07T20:18:39.215Z",
     "testSessionIds": [
       "ts-1",
       "ts-2"
@@ -19,13 +19,13 @@
       {
         "contentNodeId": "cn-3",
         "completed": true,
-        "completedAt": "2026-04-07T19:33:42.270Z",
+        "completedAt": "2026-04-07T20:18:35.429Z",
         "timeSpentSeconds": 720
       },
       {
         "contentNodeId": "cn-4",
         "completed": true,
-        "completedAt": "2026-04-07T19:33:44.403Z",
+        "completedAt": "2026-04-07T20:18:36.404Z",
         "timeSpentSeconds": 60
       },
       {
@@ -37,12 +37,13 @@
       {
         "contentNodeId": "cn-7",
         "completed": true,
-        "completedAt": "2026-04-07T19:33:41.018Z",
+        "completedAt": "2026-04-07T20:18:39.215Z",
         "timeSpentSeconds": 300
       },
       {
         "contentNodeId": "cn-8",
-        "completed": false,
+        "completed": true,
+        "completedAt": "2026-04-07T20:18:38.184Z",
         "timeSpentSeconds": 200
       }
     ]
