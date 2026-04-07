@@ -96,8 +96,11 @@ export default function TestResultsPage({ params }: { params: Promise<{ courseId
         <Link href={`/courses/${courseId}/test`} className="flex-1 text-center py-2.5 bg-brand hover:bg-brand-dark text-white rounded-lg text-sm font-medium transition-colors">
           Try Again
         </Link>
+        <Link href={`/courses/${courseId}/test/history`} className="flex-1 text-center py-2.5 border border-surface-border hover:bg-surface-border text-on-surface rounded-lg text-sm font-medium transition-colors">
+          All Results
+        </Link>
         <Link href={`/courses/${courseId}/study`} className="flex-1 text-center py-2.5 border border-surface-border hover:bg-surface-border text-on-surface rounded-lg text-sm font-medium transition-colors">
-          Back to Course
+          Course
         </Link>
       </div>
 

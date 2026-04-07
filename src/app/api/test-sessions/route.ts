@@ -2,6 +2,24 @@ import { loadData, saveData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Test, TestSession, Question } from '@/types';
 
+export async function GET(request: Request) {
+  const header = request.headers.get('Authorization') || '';
+  const token = header.replace('Bearer ', '');
+  const auth = decodeToken(token);
+  if (!auth) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const url = new URL(request.url);
+  const studentId = url.searchParams.get('studentId') || '';
+  const courseId = url.searchParams.get('courseId') || '';
+
+  let sessions = loadData<TestSession>('test-sessions.json');
+  if (studentId) sessions = sessions.filter(s => s.studentId === studentId);
+  if (courseId) sessions = sessions.filter(s => s.courseId === courseId);
+
+  const submitted = sessions.filter(s => s.status === 'submitted').reverse();
+  return Response.json(submitted);
+}
+
 function getAuth(req: Request) {
   const header = req.headers.get('Authorization') || '';
   const token = header.replace('Bearer ', '');

@@ -50,7 +50,22 @@ export default function TestRunnerPage({ params }: { params: Promise<{ courseId:
     router.push(`/courses/${courseId}/test/${sessionId}/results`);
   }
 
-  if (isLoading || runner.questions.length === 0) {
+  if (isLoading) {
+    return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
+  }
+
+  if (session && runner.sessionId === sessionId && runner.questions.length === 0) {
+    return (
+      <div className="max-w-md mx-auto text-center py-20">
+        <div className="text-5xl mb-4">📭</div>
+        <h2 className="text-xl font-bold text-on-surface mb-2">No questions found</h2>
+        <p className="text-on-surface-faint text-sm mb-6">This test has no questions. Please contact your teacher.</p>
+        <a href={`/courses/${courseId}/study`} className="text-brand hover:underline text-sm">← Back to course</a>
+      </div>
+    );
+  }
+
+  if (runner.questions.length === 0) {
     return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
   }
 

@@ -175,5 +175,367 @@
     ],
     "questionCount": 10,
     "questions": []
+  },
+  {
+    "id": "ts-1775589390988",
+    "status": "in_progress",
+    "startedAt": "2026-04-07T19:16:30.988Z",
+    "answers": [],
+    "studentId": "u-student-1",
+    "courseId": "course-1",
+    "testId": "test-1",
+    "selectedTopics": [
+      "What is JavaScript?",
+      "JavaScript Cheat Sheet",
+      "Functions in JavaScript"
+    ],
+    "questionCount": 10,
+    "questions": []
+  },
+  {
+    "id": "ts-1775589691502",
+    "status": "submitted",
+    "startedAt": "2026-04-07T19:21:31.502Z",
+    "answers": [
+      {
+        "questionId": "q1-2",
+        "selectedOptionIds": [
+          "q1-2-a"
+        ],
+        "isCorrect": false
+      },
+      {
+        "questionId": "q1-4",
+        "selectedOptionIds": [
+          "q1-4-b"
+        ],
+        "isCorrect": false
+      },
+      {
+        "questionId": "q1-1",
+        "selectedOptionIds": [
+          "q1-1-c"
+        ],
+        "isCorrect": false
+      },
+      {
+        "questionId": "q1-5",
+        "selectedOptionIds": [
+          "q1-5-c"
+        ],
+        "isCorrect": false
+      },
+      {
+        "questionId": "q1-3",
+        "selectedOptionIds": [
+          "q1-3-b"
+        ],
+        "isCorrect": true
+      }
+    ],
+    "studentId": "u-student-1",
+    "courseId": "course-1",
+    "testId": "test-1",
+    "selectedTopics": [],
+    "questionCount": 5,
+    "timeLimitSeconds": 900,
+    "questions": [
+      {
+        "id": "q1-2",
+        "testId": "test-1",
+        "type": "single",
+        "topicTag": "fundamentals",
+        "text": "Which of the following is NOT a primitive type in JavaScript?",
+        "options": [
+          {
+            "id": "q1-2-a",
+            "text": "string",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-2-b",
+            "text": "number",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-2-c",
+            "text": "array",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-2-d",
+            "text": "boolean",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "Arrays are objects in JavaScript, not primitives. Primitives include string, number, boolean, null, undefined, symbol, and bigint."
+      },
+      {
+        "id": "q1-4",
+        "testId": "test-1",
+        "type": "single",
+        "topicTag": "variables",
+        "text": "What is the output of: typeof null?",
+        "options": [
+          {
+            "id": "q1-4-a",
+            "text": "\"null\"",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-4-b",
+            "text": "\"undefined\"",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-4-c",
+            "text": "\"object\"",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-4-d",
+            "text": "\"boolean\"",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "This is a well-known JavaScript quirk: typeof null returns 'object', which is considered a bug in the language."
+      },
+      {
+        "id": "q1-1",
+        "testId": "test-1",
+        "type": "single",
+        "topicTag": "fundamentals",
+        "text": "What does 'var' do in JavaScript?",
+        "options": [
+          {
+            "id": "q1-1-a",
+            "text": "Declares a block-scoped variable",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-1-b",
+            "text": "Declares a function-scoped variable",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-1-c",
+            "text": "Declares a constant",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-1-d",
+            "text": "Imports a module",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "'var' creates function-scoped variables, unlike 'let' and 'const' which are block-scoped."
+      },
+      {
+        "id": "q1-5",
+        "testId": "test-1",
+        "type": "multiple",
+        "topicTag": "variables",
+        "text": "Which keywords declare block-scoped variables? (Select all that apply)",
+        "options": [
+          {
+            "id": "q1-5-a",
+            "text": "var",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-5-b",
+            "text": "let",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-5-c",
+            "text": "const",
+            "isCorrect": true
+          },
+          {
+            "id": "q1-5-d",
+            "text": "function",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "'let' and 'const' are both block-scoped. 'var' is function-scoped."
+      },
+      {
+        "id": "q1-3",
+        "testId": "test-1",
+        "type": "true_false",
+        "topicTag": "fundamentals",
+        "text": "JavaScript is a statically typed language.",
+        "options": [
+          {
+            "id": "q1-3-a",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "id": "q1-3-b",
+            "text": "False",
+            "isCorrect": true
+          }
+        ],
+        "explanation": "JavaScript is dynamically typed — variable types are determined at runtime."
+      }
+    ],
+    "score": 20,
+    "submittedAt": "2026-04-07T19:21:46.748Z"
+  },
+  {
+    "id": "ts-1775589883937",
+    "status": "in_progress",
+    "startedAt": "2026-04-07T19:24:43.937Z",
+    "answers": [],
+    "studentId": "u-student-1",
+    "courseId": "course-1",
+    "testId": "test-2",
+    "selectedTopics": [],
+    "questionCount": 5,
+    "timeLimitSeconds": 900,
+    "questions": [
+      {
+        "id": "q2-4",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "hoisting",
+        "text": "What is hoisting in JavaScript?",
+        "options": [
+          {
+            "id": "q2-4-a",
+            "text": "Moving import statements to the top",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-4-b",
+            "text": "JavaScript's behavior of moving declarations to the top of scope",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-4-c",
+            "text": "A way to optimize performance",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-4-d",
+            "text": "Compiling JavaScript to bytecode",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "Hoisting moves variable and function declarations to the top of their containing scope during compilation."
+      },
+      {
+        "id": "q2-5",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "functions",
+        "text": "What does the 'arguments' object contain?",
+        "options": [
+          {
+            "id": "q2-5-a",
+            "text": "Command-line arguments",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-5-b",
+            "text": "All arguments passed to a regular function",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-5-c",
+            "text": "Function parameters with default values",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-5-d",
+            "text": "Named parameters only",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "The 'arguments' object is available inside regular functions and contains all passed arguments. Note: it is NOT available in arrow functions."
+      },
+      {
+        "id": "q2-2",
+        "testId": "test-2",
+        "type": "true_false",
+        "topicTag": "scope",
+        "text": "Arrow functions have their own 'this' binding.",
+        "options": [
+          {
+            "id": "q2-2-a",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-2-b",
+            "text": "False",
+            "isCorrect": true
+          }
+        ],
+        "explanation": "Arrow functions do NOT have their own 'this'. They inherit 'this' from the enclosing lexical context."
+      },
+      {
+        "id": "q2-3",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "closures",
+        "text": "What is a closure in JavaScript?",
+        "options": [
+          {
+            "id": "q2-3-a",
+            "text": "A function that has no return value",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-3-b",
+            "text": "A function that remembers variables from its outer scope",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-3-c",
+            "text": "A method to close a connection",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-3-d",
+            "text": "An immediately invoked function",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "A closure is a function that retains access to variables from its enclosing scope even after that scope has closed."
+      },
+      {
+        "id": "q2-1",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "functions",
+        "text": "Which of the following is an arrow function?",
+        "options": [
+          {
+            "id": "q2-1-a",
+            "text": "function add(a, b) { return a + b; }",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-1-b",
+            "text": "const add = (a, b) => a + b;",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-1-c",
+            "text": "add = function(a, b) { return a + b; }",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-1-d",
+            "text": "def add(a, b): return a + b",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "Arrow functions use the => syntax, introduced in ES6."
+      }
+    ]
   }
 ]

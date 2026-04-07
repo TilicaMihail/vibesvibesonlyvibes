@@ -20,6 +20,11 @@ interface SubmitTestSessionPayload {
 
 export const testSessionsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getTestSessions: builder.query<TestSession[], { studentId: string; courseId: string }>({
+      query: (params) => ({ url: '/test-sessions', params }),
+      providesTags: [{ type: 'TestSession', id: 'LIST' }],
+    }),
+
     createTestSession: builder.mutation<TestSession, CreateTestSessionPayload>({
       query: (body) => ({
         url: '/test-sessions',
@@ -49,6 +54,7 @@ export const testSessionsApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetTestSessionsQuery,
   useCreateTestSessionMutation,
   useGetTestSessionQuery,
   useSubmitTestSessionMutation,

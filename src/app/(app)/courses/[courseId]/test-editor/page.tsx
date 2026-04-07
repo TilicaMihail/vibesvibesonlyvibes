@@ -92,7 +92,7 @@ export default function TestEditorPage({ params }: { params: Promise<{ courseId:
           <h1 className="text-xl font-bold text-on-surface">Test Editor</h1>
         </div>
 
-        <Tabs tabs={TABS} activeTab={tab} onChange={t => { setTab(t); setQuestions([]); setTestTitle(''); }} />
+        <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
 
         <div className="mt-4 space-y-4">
           {tab === 'ai' && (

@@ -15,7 +15,6 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
   const router = useRouter();
   const user = useAppSelector(s => s.auth.user);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
   const { data: course } = useGetCourseQuery(courseId);
   const { data: nodes = [], isLoading } = useGetCourseContentQuery(courseId);
@@ -38,14 +37,9 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
       markComplete({ userId: user.id, courseId, contentNodeId: node.id });
     }
     if (node.type === 'test') {
-      router.push(`/courses/${courseId}/test?topics=${encodeURIComponent(node.title)}`);
+      const testId = (node as import('@/types').ContentNode).testId;
+      router.push(`/courses/${courseId}/test${testId ? `?testId=${testId}` : ''}`);
     }
-  }
-
-  function toggleTopic(title: string) {
-    setSelectedTopics(prev =>
-      prev.includes(title) ? prev.filter(t => t !== title) : [...prev, title]
-    );
   }
 
   if (isLoading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
@@ -121,30 +115,21 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
               </div>
             )}
 
-            {/* Generate test section */}
-            {nodes.filter(n => n.type !== 'chapter').length > 0 && (
-              <div className="mt-8 bg-surface-raised border border-surface-border rounded-xl p-5">
-                <h3 className="font-semibold text-on-surface mb-3">🧠 Generate Custom Test</h3>
-                <p className="text-sm text-on-surface-faint mb-3">Select topics to test yourself on</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {nodes.filter(n => n.parentId !== null && n.type !== 'test').map(n => (
-                    <button
-                      key={n.id}
-                      onClick={() => toggleTopic(n.title)}
-                      className={`cursor-pointer text-xs px-3 py-1.5 rounded-full border transition-colors ${selectedTopics.includes(n.title) ? 'bg-brand text-white border-brand' : 'border-surface-border text-on-surface-muted hover:border-brand'}`}
-                    >
-                      {n.title}
-                    </button>
-                  ))}
-                </div>
-                <Link
-                  href={`/courses/${courseId}/test?topics=${encodeURIComponent(selectedTopics.join(','))}`}
-                  className={`inline-block text-sm font-medium px-4 py-2 rounded-lg transition-colors ${selectedTopics.length > 0 ? 'bg-brand hover:bg-brand-dark text-white' : 'bg-surface-border text-on-surface-faint pointer-events-none'}`}
-                >
-                  Generate Test
-                </Link>
-              </div>
-            )}
+            {/* Test actions */}
+            <div className="mt-8 flex gap-3">
+              <Link
+                href={`/courses/${courseId}/test`}
+                className="flex-1 text-center py-2.5 bg-brand hover:bg-brand-dark text-white rounded-lg text-sm font-medium transition-colors"
+              >
+                📝 Take a Test
+              </Link>
+              <Link
+                href={`/courses/${courseId}/test/history`}
+                className="flex-1 text-center py-2.5 border border-surface-border hover:bg-surface-border text-on-surface rounded-lg text-sm font-medium transition-colors"
+              >
+                📊 My Results
+              </Link>
+            </div>
           </div>
         )}
       </div>

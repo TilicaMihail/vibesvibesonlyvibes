@@ -69,15 +69,13 @@ export const testsApi = baseApi.injectEndpoints({
       ],
     }),
 
-    generateTest: builder.mutation<Test, GenerateTestParams>({
+    generateTest: builder.mutation<{ questions: Question[] }, GenerateTestParams>({
       query: ({ courseId, topics, count, title }) => ({
         url: `/courses/${courseId}/tests/generate`,
         method: 'POST',
         body: { topics, count, title },
       }),
-      invalidatesTags: (_result, _error, { courseId }) => [
-        { type: 'Test', id: `COURSE-${courseId}` },
-      ],
+      // No invalidation — generate no longer saves a test
     }),
   }),
 });

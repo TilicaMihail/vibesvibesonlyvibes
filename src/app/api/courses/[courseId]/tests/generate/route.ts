@@ -1,4 +1,4 @@
-import { loadData, saveData } from '@/lib/dataLoader';
+import { loadData } from '@/lib/dataLoader';
 import { decodeToken } from '@/lib/jwt';
 import type { Test, Question } from '@/types';
 
@@ -26,34 +26,31 @@ export async function POST(
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { courseId } = await params;
+  await params; // courseId not needed — we search all questions globally
+
   const body = await request.json() as {
     topics: string[];
     count: number;
     title?: string;
   };
 
-  const tests = loadData<Test>('tests.json').filter((t) => t.courseId === courseId);
-
-  const allQuestions: Question[] = tests.flatMap((t) => t.questions);
-
-  const matching = allQuestions.filter(
-    (q) => q.topicTag !== undefined && body.topics.includes(q.topicTag)
-  );
-
-  const selected = shuffle(matching).slice(0, body.count);
-
-  const newTest: Test = {
-    id: 'test-ai-' + Date.now(),
-    courseId,
-    title: body.title || 'AI Generated Test',
-    isAIGenerated: true,
-    createdAt: new Date().toISOString(),
-    questions: selected,
-  };
-
+  // Search all tests globally so new courses can still get questions
   const allTests = loadData<Test>('tests.json');
-  saveData('tests.json', [...allTests, newTest]);
+  const allQuestions: Question[] = allTests.flatMap((t) => t.questions);
 
-  return Response.json(newTest);
+  let pool: Question[];
+  if (body.topics && body.topics.length > 0) {
+    pool = allQuestions.filter(
+      (q) => q.topicTag !== undefined && body.topics.includes(q.topicTag)
+    );
+    // If no matches by topic tag, fall back to all questions
+    if (pool.length === 0) pool = allQuestions;
+  } else {
+    pool = allQuestions;
+  }
+
+  const selected = shuffle(pool).slice(0, body.count);
+
+  // Return questions only — the teacher reviews and saves explicitly
+  return Response.json({ questions: selected });
 }

@@ -35,7 +35,7 @@ export default function AIGeneratePanel({ courseId, onGenerated }: Props) {
     setGenerating(true);
     try {
       await new Promise(r => setTimeout(r, 1500)); // simulated delay
-      const result = await generateTest({ courseId, topics: tags, count, title: 'AI Generated Test' }).unwrap();
+      const result = await generateTest({ courseId, topics: tags, count }).unwrap();
       onGenerated(result.questions);
     } catch {
       setError('Failed to generate questions. Try again.');
