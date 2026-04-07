@@ -27,9 +27,9 @@ function KpiCard({ label, value, icon, isLoading }: KpiCardProps) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-2xl font-bold text-brand" >{value}</p>
-            <p className="mt-1 text-sm text-on-surface-light" >{label}</p>
+            <p className="mt-1 text-sm text-on-surface-muted" >{label}</p>
           </div>
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(162,114,70,0.1)', color: '#a27246' }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand">
             {icon}
           </div>
         </div>
@@ -52,7 +52,7 @@ function GettingStartedChecklist({ items }: { items: ChecklistItem[] }) {
   if (remaining.length === 0) return null
 
   return (
-    <div className="rounded-2xl p-6 border" style={{ backgroundColor: 'rgba(162,114,70,0.06)', borderColor: '#c4a882' }}>
+    <div className="rounded-2xl p-6 border bg-brand/5 border-brand-light">
       <h2 className="text-base font-semibold mb-3 text-on-surface" >Getting Started</h2>
       <ul className="space-y-2">
         {remaining.map((item) => (
@@ -96,14 +96,13 @@ function QuickLinkCard({ title, description, href, icon }: QuickLinkCardProps) {
       
     >
       <span
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors"
-        style={{ backgroundColor: 'rgba(162,114,70,0.1)', color: '#a27246' }}
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors bg-brand/10 text-brand"
       >
         {icon}
       </span>
       <div>
         <p className="font-semibold transition-colors text-on-surface" >{title}</p>
-        <p className="mt-0.5 text-sm text-on-surface-light" >{description}</p>
+        <p className="mt-0.5 text-sm text-on-surface-muted" >{description}</p>
       </div>
     </Link>
   )
@@ -158,7 +157,7 @@ export default function AdminDashboardPage() {
     <div className="max-w-5xl mx-auto space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-on-surface" >Dashboard</h1>
-        <p className="mt-1 text-sm text-on-surface-light" >
+        <p className="mt-1 text-sm text-on-surface-muted" >
           Overview of your organization&apos;s e-learning platform.
         </p>
       </div>
@@ -193,18 +192,18 @@ export default function AdminDashboardPage() {
               </div>
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Slug</dt>
-                <dd className="mt-0.5 font-mono text-sm text-on-surface-mid" >{org.slug}</dd>
+                <dd className="mt-0.5 font-mono text-sm text-on-surface-muted" >{org.slug}</dd>
               </div>
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Member since</dt>
-                <dd className="mt-0.5 text-sm text-on-surface-mid" >
+                <dd className="mt-0.5 text-sm text-on-surface-muted" >
                   {new Date(org.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long' })}
                 </dd>
               </div>
               {org.description && (
                 <div>
                   <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Description</dt>
-                  <dd className="mt-0.5 text-sm text-on-surface-light" >{org.description}</dd>
+                  <dd className="mt-0.5 text-sm text-on-surface-muted" >{org.description}</dd>
                 </div>
               )}
             </dl>

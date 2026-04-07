@@ -47,11 +47,11 @@ export default function AIGeneratePanel({ courseId, onGenerated }: Props) {
   return (
     <div className="space-y-5">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Topic Tags</label>
+        <label className="block text-sm font-medium text-on-surface mb-1">Topic Tags</label>
         <div className="flex gap-2">
           <input
             type="text"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex-1 border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
             value={tagInput}
             onChange={e => setTagInput(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -62,24 +62,24 @@ export default function AIGeneratePanel({ courseId, onGenerated }: Props) {
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-2">
             {tags.map(tag => (
-              <span key={tag} className="inline-flex items-center gap-1 bg-indigo-100 text-indigo-700 text-xs px-2.5 py-1 rounded-full">
+              <span key={tag} className="inline-flex items-center gap-1 bg-brand/10 text-brand text-xs px-2.5 py-1 rounded-full">
                 {tag}
-                <button onClick={() => setTags(t => t.filter(x => x !== tag))} className="hover:text-indigo-900">×</button>
+                <button onClick={() => setTags(t => t.filter(x => x !== tag))} className="hover:text-brand-dark">×</button>
               </span>
             ))}
           </div>
         )}
-        <p className="text-xs text-gray-400 mt-1">💡 Tip: tags match question topic tags in your course tests</p>
+        <p className="text-xs text-on-surface-faint mt-1">💡 Tip: tags match question topic tags in your course tests</p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Number of Questions: <strong>{count}</strong></label>
+        <label className="block text-sm font-medium text-on-surface mb-1">Number of Questions: <strong>{count}</strong></label>
         <input
           type="range" min={3} max={20} value={count}
           onChange={e => setCount(Number(e.target.value))}
-          className="w-full accent-indigo-600"
+          className="w-full accent-brand"
         />
-        <div className="flex justify-between text-xs text-gray-400"><span>3</span><span>20</span></div>
+        <div className="flex justify-between text-xs text-on-surface-faint"><span>3</span><span>20</span></div>
       </div>
 
       {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -89,7 +89,7 @@ export default function AIGeneratePanel({ courseId, onGenerated }: Props) {
       </Button>
 
       {generating && (
-        <div className="flex items-center gap-3 text-gray-500 text-sm">
+        <div className="flex items-center gap-3 text-on-surface-muted text-sm">
           <Spinner size="sm" />
           <span>Analyzing your course content and building questions...</span>
         </div>

@@ -16,7 +16,7 @@ export default function EmptyState({ title, description, action }: EmptyStatePro
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="mb-4 h-14 w-14 text-gray-300 dark:text-gray-600"
+        className="mb-4 h-14 w-14 text-on-surface-faint"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

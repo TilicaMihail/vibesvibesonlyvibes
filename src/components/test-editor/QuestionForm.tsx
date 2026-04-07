@@ -62,11 +62,11 @@ export default function QuestionForm({ initial, onSave, onCancel }: Props) {
   }
 
   return (
-    <div className="space-y-4 bg-white border border-gray-200 rounded-lg p-4">
+    <div className="space-y-4 bg-surface-raised border border-surface-border rounded-lg p-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Question Text</label>
+        <label className="block text-sm font-medium text-on-surface mb-1">Question Text</label>
         <textarea
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand resize-none"
           rows={3}
           value={text}
           onChange={e => setText(e.target.value)}
@@ -75,8 +75,8 @@ export default function QuestionForm({ initial, onSave, onCancel }: Props) {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-          <select className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" value={type} onChange={e => setType(e.target.value as QuestionType)}>
+          <label className="block text-sm font-medium text-on-surface mb-1">Type</label>
+          <select className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand" value={type} onChange={e => setType(e.target.value as QuestionType)}>
             <option value="single">Single choice</option>
             <option value="multiple">Multiple choice</option>
             <option value="true_false">True / False</option>
@@ -86,7 +86,7 @@ export default function QuestionForm({ initial, onSave, onCancel }: Props) {
       </div>
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-medium text-gray-700">Answer Options</label>
+          <label className="text-sm font-medium text-on-surface">Answer Options</label>
           {type !== 'true_false' && <button onClick={addOption} className="text-xs text-brand hover:underline">+ Add option</button>}
         </div>
         <div className="space-y-2">
@@ -100,19 +100,19 @@ export default function QuestionForm({ initial, onSave, onCancel }: Props) {
               />
               <input
                 type="text"
-                className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="flex-1 border border-surface-border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-brand/30 focus:border-brand"
                 value={opt.text}
                 onChange={e => updateOption(opt.id, e.target.value)}
                 disabled={type === 'true_false'}
                 placeholder="Option text"
               />
               {type !== 'true_false' && options.length > 2 && (
-                <button onClick={() => removeOption(opt.id)} className="text-gray-300 hover:text-red-500 text-lg leading-none">×</button>
+                <button onClick={() => removeOption(opt.id)} className="text-on-surface-faint hover:text-red-500 text-lg leading-none">×</button>
               )}
             </div>
           ))}
         </div>
-        <p className="text-xs text-gray-400 mt-1">Check the correct answer(s)</p>
+        <p className="text-xs text-on-surface-faint mt-1">Check the correct answer(s)</p>
       </div>
       <Input label="Explanation (optional)" value={explanation} onChange={e => setExplanation(e.target.value)} placeholder="Why is this the correct answer?" />
       <div className="flex justify-end gap-2 pt-1">

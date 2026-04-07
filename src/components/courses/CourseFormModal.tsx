@@ -46,7 +46,7 @@ export default function CourseFormModal({ isOpen, onClose, onSave, initialData, 
       <div className="space-y-4">
         <Input label="Course Title" value={title} onChange={e => setTitle(e.target.value)} error={errors.title} placeholder="e.g. Introduction to JavaScript" />
         <div>
-          <label className="block text-sm font-medium mb-1 text-on-surface-mid" >Description</label>
+          <label className="block text-sm font-medium mb-1 text-on-surface-muted" >Description</label>
           <textarea
             className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm text-on-surface placeholder-brand-light focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand resize-none"
             rows={4}
@@ -57,7 +57,7 @@ export default function CourseFormModal({ isOpen, onClose, onSave, initialData, 
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1 text-on-surface-mid" >Visibility</label>
+          <label className="block text-sm font-medium mb-1 text-on-surface-muted" >Visibility</label>
           <select
             className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand bg-surface-raised"
             value={visibility}

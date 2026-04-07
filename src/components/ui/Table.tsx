@@ -23,7 +23,7 @@ export default function Table<T extends Record<string, unknown>>({
 }: TableProps<T>) {
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-surface-border shadow-sm">
-      <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-700">
+      <table className="min-w-full divide-y divide-surface-border">
         <thead className="bg-surface">
           <tr>
             {columns.map((col) => (
@@ -38,13 +38,13 @@ export default function Table<T extends Record<string, unknown>>({
           </tr>
         </thead>
 
-        <tbody className="divide-y divide-gray-100 dark:divide-gray-700 bg-surface-raised">
+        <tbody className="divide-y divide-surface-border bg-surface-raised">
           {isLoading ? (
             Array.from({ length: SKELETON_ROWS }).map((_, rowIdx) => (
               <tr key={rowIdx} className="animate-pulse">
                 {columns.map((col) => (
                   <td key={col.key} className="px-4 py-3">
-                    <div className="h-4 rounded bg-gray-200 dark:bg-gray-600" />
+                    <div className="h-4 rounded bg-surface-border" />
                   </td>
                 ))}
               </tr>
@@ -60,9 +60,9 @@ export default function Table<T extends Record<string, unknown>>({
             </tr>
           ) : (
             data.map((row, rowIdx) => (
-              <tr key={rowIdx} className="hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-surface-border">
+              <tr key={rowIdx} className="hover:bg-surface border-b border-surface-border">
                 {columns.map((col) => (
-                  <td key={col.key} className="px-4 py-3 text-sm text-gray-700 dark:text-gray-200">
+                  <td key={col.key} className="px-4 py-3 text-sm text-on-surface">
                     {col.render
                       ? col.render(row[col.key as keyof T], row)
                       : String(row[col.key as keyof T] ?? '')}

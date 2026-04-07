@@ -63,7 +63,7 @@ export default function Modal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-surface-border">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-border">
           {title ? (
             <h2 id="modal-title" className="text-lg font-semibold text-on-surface">
               {title}
@@ -73,7 +73,7 @@ export default function Modal({
           )}
           <button
             onClick={onClose}
-            className="cursor-pointer ml-auto flex h-8 w-8 items-center justify-center rounded-full text-on-surface-faint hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            className="cursor-pointer ml-auto flex h-8 w-8 items-center justify-center rounded-full text-on-surface-faint hover:bg-surface-border hover:text-on-surface-muted transition-colors"
             aria-label="Close modal"
           >
             <span aria-hidden="true" className="text-xl leading-none select-none">

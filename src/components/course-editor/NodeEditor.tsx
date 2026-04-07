@@ -11,7 +11,7 @@ interface Props {
 export default function NodeEditor({ node, tests, onChange }: Props) {
   if (!node) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-gray-400">
+      <div className="flex flex-col items-center justify-center h-full text-on-surface-faint">
         <div className="text-5xl mb-3">📋</div>
         <p className="text-sm">Select a node from the tree to edit it</p>
       </div>
@@ -22,7 +22,7 @@ export default function NodeEditor({ node, tests, onChange }: Props) {
     <div className="p-6 space-y-4 max-w-2xl">
       <div className="flex items-center gap-2 mb-2">
         <span className="text-lg">{typeIcon(node.type)}</span>
-        <span className="text-xs font-semibold uppercase tracking-wide text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{node.type}</span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-on-surface-muted bg-surface px-2 py-0.5 rounded">{node.type}</span>
       </div>
 
       <Input
@@ -34,9 +34,9 @@ export default function NodeEditor({ node, tests, onChange }: Props) {
 
       {node.type === 'text' && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Content (Markdown)</label>
+          <label className="block text-sm font-medium text-on-surface mb-1">Content (Markdown)</label>
           <textarea
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand resize-none"
             rows={12}
             value={node.textContent ?? ''}
             onChange={e => onChange({ textContent: e.target.value })}
@@ -61,16 +61,16 @@ export default function NodeEditor({ node, tests, onChange }: Props) {
 
       {node.type === 'test' && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Linked Test</label>
+          <label className="block text-sm font-medium text-on-surface mb-1">Linked Test</label>
           <select
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
             value={node.testId ?? ''}
             onChange={e => onChange({ testId: e.target.value || undefined })}
           >
             <option value="">— Select a test —</option>
             {tests.map(t => <option key={t.id} value={t.id}>{t.title} ({t.questions.length} questions)</option>)}
           </select>
-          <p className="text-xs text-gray-400 mt-1">Create or edit tests in the Test Editor.</p>
+          <p className="text-xs text-on-surface-faint mt-1">Create or edit tests in the Test Editor.</p>
         </div>
       )}
     </div>

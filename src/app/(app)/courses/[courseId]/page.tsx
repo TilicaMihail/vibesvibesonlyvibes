@@ -35,7 +35,7 @@ function TeacherCourseDetail({ courseId }: { courseId: string }) {
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4 text-sm text-on-surface-light">
+      <div className="flex items-center gap-2 mb-4 text-sm text-on-surface-muted">
         <Link href="/courses" className="hover:opacity-70 transition-opacity text-brand">My Courses</Link>
         <span className="text-on-surface-faint">/</span>
         <span className="font-medium text-on-surface">{course.title}</span>
@@ -48,7 +48,7 @@ function TeacherCourseDetail({ courseId }: { courseId: string }) {
               <h1 className="text-2xl font-bold text-on-surface">{course.title}</h1>
               <Badge variant={VIS[course.visibility]}>{course.visibility}</Badge>
             </div>
-            <p className="text-on-surface-light">{course.description}</p>
+            <p className="text-on-surface-muted">{course.description}</p>
             <p className="text-xs mt-2 text-on-surface-faint">
               {course.enrolledStudentIds.length} enrolled · Updated {new Date(course.updatedAt).toLocaleDateString()}
             </p>
@@ -93,7 +93,7 @@ function TeacherCourseDetail({ courseId }: { courseId: string }) {
                         <Avatar name={`${s.firstName} ${s.lastName}`} size="sm" />
                         <span className="text-sm font-medium text-on-surface">{s.firstName} {s.lastName}</span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-on-surface-light">{s.email}</td>
+                      <td className="px-4 py-3 text-sm text-on-surface-muted">{s.email}</td>
                       <td className="px-4 py-3"><Badge variant={s.isActive ? 'success' : 'danger'}>{s.isActive ? 'Active' : 'Inactive'}</Badge></td>
                     </tr>
                   ))}

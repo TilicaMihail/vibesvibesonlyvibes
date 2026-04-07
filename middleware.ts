@@ -34,7 +34,7 @@ const ROLE_ONLY_PREFIXES: Record<string, string[]> = {
 const TEACHER_ONLY_SUFFIXES = ['/editor', '/test-editor'];
 const STUDENT_ONLY_SUFFIXES = ['/study', '/test', '/progress'];
 
-const PROTECTED_PREFIXES = ['/', '/dashboard', '/users', '/classes', '/courses', '/progress', '/profile'];
+const PROTECTED_PREFIXES = ['/dashboard', '/users', '/classes', '/courses', '/progress', '/profile'];
 
 function isProtected(pathname: string): boolean {
   if (pathname === '/login' || pathname === '/register') return false;

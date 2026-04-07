@@ -85,7 +85,7 @@ export default function TestGenerationPage({ params }: { params: Promise<{ cours
           </div>
           {timerEnabled && (
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Duration: <strong>{timerMinutes} min</strong></label>
+              <label className="block text-sm text-on-surface-muted mb-1">Duration: <strong>{timerMinutes} min</strong></label>
               <input
                 type="range" min={5} max={60} value={timerMinutes}
                 onChange={e => setTimerMinutes(Number(e.target.value))}

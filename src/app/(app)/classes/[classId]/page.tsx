@@ -58,7 +58,7 @@ export default function ClassManagementPage({
   if (!cls) {
     return (
       <div className="max-w-4xl mx-auto py-16 text-center">
-        <p className="text-on-surface-light">Class not found.</p>
+        <p className="text-on-surface-muted">Class not found.</p>
         <Link href="/classes" className="mt-4 inline-block text-sm hover:opacity-70 transition-opacity text-brand" >
           &larr; Back to Classes
         </Link>
@@ -91,7 +91,7 @@ export default function ClassManagementPage({
           <div className="flex-1 min-w-0">
             <h2 className="text-base font-semibold text-on-surface" >{cls.name}</h2>
             {cls.description && (
-              <p className="mt-1 text-sm text-on-surface-light" >{cls.description}</p>
+              <p className="mt-1 text-sm text-on-surface-muted" >{cls.description}</p>
             )}
 
             {/* Teachers */}
@@ -107,7 +107,7 @@ export default function ClassManagementPage({
                       className="flex items-center gap-2 rounded-full border border-surface-border bg-surface px-3 py-1"
                     >
                       <Avatar name={`${t.firstName} ${t.lastName}`} avatarUrl={t.avatarUrl} size="sm" />
-                      <span className="text-sm text-on-surface-mid" >{t.firstName} {t.lastName}</span>
+                      <span className="text-sm text-on-surface-muted" >{t.firstName} {t.lastName}</span>
                     </div>
                   ))}
                 </div>

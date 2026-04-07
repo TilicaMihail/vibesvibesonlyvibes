@@ -27,10 +27,10 @@ function ClassCard({ cls }: { cls: Class }) {
       <div className="flex-1 p-5">
         <h3 className="text-base font-semibold leading-snug text-on-surface" >{cls.name}</h3>
         {cls.description && (
-          <p className="mt-1.5 text-sm line-clamp-2 text-on-surface-light" >{cls.description}</p>
+          <p className="mt-1.5 text-sm line-clamp-2 text-on-surface-muted" >{cls.description}</p>
         )}
 
-        <div className="mt-4 flex items-center gap-4 text-xs text-on-surface-light" >
+        <div className="mt-4 flex items-center gap-4 text-xs text-on-surface-muted" >
           <span className="flex items-center gap-1">
             <svg className="h-4 w-4 text-on-surface-faint"  fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -119,7 +119,7 @@ export default function ClassesPage() {
         <div>
           <h1 className="text-2xl font-bold text-on-surface" >Classes</h1>
           {!classesLoading && (
-            <p className="mt-1 text-sm text-on-surface-light" >
+            <p className="mt-1 text-sm text-on-surface-muted" >
               {classes?.length ?? 0} class{(classes?.length ?? 0) !== 1 ? 'es' : ''}
             </p>
           )}

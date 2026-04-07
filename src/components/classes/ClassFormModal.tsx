@@ -110,7 +110,7 @@ export default function ClassFormModal({
         />
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-on-surface-mid" >
+          <label className="mb-1 block text-sm font-medium text-on-surface-muted" >
             Description{' '}
             <span className="font-normal text-brand-light" >(optional)</span>
           </label>
@@ -125,7 +125,7 @@ export default function ClassFormModal({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-on-surface-mid" >
+          <label className="mb-1 block text-sm font-medium text-on-surface-muted" >
             Assign Teachers{' '}
             <span className="font-normal text-brand-light" >(optional)</span>
           </label>

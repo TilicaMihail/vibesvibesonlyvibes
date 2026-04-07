@@ -136,7 +136,7 @@ export default function UserFormModal({
         )}
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-on-surface-mid" >Role</label>
+          <label className="mb-1 block text-sm font-medium text-on-surface-muted" >Role</label>
           <select
             value={values.role}
             onChange={(e) => set('role', e.target.value as UserRole)}
@@ -151,7 +151,7 @@ export default function UserFormModal({
 
         {values.role === 'teacher' && (
           <div>
-            <label className="mb-1 block text-sm font-medium text-on-surface-mid" >
+            <label className="mb-1 block text-sm font-medium text-on-surface-muted" >
               Assignment Scope
             </label>
             <select
@@ -165,7 +165,7 @@ export default function UserFormModal({
               <option value="organization">Organization-wide</option>
               <option value="class">Class-specific</option>
             </select>
-            <p className="mt-1 text-xs text-on-surface-light" >
+            <p className="mt-1 text-xs text-on-surface-muted" >
               Organization-wide teachers can access all classes. Class-specific teachers are
               assigned to individual classes.
             </p>

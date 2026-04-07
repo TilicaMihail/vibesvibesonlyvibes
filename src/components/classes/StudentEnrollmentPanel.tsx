@@ -82,7 +82,7 @@ export default function StudentEnrollmentPanel({
       key: 'email',
       header: 'Email',
       render: (_: unknown, row: UserPublic) => (
-        <span className="text-on-surface-light">{row.email}</span>
+        <span className="text-on-surface-muted">{row.email}</span>
       ),
     },
     {
@@ -120,7 +120,7 @@ export default function StudentEnrollmentPanel({
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-2xl font-bold text-brand" >{students.length}</span>
-          <span className="text-sm text-on-surface-light" >
+          <span className="text-sm text-on-surface-muted" >
             {students.length === 1 ? 'student' : 'students'} enrolled
           </span>
         </div>

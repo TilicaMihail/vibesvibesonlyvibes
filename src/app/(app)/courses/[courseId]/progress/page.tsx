@@ -54,7 +54,7 @@ export default function CourseProgressPage({ params }: { params: Promise<{ cours
 
       {/* Overall progress bar */}
       <div className="bg-surface-raised border border-surface-border rounded-xl p-5 mb-6">
-        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+        <div className="flex justify-between text-sm text-on-surface-muted mb-2">
           <span className="font-medium">Overall Progress</span>
           <span>{pct}%</span>
         </div>

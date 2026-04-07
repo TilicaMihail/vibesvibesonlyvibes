@@ -110,7 +110,7 @@ export default function ProfilePage() {
 
       {/* Change password */}
       <Card padding="lg">
-        <h3 className="font-semibold text-gray-800 mb-4">Change Password</h3>
+        <h3 className="font-semibold text-on-surface mb-4">Change Password</h3>
         <div className="space-y-3">
           <Input label="Current Password" type="password" value={currentPw} onChange={e => setCurrentPw(e.target.value)} />
           <Input label="New Password" type="password" value={newPw} onChange={e => setNewPw(e.target.value)} />
@@ -123,7 +123,7 @@ export default function ProfilePage() {
 
       {/* Role stats */}
       <Card padding="lg">
-        <h3 className="font-semibold text-gray-800 mb-4">Statistics</h3>
+        <h3 className="font-semibold text-on-surface mb-4">Statistics</h3>
         {user.role === 'student' && (
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center"><div className="text-2xl font-bold text-brand">{studentCourses.length}</div><div className="text-xs text-on-surface-faint">Courses</div></div>
@@ -139,8 +139,8 @@ export default function ProfilePage() {
         )}
         {user.role === 'admin' && (
           <div>
-            <p className="text-sm text-gray-600 dark:text-gray-400"><span className="font-medium">Organization:</span> {org?.name ?? '—'}</p>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1"><span className="font-medium">Slug:</span> {org?.slug ?? '—'}</p>
+            <p className="text-sm text-on-surface-muted"><span className="font-medium">Organization:</span> {org?.name ?? '—'}</p>
+            <p className="text-sm text-on-surface-muted mt-1"><span className="font-medium">Slug:</span> {org?.slug ?? '—'}</p>
           </div>
         )}
       </Card>

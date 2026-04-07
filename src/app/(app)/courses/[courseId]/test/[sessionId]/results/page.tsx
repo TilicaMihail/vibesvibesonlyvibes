@@ -32,7 +32,7 @@ export default function TestResultsPage({ params }: { params: Promise<{ courseId
       {/* Score card */}
       <div className={`border rounded-xl p-8 text-center mb-6 ${scoreBg}`}>
         <div className={`text-6xl font-bold mb-2 ${scoreColor}`}>{score.toFixed(0)}%</div>
-        <p className="text-gray-600 dark:text-gray-400 text-lg font-medium">
+        <p className="text-on-surface-muted text-lg font-medium">
           {score >= 70 ? '🎉 Great job!' : score >= 50 ? '📚 Keep practicing!' : '💪 Don\'t give up!'}
         </p>
       </div>
@@ -103,7 +103,7 @@ export default function TestResultsPage({ params }: { params: Promise<{ courseId
 
       <Modal isOpen={reportOpen} onClose={() => setReportOpen(false)} title="Report Question" size="sm">
         <div className="space-y-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400">What&apos;s wrong with this question?</p>
+          <p className="text-sm text-on-surface-muted">What&apos;s wrong with this question?</p>
           <select className="w-full bg-surface-raised border border-surface-border text-on-surface rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30">
             <option value="wrong_answer">Wrong correct answer</option>
             <option value="unclear_question">Unclear question text</option>

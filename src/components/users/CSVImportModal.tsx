@@ -109,10 +109,10 @@ export default function CSVImportModal({
     <Modal isOpen={isOpen} onClose={handleClose} title="Import Users via CSV" size="lg">
       {step === 'input' ? (
         <div className="flex flex-col gap-4">
-          <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-xs text-gray-600">
-            <p className="font-semibold text-gray-700 mb-1">Expected column order:</p>
+          <div className="rounded-lg border border-surface-border bg-surface px-4 py-3 text-xs text-on-surface-muted">
+            <p className="font-semibold text-on-surface mb-1">Expected column order:</p>
             <code className="block font-mono">firstName, lastName, email, password, role</code>
-            <p className="mt-1 text-gray-500">
+            <p className="mt-1 text-on-surface-muted">
               Role must be one of: <strong>admin</strong>, <strong>teacher</strong>,{' '}
               <strong>student</strong>. If omitted, defaults to <strong>student</strong>.
               The first row may be a header — it will be auto-detected and skipped.
@@ -120,7 +120,7 @@ export default function CSVImportModal({
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label className="mb-1 block text-sm font-medium text-on-surface">
               Paste CSV data
             </label>
             <textarea
@@ -131,7 +131,7 @@ export default function CSVImportModal({
               }}
               rows={10}
               placeholder={`firstName,lastName,email,password,role\nJane,Doe,jane@example.com,secret123,student\nJohn,Smith,john@example.com,secret456,teacher`}
-              className="block w-full rounded-lg border border-gray-300 px-3 py-2 font-mono text-xs text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="block w-full rounded-lg border border-surface-border px-3 py-2 font-mono text-xs text-on-surface placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
             />
           </div>
 
@@ -169,14 +169,14 @@ export default function CSVImportModal({
             {preview.length} user{preview.length !== 1 ? 's' : ''} ready to import.
           </div>
 
-          <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-200">
+          <div className="max-h-64 overflow-y-auto rounded-lg border border-surface-border">
             <table className="min-w-full divide-y divide-gray-100 text-xs">
-              <thead className="bg-gray-50 sticky top-0">
+              <thead className="bg-surface sticky top-0">
                 <tr>
                   {['Name', 'Email', 'Role'].map((h) => (
                     <th
                       key={h}
-                      className="px-3 py-2 text-left font-medium uppercase tracking-wide text-gray-500"
+                      className="px-3 py-2 text-left font-medium uppercase tracking-wide text-on-surface-muted"
                     >
                       {h}
                     </th>
@@ -186,11 +186,11 @@ export default function CSVImportModal({
               <tbody className="divide-y divide-gray-100 bg-surface-raised">
                 {preview.map((row, i) => (
                   <tr key={i}>
-                    <td className="px-3 py-2 text-gray-800">
+                    <td className="px-3 py-2 text-on-surface">
                       {row.firstName} {row.lastName}
                     </td>
-                    <td className="px-3 py-2 text-gray-600">{row.email}</td>
-                    <td className="px-3 py-2 capitalize text-gray-600">{row.role}</td>
+                    <td className="px-3 py-2 text-on-surface-muted">{row.email}</td>
+                    <td className="px-3 py-2 capitalize text-on-surface-muted">{row.role}</td>
                   </tr>
                 ))}
               </tbody>

@@ -92,7 +92,7 @@ export default function MyProgressPage() {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-on-surface">{activityText(a)}</p>
                     {a.testSessionId && (
-                      <Link href={`/courses/${a.courseId}/test/${a.testSessionId}/results`} className="text-xs text-indigo-500 dark:text-on-surface-faint hover:underline">View results</Link>
+                      <Link href={`/courses/${a.courseId}/test/${a.testSessionId}/results`} className="text-xs text-brand dark:text-on-surface-faint hover:underline">View results</Link>
                     )}
                   </div>
                   <span className="text-xs text-on-surface-faint shrink-0">{new Date(a.timestamp).toLocaleDateString()}</span>

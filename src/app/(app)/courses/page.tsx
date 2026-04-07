@@ -44,7 +44,7 @@ function TeacherCourseCard({ course, onEdit }: { course: Course; onEdit: (c: Cou
             <h3 className="font-semibold leading-tight text-on-surface">{course.title}</h3>
             <Badge variant={VIS[course.visibility]}>{course.visibility}</Badge>
           </div>
-          <p className="text-sm line-clamp-2 mb-4 text-on-surface-light">{course.description}</p>
+          <p className="text-sm line-clamp-2 mb-4 text-on-surface-muted">{course.description}</p>
           <div className="flex items-center justify-between text-xs text-on-surface-faint">
             <span>{course.enrolledStudentIds.length} students</span>
             <span>{new Date(course.createdAt).toLocaleDateString()}</span>
@@ -86,7 +86,7 @@ function TeacherView() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-on-surface">My Courses</h1>
-          <p className="text-sm mt-1 text-on-surface-light">{courses.length} course{courses.length !== 1 ? 's' : ''}</p>
+          <p className="text-sm mt-1 text-on-surface-muted">{courses.length} course{courses.length !== 1 ? 's' : ''}</p>
         </div>
         <Button variant="primary" onClick={() => { setEditCourse(null); setModalOpen(true) }}>+ New Course</Button>
       </div>
@@ -180,7 +180,7 @@ function StudentView() {
         <h1 className="text-2xl font-bold text-on-surface">
           {getGreeting()}, {user?.firstName ?? 'there'}!
         </h1>
-        <p className="mt-1 text-sm text-on-surface-light">
+        <p className="mt-1 text-sm text-on-surface-muted">
           {tab === 'assigned'
             ? `You have ${courses.length} course${courses.length !== 1 ? 's' : ''} assigned.`
             : 'Explore public courses available in your organisation.'}
@@ -227,7 +227,7 @@ function StudentView() {
                         <h3 className="font-semibold leading-tight text-on-surface">{course.title}</h3>
                         <Badge variant={VIS[course.visibility]}>{course.visibility}</Badge>
                       </div>
-                      <p className="text-sm line-clamp-2 mb-4 text-on-surface-light">{course.description}</p>
+                      <p className="text-sm line-clamp-2 mb-4 text-on-surface-muted">{course.description}</p>
                       <div className="mb-1 flex justify-between text-xs text-on-surface-faint">
                         <span>Progress</span><span>{pct}%</span>
                       </div>
@@ -242,7 +242,7 @@ function StudentView() {
                         <h3 className="font-semibold leading-tight text-on-surface">{course.title}</h3>
                         <Badge variant={VIS[course.visibility]}>{course.visibility}</Badge>
                       </div>
-                      <p className="text-sm line-clamp-2 mb-4 text-on-surface-light">{course.description}</p>
+                      <p className="text-sm line-clamp-2 mb-4 text-on-surface-muted">{course.description}</p>
                       <Button variant="secondary" fullWidth onClick={() => enroll({ courseId: course.id, studentId: user!.id })}>
                         Enroll
                       </Button>
