@@ -537,5 +537,158 @@
         "explanation": "Arrow functions use the => syntax, introduced in ES6."
       }
     ]
+  },
+  {
+    "id": "ts-1775590380016",
+    "status": "in_progress",
+    "startedAt": "2026-04-07T19:33:00.016Z",
+    "answers": [],
+    "studentId": "u-student-1",
+    "courseId": "course-1",
+    "testId": "test-2",
+    "selectedTopics": [],
+    "questionCount": 5,
+    "questions": [
+      {
+        "id": "q2-2",
+        "testId": "test-2",
+        "type": "true_false",
+        "topicTag": "scope",
+        "text": "Arrow functions have their own 'this' binding.",
+        "options": [
+          {
+            "id": "q2-2-a",
+            "text": "True",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-2-b",
+            "text": "False",
+            "isCorrect": true
+          }
+        ],
+        "explanation": "Arrow functions do NOT have their own 'this'. They inherit 'this' from the enclosing lexical context."
+      },
+      {
+        "id": "q2-3",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "closures",
+        "text": "What is a closure in JavaScript?",
+        "options": [
+          {
+            "id": "q2-3-a",
+            "text": "A function that has no return value",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-3-b",
+            "text": "A function that remembers variables from its outer scope",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-3-c",
+            "text": "A method to close a connection",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-3-d",
+            "text": "An immediately invoked function",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "A closure is a function that retains access to variables from its enclosing scope even after that scope has closed."
+      },
+      {
+        "id": "q2-1",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "functions",
+        "text": "Which of the following is an arrow function?",
+        "options": [
+          {
+            "id": "q2-1-a",
+            "text": "function add(a, b) { return a + b; }",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-1-b",
+            "text": "const add = (a, b) => a + b;",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-1-c",
+            "text": "add = function(a, b) { return a + b; }",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-1-d",
+            "text": "def add(a, b): return a + b",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "Arrow functions use the => syntax, introduced in ES6."
+      },
+      {
+        "id": "q2-5",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "functions",
+        "text": "What does the 'arguments' object contain?",
+        "options": [
+          {
+            "id": "q2-5-a",
+            "text": "Command-line arguments",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-5-b",
+            "text": "All arguments passed to a regular function",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-5-c",
+            "text": "Function parameters with default values",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-5-d",
+            "text": "Named parameters only",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "The 'arguments' object is available inside regular functions and contains all passed arguments. Note: it is NOT available in arrow functions."
+      },
+      {
+        "id": "q2-4",
+        "testId": "test-2",
+        "type": "single",
+        "topicTag": "hoisting",
+        "text": "What is hoisting in JavaScript?",
+        "options": [
+          {
+            "id": "q2-4-a",
+            "text": "Moving import statements to the top",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-4-b",
+            "text": "JavaScript's behavior of moving declarations to the top of scope",
+            "isCorrect": true
+          },
+          {
+            "id": "q2-4-c",
+            "text": "A way to optimize performance",
+            "isCorrect": false
+          },
+          {
+            "id": "q2-4-d",
+            "text": "Compiling JavaScript to bytecode",
+            "isCorrect": false
+          }
+        ],
+        "explanation": "Hoisting moves variable and function declarations to the top of their containing scope during compilation."
+      }
+    ]
   }
 ]
