@@ -65,6 +65,7 @@ export default function Avatar({ name, avatarUrl, size = 'md' }: AvatarProps) {
       ].join(' ')}
       aria-label={name}
       title={name}
+      suppressHydrationWarning
     >
       {initials}
     </span>

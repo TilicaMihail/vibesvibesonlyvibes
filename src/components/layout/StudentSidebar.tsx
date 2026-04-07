@@ -1,7 +1,8 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { toggleSidebarCollapsed, setSidebarOpen } from '@/store/slices/uiSlice'
 import { logout } from '@/store/slices/authSlice'
@@ -58,11 +59,12 @@ const navItems = [
 export default function StudentSidebar() {
   const pathname = usePathname()
   const dispatch = useAppDispatch()
-  const router = useRouter()
   const collapsed = useAppSelector((s) => s.ui.sidebarCollapsed)
   const open = useAppSelector((s) => s.ui.sidebarOpen)
   const user = useAppSelector((s) => s.auth.user)
-  const fullName = user ? `${user.firstName} ${user.lastName}` : ''
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  const fullName = mounted && user ? `${user.firstName} ${user.lastName}` : ''
 
   function handleLogout() {
     dispatch(logout())

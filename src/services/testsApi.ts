@@ -1,5 +1,5 @@
 import { baseApi } from './baseApi';
-import type { Test } from '@/types';
+import type { Test, Question } from '@/types';
 
 interface GetCourseTestsParams {
   courseId: string;
