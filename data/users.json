@@ -7,7 +7,7 @@
     "firstName": "Alice",
     "lastName": "Admin",
     "role": "admin",
-    "isActive": false,
+    "isActive": true,
     "createdAt": "2024-01-02T00:00:00Z"
   },
   {
