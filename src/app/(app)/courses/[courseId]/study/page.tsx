@@ -115,21 +115,6 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
               </div>
             )}
 
-            {/* Test actions */}
-            <div className="mt-8 flex gap-3">
-              <Link
-                href={`/courses/${courseId}/test`}
-                className="flex-1 text-center py-2.5 bg-brand hover:bg-brand-dark text-white rounded-lg text-sm font-medium transition-colors"
-              >
-                📝 Take a Test
-              </Link>
-              <Link
-                href={`/courses/${courseId}/test/history`}
-                className="flex-1 text-center py-2.5 border border-surface-border hover:bg-surface-border text-on-surface rounded-lg text-sm font-medium transition-colors"
-              >
-                📊 My Results
-              </Link>
-            </div>
           </div>
         )}
       </div>
