@@ -22,14 +22,16 @@ export async function GET(request: Request) {
 
   let courses = loadData<Course>('courses.json');
 
-  if (tab === 'owned') {
-    courses = courses.filter((c) => c.teacherId === teacherId);
+  if (tab === 'active') {
+    courses = courses.filter((c) => c.teacherId === teacherId && !c.isArchived);
+  } else if (tab === 'archived') {
+    courses = courses.filter((c) => c.teacherId === teacherId && c.isArchived === true);
   } else if (tab === 'assigned') {
     courses = courses.filter((c) => c.enrolledStudentIds.includes(studentId));
   } else if (tab === 'public') {
     courses = courses.filter((c) => c.visibility === 'public');
-  } else if (tab === 'archived') {
-    courses = courses.filter((c) => c.isArchived === true);
+  } else if (teacherId) {
+    courses = courses.filter((c) => c.teacherId === teacherId);
   }
 
   if (search) {
