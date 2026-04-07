@@ -80,8 +80,7 @@ export default function AdminSidebar() {
 
   function handleLogout() {
     dispatch(logout())
-    document.cookie = 'auth_token=; max-age=0; path=/'
-    router.push('/login')
+    window.location.href = '/'
   }
 
   return (

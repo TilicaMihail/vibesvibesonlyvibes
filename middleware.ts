@@ -75,8 +75,10 @@ export function middleware(request: NextRequest) {
 
   // Check teacher-only course sub-paths
   if (pathname.includes('/courses/')) {
-    const isTeacherOnly = TEACHER_ONLY_SUFFIXES.some(s => pathname.includes(s));
-    const isStudentOnly = STUDENT_ONLY_SUFFIXES.some(s => pathname.includes(s));
+    const matchesSuffix = (suffixes: string[]) =>
+      suffixes.some(s => pathname.endsWith(s) || pathname.includes(s + '/'));
+    const isTeacherOnly = matchesSuffix(TEACHER_ONLY_SUFFIXES);
+    const isStudentOnly = matchesSuffix(STUDENT_ONLY_SUFFIXES);
     if (isTeacherOnly && role !== 'teacher') {
       return NextResponse.redirect(new URL(ROLE_DASHBOARDS[role], request.url));
     }

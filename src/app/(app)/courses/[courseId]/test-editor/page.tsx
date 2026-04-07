@@ -82,7 +82,7 @@ export default function TestEditorPage({ params }: { params: Promise<{ courseId:
           )}
         </div>
         <div className="mt-3">
-          <Link href={`/courses/${courseId}`} className="text-sm text-on-surface-faint hover:text-gray-700 dark:hover:text-gray-300">← Back to course</Link>
+          <Link href={`/courses/${courseId}`} className="text-sm text-on-surface-faint hover:text-on-surface transition-colors">← Back to course</Link>
         </div>
       </div>
 
