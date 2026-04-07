@@ -63,5 +63,18 @@
     "isArchived": false,
     "createdAt": "2024-03-01T00:00:00Z",
     "updatedAt": "2024-03-15T00:00:00Z"
+  },
+  {
+    "id": "course-1775334611294",
+    "classIds": [],
+    "enrolledStudentIds": [],
+    "isArchived": false,
+    "createdAt": "2026-04-04T20:30:11.294Z",
+    "updatedAt": "2026-04-04T20:30:11.294Z",
+    "title": "Alkj",
+    "description": "asdfasd",
+    "visibility": "class",
+    "organizationId": "org-1",
+    "teacherId": "u-teacher-1"
   }
 ]
