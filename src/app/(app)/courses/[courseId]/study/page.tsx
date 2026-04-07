@@ -45,7 +45,7 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
   if (isLoading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
 
   return (
-    <div className="flex h-full -m-6">
+    <div className="absolute inset-0 flex">
       {/* Left sidebar */}
       <div className="w-72 shrink-0 bg-surface-raised border-r border-surface-border flex flex-col overflow-hidden">
         <div className="p-4 border-b border-surface-border">
@@ -66,7 +66,7 @@ export default function CourseStudyPage({ params }: { params: Promise<{ courseId
       </div>
 
       {/* Main content */}
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-6 bg-surface">
         {!selectedNode ? (
           <div className="flex flex-col items-center justify-center h-full text-on-surface-faint">
             <div className="text-5xl mb-3">📚</div>
