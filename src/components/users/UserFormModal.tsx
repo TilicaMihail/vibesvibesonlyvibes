@@ -4,33 +4,28 @@ import { useState, useEffect } from 'react'
 import Modal from '@/components/ui/Modal'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
-import type { UserPublic, UserRole } from '@/types'
+import type { UserPublic } from '@/types'
 
-interface UserFormValues {
+interface CreateValues {
   firstName: string
   lastName: string
   email: string
-  password: string
-  role: UserRole
-  assignmentScope: 'organization' | 'class'
+  roleName: 'TEACHER' | 'STUDENT'
+}
+
+interface EditValues {
+  firstName: string
+  lastName: string
+  email: string
 }
 
 interface UserFormModalProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit: (values: UserFormValues) => Promise<void>
+  onSubmit: (values: CreateValues | EditValues) => Promise<void>
   initialValues?: Partial<UserPublic>
   mode: 'create' | 'edit'
   isLoading?: boolean
-}
-
-const defaultValues: UserFormValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  role: 'student',
-  assignmentScope: 'organization',
 }
 
 export default function UserFormModal({
@@ -41,36 +36,29 @@ export default function UserFormModal({
   mode,
   isLoading = false,
 }: UserFormModalProps) {
-  const [values, setValues] = useState<UserFormValues>(defaultValues)
-  const [errors, setErrors] = useState<Partial<Record<keyof UserFormValues, string>>>({})
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [roleName, setRoleName] = useState<'TEACHER' | 'STUDENT'>('STUDENT')
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if (isOpen) {
-      if (mode === 'edit' && initialValues) {
-        setValues({
-          firstName: initialValues.firstName ?? '',
-          lastName: initialValues.lastName ?? '',
-          email: initialValues.email ?? '',
-          password: '',
-          role: initialValues.role ?? 'student',
-          assignmentScope: initialValues.assignmentScope ?? 'organization',
-        })
-      } else {
-        setValues(defaultValues)
-      }
+      setFirstName(initialValues?.firstName ?? '')
+      setLastName(initialValues?.lastName ?? '')
+      setEmail(initialValues?.email ?? '')
+      setRoleName('STUDENT')
       setErrors({})
     }
-  }, [isOpen, mode, initialValues])
+  }, [isOpen, initialValues])
 
   function validate(): boolean {
-    const next: Partial<Record<keyof UserFormValues, string>> = {}
-    if (!values.firstName.trim()) next.firstName = 'First name is required.'
-    if (!values.lastName.trim()) next.lastName = 'Last name is required.'
-    if (!values.email.trim()) next.email = 'Email is required.'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))
+    const next: Record<string, string> = {}
+    if (!firstName.trim()) next.firstName = 'First name is required.'
+    if (!lastName.trim()) next.lastName = 'Last name is required.'
+    if (!email.trim()) next.email = 'Email is required.'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       next.email = 'Enter a valid email address.'
-    if (mode === 'create' && !values.password)
-      next.password = 'Password is required.'
     setErrors(next)
     return Object.keys(next).length === 0
   }
@@ -78,12 +66,11 @@ export default function UserFormModal({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!validate()) return
-    await onSubmit(values)
-  }
-
-  function set<K extends keyof UserFormValues>(key: K, value: UserFormValues[K]) {
-    setValues((prev) => ({ ...prev, [key]: value }))
-    setErrors((prev) => ({ ...prev, [key]: undefined }))
+    if (mode === 'create') {
+      await onSubmit({ firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), roleName })
+    } else {
+      await onSubmit({ firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim() })
+    }
   }
 
   return (
@@ -97,16 +84,16 @@ export default function UserFormModal({
         <div className="grid grid-cols-2 gap-3">
           <Input
             label="First Name"
-            value={values.firstName}
-            onChange={(e) => set('firstName', e.target.value)}
+            value={firstName}
+            onChange={(e) => { setFirstName(e.target.value); setErrors(p => ({ ...p, firstName: '' })) }}
             error={errors.firstName}
             placeholder="Jane"
             disabled={isLoading}
           />
           <Input
             label="Last Name"
-            value={values.lastName}
-            onChange={(e) => set('lastName', e.target.value)}
+            value={lastName}
+            onChange={(e) => { setLastName(e.target.value); setErrors(p => ({ ...p, lastName: '' })) }}
             error={errors.lastName}
             placeholder="Doe"
             disabled={isLoading}
@@ -116,60 +103,32 @@ export default function UserFormModal({
         <Input
           label="Email"
           type="email"
-          value={values.email}
-          onChange={(e) => set('email', e.target.value)}
+          value={email}
+          onChange={(e) => { setEmail(e.target.value); setErrors(p => ({ ...p, email: '' })) }}
           error={errors.email}
           placeholder="jane@example.com"
           disabled={isLoading}
         />
 
         {mode === 'create' && (
-          <Input
-            label="Password"
-            type="password"
-            value={values.password}
-            onChange={(e) => set('password', e.target.value)}
-            error={errors.password}
-            placeholder="••••••••"
-            disabled={isLoading}
-          />
-        )}
-
-        <div>
-          <label className="mb-1 block text-sm font-medium text-on-surface-muted" >Role</label>
-          <select
-            value={values.role}
-            onChange={(e) => set('role', e.target.value as UserRole)}
-            disabled={isLoading}
-            className="block w-full rounded-lg border border-surface-border px-3 py-2 text-sm text-on-surface bg-surface-raised focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30 disabled:bg-surface disabled:cursor-not-allowed"
-          >
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
-        {values.role === 'teacher' && (
           <div>
-            <label className="mb-1 block text-sm font-medium text-on-surface-muted" >
-              Assignment Scope
-            </label>
+            <label className="mb-1 block text-sm font-medium text-on-surface-muted">Role</label>
             <select
-              value={values.assignmentScope}
-              onChange={(e) =>
-                set('assignmentScope', e.target.value as 'organization' | 'class')
-              }
+              value={roleName}
+              onChange={(e) => setRoleName(e.target.value as 'TEACHER' | 'STUDENT')}
               disabled={isLoading}
               className="block w-full rounded-lg border border-surface-border px-3 py-2 text-sm text-on-surface bg-surface-raised focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30 disabled:bg-surface disabled:cursor-not-allowed"
             >
-              <option value="organization">Organization-wide</option>
-              <option value="class">Class-specific</option>
+              <option value="STUDENT">Student</option>
+              <option value="TEACHER">Teacher</option>
             </select>
-            <p className="mt-1 text-xs text-on-surface-muted" >
-              Organization-wide teachers can access all classes. Class-specific teachers are
-              assigned to individual classes.
-            </p>
           </div>
+        )}
+
+        {mode === 'create' && (
+          <p className="text-xs text-on-surface-faint bg-surface-raised border border-surface-border rounded-lg px-3 py-2">
+            An activation email with login credentials will be sent to the user.
+          </p>
         )}
 
         <div className="flex justify-end gap-3 pt-2">

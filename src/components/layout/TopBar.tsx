@@ -141,7 +141,6 @@ export default function TopBar() {
           trigger={
             <Avatar
               name={fullName}
-              avatarUrl={user?.avatarUrl}
               size="md"
             />
           }

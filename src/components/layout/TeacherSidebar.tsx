@@ -141,7 +141,7 @@ export default function TeacherSidebar() {
           ].join(' ')}
         >
           <span className="shrink-0">
-            <Avatar name={fullName || 'Teacher'} avatarUrl={user?.avatarUrl} size="sm" />
+            <Avatar name={fullName || 'Teacher'} size="sm" />
           </span>
           <div className={['min-w-0', collapsed ? 'md:hidden' : ''].join(' ')}>
             <p className="text-sm font-medium text-cream truncate">{fullName || 'Teacher'}</p>

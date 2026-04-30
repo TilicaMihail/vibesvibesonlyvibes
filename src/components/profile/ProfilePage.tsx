@@ -27,11 +27,11 @@ export default function ProfilePage() {
   const [updateUser, { isLoading: updating }] = useUpdateUserMutation();
 
   const { data: courses = [] } = useGetCoursesQuery(
-    { teacherId: user?.id ?? '' },
+    undefined,
     { skip: !user || user.role !== 'teacher' }
   );
   const { data: studentCourses = [] } = useGetCoursesQuery(
-    { tab: 'assigned', studentId: user?.id ?? '' },
+    undefined,
     { skip: !user || user.role !== 'student' }
   );
   const { data: progressList = [] } = useGetUserProgressQuery(
@@ -134,13 +134,13 @@ export default function ProfilePage() {
         {user.role === 'teacher' && (
           <div className="grid grid-cols-2 gap-4">
             <div className="text-center"><div className="text-2xl font-bold text-brand">{courses.length}</div><div className="text-xs text-on-surface-faint">Courses Created</div></div>
-            <div className="text-center"><div className="text-2xl font-bold text-brand">{courses.reduce((sum, c) => sum + c.enrolledStudentIds.length, 0)}</div><div className="text-xs text-on-surface-faint">Total Students</div></div>
+            <div className="text-center"><div className="text-2xl font-bold text-brand">{courses.length}</div><div className="text-xs text-on-surface-faint">Total Students</div></div>
           </div>
         )}
         {user.role === 'admin' && (
           <div>
             <p className="text-sm text-on-surface-muted"><span className="font-medium">Organization:</span> {org?.name ?? '—'}</p>
-            <p className="text-sm text-on-surface-muted mt-1"><span className="font-medium">Slug:</span> {org?.slug ?? '—'}</p>
+            <p className="text-sm text-on-surface-muted mt-1"><span className="font-medium">Type:</span> {org?.organizationType ?? '—'}</p>
           </div>
         )}
       </Card>

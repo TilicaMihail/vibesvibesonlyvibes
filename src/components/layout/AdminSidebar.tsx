@@ -165,7 +165,7 @@ export default function AdminSidebar() {
           ].join(' ')}
         >
           <span className="shrink-0">
-            <Avatar name={fullName || 'Admin'} avatarUrl={user?.avatarUrl} size="sm" />
+            <Avatar name={fullName || 'Admin'} size="sm" />
           </span>
           <div className={['min-w-0', collapsed ? 'md:hidden' : ''].join(' ')}>
             <p className="text-sm font-medium text-cream truncate">{fullName || 'Admin'}</p>

@@ -1,59 +1,64 @@
-export type QuestionType = 'single' | 'multiple' | 'true_false';
+export type QuestionType = 'SINGLE_CHOICE' | 'MULTI_CHOICE' | 'TRUE_FALSE';
+export type TestStatus = 'DRAFT' | 'PUBLISHED';
 
 export interface AnswerOption {
-  id: string;
+  optionId: number;
   text: string;
-  isCorrect: boolean;
+  displayOrder: number;
+  isCorrect?: boolean;
 }
 
 export interface Question {
-  id: string;
-  testId: string;
-  text: string;
-  type: QuestionType;
+  questionId: number;
+  questionType: QuestionType;
+  content: string;
+  difficulty?: number;
   options: AnswerOption[];
-  explanation?: string;
-  topicTag?: string;
 }
 
 export interface Test {
   id: string;
-  courseId: string;
-  contentNodeId?: string;
+  lessonId: string;
+  createdBy: string;
   title: string;
-  questions: Question[];
-  isAIGenerated: boolean;
+  description?: string;
+  timeLimitSec?: number;
+  status: TestStatus;
+  aiEnabled: boolean;
   createdAt: string;
+  updatedAt: string;
 }
 
-export type TestSessionStatus = 'in_progress' | 'submitted' | 'timed_out';
-
-export interface SessionAnswer {
-  questionId: string;
-  selectedOptionIds: string[];
-  isCorrect?: boolean;
-  isFlagged?: boolean;
-}
-
-export interface TestSession {
-  id: string;
-  studentId: string;
-  courseId: string;
-  testId: string;
+export interface Attempt {
+  attemptId: string;
+  attemptNumber: number;
   startedAt: string;
-  submittedAt?: string;
-  timeLimitSeconds?: number;
-  selectedTopics: string[];
-  questionCount: number;
+  timeLimitSec?: number;
+  test: { id: string; title: string };
   questions: Question[];
-  answers: SessionAnswer[];
-  score?: number;
-  status: TestSessionStatus;
 }
 
-export interface QuestionReport {
-  questionId: string;
-  testSessionId: string;
-  reason: 'wrong_answer' | 'unclear_question' | 'outdated_content' | 'other';
-  note?: string;
+export interface AttemptAnswer {
+  questionId: number;
+  selectedOptionIds: number[];
+  timeSpent?: number;
+}
+
+export interface AttemptResultQuestion {
+  questionId: number;
+  questionType: QuestionType;
+  content: string;
+  options: AnswerOption[];
+  selectedOptionIds: number[];
+  correctOptionIds: number[];
+  correct: boolean;
+}
+
+export interface AttemptResult {
+  attemptId: string;
+  score: number;
+  scorePercent: number;
+  passed: boolean;
+  completedAt: string;
+  questions: AttemptResultQuestion[];
 }

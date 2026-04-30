@@ -100,8 +100,7 @@ export default function LoginPage() {
     setError(null)
     try {
       const result = await login({ email, password }).unwrap()
-      dispatch(setCredentials({ user: result.user, token: result.token }))
-      document.cookie = `auth_token=${result.token}; path=/; max-age=86400`
+      dispatch(setCredentials({ user: result.user, token: result.accessToken }))
       router.push(roleRedirectPath(result.user.role))
     } catch (err: unknown) {
       const message =

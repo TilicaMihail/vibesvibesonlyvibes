@@ -1,31 +1,32 @@
-export type CourseVisibility = 'private' | 'class' | 'public';
+import type { ChapterWithLessons } from './content';
+
+export type CourseStatus = 'DRAFT' | 'PUBLISHED';
+export type CourseVisibility = 'PRIVATE' | 'PUBLIC';
 
 export interface Course {
   id: string;
-  organizationId: string;
-  teacherId: string;
   title: string;
   description: string;
-  coverImageUrl?: string;
+  category?: string;
+  status: CourseStatus;
   visibility: CourseVisibility;
-  classIds: string[];
-  enrolledStudentIds: string[];
-  isArchived: boolean;
+  createdBy: string;
   createdAt: string;
   updatedAt: string;
+  chapters?: ChapterWithLessons[];
 }
 
 export interface CourseCreatePayload {
-  organizationId: string;
-  teacherId: string;
   title: string;
   description: string;
   visibility: CourseVisibility;
+  category?: string;
 }
 
 export interface CourseUpdatePayload {
   title?: string;
   description?: string;
   visibility?: CourseVisibility;
-  classIds?: string[];
+  category?: string;
+  status?: CourseStatus;
 }

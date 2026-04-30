@@ -4,17 +4,17 @@ import type { Question } from '@/types';
 type TestRunnerStatus = 'idle' | 'running' | 'submitting' | 'done';
 
 interface TestRunnerState {
-  sessionId: string | null;
+  attemptId: string | null;
   questions: Question[];
   currentIndex: number;
-  answers: Record<string, string[]>;
-  flagged: string[];
+  answers: Record<number, number[]>;
+  flagged: number[];
   timeRemainingSeconds: number;
   status: TestRunnerStatus;
 }
 
 const initialState: TestRunnerState = {
-  sessionId: null,
+  attemptId: null,
   questions: [],
   currentIndex: 0,
   answers: {},
@@ -29,25 +29,25 @@ const testRunnerSlice = createSlice({
   reducers: {
     startSession(
       state,
-      action: PayloadAction<{ sessionId: string; questions: Question[]; timeLimitSeconds?: number }>
+      action: PayloadAction<{ attemptId: string; questions: Question[]; timeLimitSec?: number }>
     ) {
-      const { sessionId, questions, timeLimitSeconds } = action.payload;
-      state.sessionId = sessionId;
+      const { attemptId, questions, timeLimitSec } = action.payload;
+      state.attemptId = attemptId;
       state.questions = questions;
       state.currentIndex = 0;
       state.answers = {};
       state.flagged = [];
-      state.timeRemainingSeconds = timeLimitSeconds ?? 0;
+      state.timeRemainingSeconds = timeLimitSec ?? 0;
       state.status = 'running';
     },
     answerQuestion(
       state,
-      action: PayloadAction<{ questionId: string; optionIds: string[] }>
+      action: PayloadAction<{ questionId: number; optionIds: number[] }>
     ) {
       const { questionId, optionIds } = action.payload;
       state.answers[questionId] = optionIds;
     },
-    toggleFlag(state, action: PayloadAction<string>) {
+    toggleFlag(state, action: PayloadAction<number>) {
       const questionId = action.payload;
       const index = state.flagged.indexOf(questionId);
       if (index === -1) {

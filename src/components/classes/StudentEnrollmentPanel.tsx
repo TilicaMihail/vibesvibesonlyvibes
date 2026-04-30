@@ -6,33 +6,37 @@ import Button from '@/components/ui/Button'
 import Table from '@/components/ui/Table'
 import Avatar from '@/components/ui/Avatar'
 import ConfirmDialog from '@/components/ui/ConfirmDialog'
-import { useGetClassStudentsQuery, useUpdateClassStudentsMutation } from '@/services/classesApi'
+import {
+  useGetClassroomMembersQuery,
+  useAddClassroomMembersMutation,
+  useRemoveClassroomMembersMutation,
+} from '@/services/classesApi'
 import { useGetUsersQuery } from '@/services/usersApi'
-import type { UserPublic } from '@/types'
+import type { ClassroomMember } from '@/types'
 
 interface StudentEnrollmentPanelProps {
   classId: string
-  currentStudentIds: string[]
 }
 
-export default function StudentEnrollmentPanel({
-  classId,
-  currentStudentIds,
-}: StudentEnrollmentPanelProps) {
+export default function StudentEnrollmentPanel({ classId }: StudentEnrollmentPanelProps) {
   const [addModalOpen, setAddModalOpen] = useState(false)
-  const [removeTarget, setRemoveTarget] = useState<UserPublic | null>(null)
+  const [removeTarget, setRemoveTarget] = useState<ClassroomMember | null>(null)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [studentSearch, setStudentSearch] = useState('')
 
-  const { data: students = [], isLoading: studentsLoading } = useGetClassStudentsQuery(classId)
+  const { data: members = [], isLoading: membersLoading } = useGetClassroomMembersQuery({
+    classId,
+    role: 'STUDENT',
+  })
   const { data: allStudentsData, isLoading: allLoading } = useGetUsersQuery(
     { role: 'student' },
     { skip: !addModalOpen },
   )
-  const [updateStudents, { isLoading: updating }] = useUpdateClassStudentsMutation()
+  const [addMembers, { isLoading: adding }] = useAddClassroomMembersMutation()
+  const [removeMembers] = useRemoveClassroomMembersMutation()
 
   const allStudents = allStudentsData?.users ?? []
-  const enrolledIds = new Set(students.map((s) => s.id))
+  const enrolledIds = new Set(members.map((m) => m.userId))
   const unenrolled = allStudents.filter((s) => !enrolledIds.has(s.id))
 
   const filteredUnenrolled = unenrolled.filter((s) => {
@@ -51,8 +55,8 @@ export default function StudentEnrollmentPanel({
   }
 
   async function handleAdd() {
-    const next = [...Array.from(enrolledIds), ...selectedIds]
-    await updateStudents({ classId, studentIds: next })
+    if (selectedIds.length === 0) return
+    await addMembers({ classId, memberIds: selectedIds })
     setSelectedIds([])
     setStudentSearch('')
     setAddModalOpen(false)
@@ -60,8 +64,7 @@ export default function StudentEnrollmentPanel({
 
   async function handleRemove() {
     if (!removeTarget) return
-    const next = students.filter((s) => s.id !== removeTarget.id).map((s) => s.id)
-    await updateStudents({ classId, studentIds: next })
+    await removeMembers({ classId, memberIds: [removeTarget.userId] })
     setRemoveTarget(null)
   }
 
@@ -69,10 +72,10 @@ export default function StudentEnrollmentPanel({
     {
       key: 'name',
       header: 'Student',
-      render: (_: unknown, row: UserPublic) => (
+      render: (_: unknown, row: ClassroomMember) => (
         <div className="flex items-center gap-3">
-          <Avatar name={`${row.firstName} ${row.lastName}`} avatarUrl={row.avatarUrl} size="sm" />
-          <span className="font-medium text-on-surface" >
+          <Avatar name={`${row.firstName} ${row.lastName}`} size="sm" />
+          <span className="font-medium text-on-surface">
             {row.firstName} {row.lastName}
           </span>
         </div>
@@ -81,27 +84,14 @@ export default function StudentEnrollmentPanel({
     {
       key: 'email',
       header: 'Email',
-      render: (_: unknown, row: UserPublic) => (
+      render: (_: unknown, row: ClassroomMember) => (
         <span className="text-on-surface-muted">{row.email}</span>
-      ),
-    },
-    {
-      key: 'createdAt',
-      header: 'Joined',
-      render: (_: unknown, row: UserPublic) => (
-        <span className="text-brand-light">
-          {new Date(row.createdAt).toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
-        </span>
       ),
     },
     {
       key: 'actions',
       header: '',
-      render: (_: unknown, row: UserPublic) => (
+      render: (_: unknown, row: ClassroomMember) => (
         <Button
           variant="ghost"
           size="sm"
@@ -119,9 +109,9 @@ export default function StudentEnrollmentPanel({
       {/* KPI + action row */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-2xl font-bold text-brand" >{students.length}</span>
-          <span className="text-sm text-on-surface-muted" >
-            {students.length === 1 ? 'student' : 'students'} enrolled
+          <span className="text-2xl font-bold text-brand">{members.length}</span>
+          <span className="text-sm text-on-surface-muted">
+            {members.length === 1 ? 'student' : 'students'} enrolled
           </span>
         </div>
         <Button variant="primary" size="sm" onClick={() => setAddModalOpen(true)}>
@@ -130,9 +120,9 @@ export default function StudentEnrollmentPanel({
       </div>
 
       <Table
-        columns={columns as Parameters<typeof Table>[0]['columns']}
-        data={students as unknown as Record<string, unknown>[]}
-        isLoading={studentsLoading}
+        columns={columns as unknown as Parameters<typeof Table>[0]['columns']}
+        data={members as unknown as Record<string, unknown>[]}
+        isLoading={membersLoading}
         emptyMessage="No students enrolled in this class yet."
       />
 
@@ -158,9 +148,9 @@ export default function StudentEnrollmentPanel({
 
           <div className="max-h-64 overflow-y-auto rounded-lg border border-surface-border divide-y divide-surface">
             {allLoading ? (
-              <div className="px-4 py-8 text-center text-sm text-brand-light" >Loading…</div>
+              <div className="px-4 py-8 text-center text-sm text-brand-light">Loading…</div>
             ) : filteredUnenrolled.length === 0 ? (
-              <div className="px-4 py-8 text-center text-sm text-brand-light" >
+              <div className="px-4 py-8 text-center text-sm text-brand-light">
                 {unenrolled.length === 0
                   ? 'All students are already enrolled.'
                   : 'No students match your search.'}
@@ -181,14 +171,13 @@ export default function StudentEnrollmentPanel({
                     />
                     <Avatar
                       name={`${student.firstName} ${student.lastName}`}
-                      avatarUrl={student.avatarUrl}
                       size="sm"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-on-surface" >
+                      <p className="text-sm font-medium text-on-surface">
                         {student.firstName} {student.lastName}
                       </p>
-                      <p className="text-xs truncate text-brand-light" >{student.email}</p>
+                      <p className="text-xs truncate text-brand-light">{student.email}</p>
                     </div>
                   </label>
                 )
@@ -197,7 +186,7 @@ export default function StudentEnrollmentPanel({
           </div>
 
           {selectedIds.length > 0 && (
-            <p className="text-xs text-brand" >
+            <p className="text-xs text-brand">
               {selectedIds.length} student{selectedIds.length > 1 ? 's' : ''} selected
             </p>
           )}
@@ -216,7 +205,7 @@ export default function StudentEnrollmentPanel({
             <Button
               variant="primary"
               disabled={selectedIds.length === 0}
-              isLoading={updating}
+              isLoading={adding}
               onClick={handleAdd}
             >
               Enroll {selectedIds.length > 0 ? selectedIds.length : ''}{' '}

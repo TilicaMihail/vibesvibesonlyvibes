@@ -5,7 +5,6 @@ import Spinner from '@/components/ui/Spinner';
 import EmptyState from '@/components/ui/EmptyState';
 import { useAppSelector } from '@/store/hooks';
 import { useGetUserProgressQuery, useGetUserActivityQuery } from '@/services/progressApi';
-import { useGetCoursesQuery } from '@/services/coursesApi';
 import type { ActivityEntry } from '@/types';
 
 function activityText(a: ActivityEntry) {
@@ -19,7 +18,6 @@ export default function MyProgressPage() {
   const user = useAppSelector(s => s.auth.user);
   const { data: progressList = [], isLoading } = useGetUserProgressQuery(user?.id ?? '', { skip: !user?.id });
   const { data: activity = [] } = useGetUserActivityQuery(user?.id ?? '', { skip: !user?.id });
-  const { data: courses = [] } = useGetCoursesQuery({ tab: 'assigned', studentId: user?.id ?? '' }, { skip: !user?.id });
 
   const activeCourses = progressList.filter(p => p.completionPercent < 100).length;
   const completedCourses = progressList.filter(p => p.completionPercent === 100).length;
@@ -37,7 +35,7 @@ export default function MyProgressPage() {
           { label: 'Active Courses', value: activeCourses, color: 'text-brand' },
           { label: 'Completed', value: completedCourses, color: 'text-green-600 dark:text-green-400' },
           { label: 'Tests Taken', value: totalTests, color: 'text-blue-600 dark:text-blue-400' },
-          { label: 'Total Enrolled', value: courses.length, color: 'text-on-surface' },
+          { label: 'Total Tracked', value: progressList.length, color: 'text-on-surface' },
         ].map(s => (
           <div key={s.label} className="bg-surface-raised border border-surface-border rounded-xl p-5">
             <div className={`text-3xl font-bold ${s.color}`}>{s.value}</div>
@@ -57,12 +55,11 @@ export default function MyProgressPage() {
           ) : (
             <div className="divide-y divide-surface-border">
               {progressList.map(p => {
-                const course = courses.find(c => c.id === p.courseId);
                 return (
                   <div key={p.id} className="px-5 py-4">
                     <div className="flex justify-between items-center mb-2">
                       <Link href={`/courses/${p.courseId}/progress`} className="text-sm font-medium text-on-surface hover:text-brand truncate max-w-[70%]">
-                        {course?.title ?? p.courseId}
+                        {p.courseId}
                       </Link>
                       <span className="text-sm font-bold text-brand">{p.completionPercent}%</span>
                     </div>

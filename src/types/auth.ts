@@ -6,23 +6,31 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string;
+  accessToken: string;
   user: UserPublic;
 }
 
 export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
   organizationName: string;
-  organizationSlug: string;
-  adminEmail: string;
-  adminPassword: string;
-  adminFirstName: string;
-  adminLastName: string;
+  country: string;
+  city: string;
+  organizationType: string;
+  address?: string;
+  phoneNumber?: string;
 }
 
 export interface RegisterResponse {
-  token: string;
+  accessToken: string;
   user: UserPublic;
-  organizationId: string;
+}
+
+export interface RefreshResponse {
+  accessToken: string;
 }
 
 export interface TokenPayload {

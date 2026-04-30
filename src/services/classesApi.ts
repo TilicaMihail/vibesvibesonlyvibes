@@ -1,15 +1,10 @@
 import { baseApi } from './baseApi';
-import type { Class, ClassCreatePayload, ClassUpdatePayload, UserPublic } from '@/types';
-
-type ClassWithMembers = Class & { teachers: UserPublic[]; students: UserPublic[] };
+import type { Classroom, ClassroomMember, ClassroomCreatePayload, ClassroomUpdatePayload } from '@/types';
 
 export const classesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getClasses: builder.query<Class[], { search?: string } | void>({
-      query: (params) => ({
-        url: '/classes',
-        params: params ?? {},
-      }),
+    getClassrooms: builder.query<Classroom[], { search?: string } | void>({
+      query: (params) => ({ url: '/classrooms', params: params ?? {} }),
       providesTags: (result) =>
         result
           ? [
@@ -19,53 +14,65 @@ export const classesApi = baseApi.injectEndpoints({
           : [{ type: 'Class', id: 'LIST' }],
     }),
 
-    getClass: builder.query<ClassWithMembers, string>({
-      query: (classId) => `/classes/${classId}`,
+    getClassroom: builder.query<Classroom, string>({
+      query: (classId) => `/classrooms/${classId}`,
       providesTags: (_result, _error, id) => [{ type: 'Class', id }],
     }),
 
-    createClass: builder.mutation<Class, ClassCreatePayload>({
-      query: (body) => ({
-        url: '/classes',
-        method: 'POST',
-        body,
-      }),
+    createClassroom: builder.mutation<Classroom, ClassroomCreatePayload>({
+      query: (body) => ({ url: '/classrooms', method: 'POST', body }),
       invalidatesTags: [{ type: 'Class', id: 'LIST' }],
     }),
 
-    updateClass: builder.mutation<Class, { id: string } & ClassUpdatePayload>({
-      query: ({ id, ...body }) => ({
-        url: `/classes/${id}`,
-        method: 'PUT',
-        body,
-      }),
+    updateClassroom: builder.mutation<Classroom, { id: string } & ClassroomUpdatePayload>({
+      query: ({ id, ...body }) => ({ url: `/classrooms/${id}`, method: 'PUT', body }),
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'Class', id },
         { type: 'Class', id: 'LIST' },
       ],
     }),
 
-    updateClassStudents: builder.mutation<Class, { classId: string; studentIds: string[] }>({
-      query: ({ classId, studentIds }) => ({
-        url: `/classes/${classId}/students`,
-        method: 'PUT',
-        body: { studentIds },
-      }),
-      invalidatesTags: (_result, _error, { classId }) => [{ type: 'Class', id: classId }],
+    getClassroomMembers: builder.query<ClassroomMember[], { classId: string; role?: 'TEACHER' | 'STUDENT' }>({
+      query: ({ classId, role }) => ({ url: `/classrooms/${classId}/members`, params: role ? { role } : {} }),
+      providesTags: (_result, _error, { classId }) => [{ type: 'Class', id: `members-${classId}` }],
     }),
 
-    getClassStudents: builder.query<UserPublic[], string>({
-      query: (classId) => `/classes/${classId}/students`,
-      providesTags: (_result, _error, classId) => [{ type: 'Class', id: classId }],
+    addClassroomMembers: builder.mutation<void, { classId: string; memberIds: string[] }>({
+      query: ({ classId, memberIds }) => ({
+        url: `/classrooms/${classId}/members`,
+        method: 'POST',
+        body: { memberIds },
+      }),
+      invalidatesTags: (_result, _error, { classId }) => [{ type: 'Class', id: `members-${classId}` }],
+    }),
+
+    removeClassroomMembers: builder.mutation<void, { classId: string; memberIds: string[] }>({
+      query: ({ classId, memberIds }) => ({
+        url: `/classrooms/${classId}/members`,
+        method: 'DELETE',
+        body: { memberIds },
+      }),
+      invalidatesTags: (_result, _error, { classId }) => [{ type: 'Class', id: `members-${classId}` }],
+    }),
+
+    assignCoursesToClassroom: builder.mutation<void, { classId: string; courseIds: string[] }>({
+      query: ({ classId, courseIds }) => ({
+        url: `/classrooms/${classId}/courses`,
+        method: 'POST',
+        body: { courseIds },
+      }),
+      invalidatesTags: (_result, _error, { classId }) => [{ type: 'Class', id: classId }],
     }),
   }),
 });
 
 export const {
-  useGetClassesQuery,
-  useGetClassQuery,
-  useCreateClassMutation,
-  useUpdateClassMutation,
-  useUpdateClassStudentsMutation,
-  useGetClassStudentsQuery,
+  useGetClassroomsQuery,
+  useGetClassroomQuery,
+  useCreateClassroomMutation,
+  useUpdateClassroomMutation,
+  useGetClassroomMembersQuery,
+  useAddClassroomMembersMutation,
+  useRemoveClassroomMembersMutation,
+  useAssignCoursesToClassroomMutation,
 } = classesApi;

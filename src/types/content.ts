@@ -1,20 +1,29 @@
-export type ResourceType = 'chapter' | 'text' | 'file' | 'video' | 'test';
-
-export interface ContentNode {
+export interface Chapter {
   id: string;
   courseId: string;
-  parentId: string | null;
-  type: ResourceType;
   title: string;
-  order: number;
-  textContent?: string;
-  fileUrl?: string;
-  fileName?: string;
-  videoUrl?: string;
-  duration?: number;
-  testId?: string;
+  orderIndex: number;
 }
 
-export interface ContentTreeNode extends ContentNode {
-  children: ContentTreeNode[];
+export interface LessonResource {
+  id: string;
+  lessonId: string;
+  title: string;
+  url: string;
+}
+
+export interface Lesson {
+  id: string;
+  chapterId: string;
+  title: string;
+  contentMarkdown: string;
+  orderIndex: number;
+  testId?: string;
+  lessonResources: LessonResource[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChapterWithLessons extends Chapter {
+  lessons: Lesson[];
 }

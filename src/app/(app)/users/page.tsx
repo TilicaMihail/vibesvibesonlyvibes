@@ -14,14 +14,11 @@ import {
   useGetUsersQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
-  useToggleUserActiveMutation,
+  useUpdateUserStatusMutation,
 } from '@/services/usersApi'
 import { useGetOrganizationQuery } from '@/services/organizationsApi'
 import type { UserPublic, UserRole } from '@/types'
 
-// ---------------------------------------------------------------------------
-// Role filter tabs
-// ---------------------------------------------------------------------------
 const ROLE_TABS = [
   { id: 'all', label: 'All' },
   { id: 'admin', label: 'Admin' },
@@ -35,9 +32,6 @@ function roleBadgeVariant(role: UserRole): 'primary' | 'info' | 'neutral' {
   return 'neutral'
 }
 
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 export default function UsersPage() {
   const [roleFilter, setRoleFilter] = useState<'all' | UserRole>('all')
   const [search, setSearch] = useState('')
@@ -55,12 +49,11 @@ export default function UsersPage() {
   const { data: org } = useGetOrganizationQuery()
   const [createUser, { isLoading: creating }] = useCreateUserMutation()
   const [updateUser, { isLoading: updating }] = useUpdateUserMutation()
-  const [toggleUserActive, { isLoading: toggling }] = useToggleUserActiveMutation()
+  const [updateUserStatus, { isLoading: toggling }] = useUpdateUserStatusMutation()
 
   const users = data?.users ?? []
   const total = data?.total ?? 0
 
-  // Tab counts — fetch all roles to compute counts
   const { data: allData } = useGetUsersQuery({})
   const { data: adminData } = useGetUsersQuery({ role: 'admin' })
   const { data: teacherData } = useGetUsersQuery({ role: 'teacher' })
@@ -77,19 +70,15 @@ export default function UsersPage() {
     firstName: string
     lastName: string
     email: string
-    password: string
-    role: UserRole
-    assignmentScope: 'organization' | 'class'
+    roleName?: 'TEACHER' | 'STUDENT'
   }) {
-    if (!org) return
+    if (!org || !values.roleName) return
     await createUser({
       organizationId: org.id,
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
-      password: values.password,
-      role: values.role,
-      ...(values.role === 'teacher' ? { assignmentScope: values.assignmentScope } : {}),
+      roleName: values.roleName,
     })
     setCreateOpen(false)
   }
@@ -98,9 +87,6 @@ export default function UsersPage() {
     firstName: string
     lastName: string
     email: string
-    password: string
-    role: UserRole
-    assignmentScope: 'organization' | 'class'
   }) {
     if (!editTarget) return
     await updateUser({
@@ -108,15 +94,14 @@ export default function UsersPage() {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
-      role: values.role,
-      ...(values.role === 'teacher' ? { assignmentScope: values.assignmentScope } : {}),
     })
     setEditTarget(null)
   }
 
   async function handleToggle() {
     if (!toggleTarget) return
-    await toggleUserActive(toggleTarget.id)
+    const newStatus = toggleTarget.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
+    await updateUserStatus({ userId: toggleTarget.id, status: newStatus })
     setToggleTarget(null)
   }
 
@@ -131,11 +116,7 @@ export default function UsersPage() {
       header: 'Name',
       render: (_: unknown, row: UserPublic) => (
         <div className="flex items-center gap-3">
-          <Avatar
-            name={`${row.firstName} ${row.lastName}`}
-            avatarUrl={row.avatarUrl}
-            size="md"
-          />
+          <Avatar name={`${row.firstName} ${row.lastName}`} size="md" />
           <span className="font-medium text-on-surface">
             {row.firstName} {row.lastName}
           </span>
@@ -159,13 +140,13 @@ export default function UsersPage() {
       ),
     },
     {
-      key: 'isActive',
+      key: 'status',
       header: 'Status',
       render: (_: unknown, row: UserPublic) =>
-        row.isActive ? (
+        row.status === 'ACTIVE' ? (
           <Badge variant="success">Active</Badge>
         ) : (
-          <Badge variant="neutral">Inactive</Badge>
+          <Badge variant="neutral">{row.status.charAt(0) + row.status.slice(1).toLowerCase()}</Badge>
         ),
     },
     {
@@ -186,20 +167,20 @@ export default function UsersPage() {
       header: '',
       render: (_: unknown, row: UserPublic) => (
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setEditTarget(row)}
-          >
+          <Button variant="ghost" size="sm" onClick={() => setEditTarget(row)}>
             Edit
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setToggleTarget(row)}
-            className={row.isActive ? 'text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20' : 'text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'}
+            className={
+              row.status === 'ACTIVE'
+                ? 'text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20'
+                : 'text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'
+            }
           >
-            {row.isActive ? 'Deactivate' : 'Activate'}
+            {row.status === 'ACTIVE' ? 'Deactivate' : 'Activate'}
           </Button>
         </div>
       ),
@@ -243,7 +224,7 @@ export default function UsersPage() {
 
       {/* Table */}
       <Table
-        columns={columns as Parameters<typeof Table>[0]['columns']}
+        columns={columns as unknown as Parameters<typeof Table>[0]['columns']}
         data={users as unknown as Record<string, unknown>[]}
         isLoading={isLoading}
         emptyMessage={
@@ -277,14 +258,14 @@ export default function UsersPage() {
         isOpen={!!toggleTarget}
         onClose={() => setToggleTarget(null)}
         onConfirm={handleToggle}
-        title={toggleTarget?.isActive ? 'Deactivate User' : 'Activate User'}
+        title={toggleTarget?.status === 'ACTIVE' ? 'Deactivate User' : 'Activate User'}
         message={
-          toggleTarget?.isActive
+          toggleTarget?.status === 'ACTIVE'
             ? `Deactivate ${toggleTarget.firstName} ${toggleTarget.lastName}? They will no longer be able to log in.`
             : `Reactivate ${toggleTarget?.firstName} ${toggleTarget?.lastName}? They will regain access.`
         }
-        confirmLabel={toggleTarget?.isActive ? 'Deactivate' : 'Activate'}
-        confirmVariant={toggleTarget?.isActive ? 'danger' : 'primary'}
+        confirmLabel={toggleTarget?.status === 'ACTIVE' ? 'Deactivate' : 'Activate'}
+        confirmVariant={toggleTarget?.status === 'ACTIVE' ? 'danger' : 'primary'}
       />
 
       {/* CSV Import Modal */}

@@ -1,5 +1,7 @@
 import { baseApi } from './baseApi';
-import type { UserPublic, UserCreatePayload, UserUpdatePayload, UserRole } from '@/types';
+import type { UserPublic, UserCreatePayload, UserUpdatePayload, UserStatusUpdatePayload, UserRole } from '@/types';
+import type { RootState } from '@/store';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 interface GetUsersParams {
   role?: UserRole;
@@ -18,10 +20,19 @@ interface GetUsersResponse {
 export const usersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<GetUsersResponse, GetUsersParams | void>({
-      query: (params) => ({
-        url: '/users',
-        params: params ?? {},
-      }),
+      queryFn: async (params, { getState }, _extra, baseQuery) => {
+        const orgId = (getState() as RootState).auth.user?.organizationId ?? '';
+        const result = await baseQuery({
+          url: `/organizations/${orgId}/users`,
+          params: params ?? {},
+        });
+        if (result.error) return { error: result.error as FetchBaseQueryError };
+        const data = result.data as UserPublic[] | GetUsersResponse;
+        if (Array.isArray(data)) {
+          return { data: { users: data, total: data.length, page: 1, limit: data.length } };
+        }
+        return { data: data as GetUsersResponse };
+      },
       providesTags: (result) =>
         result
           ? [
@@ -37,32 +48,21 @@ export const usersApi = baseApi.injectEndpoints({
     }),
 
     createUser: builder.mutation<UserPublic, UserCreatePayload>({
-      query: (body) => ({
-        url: '/users',
-        method: 'POST',
-        body,
-      }),
+      query: (body) => ({ url: '/users', method: 'POST', body }),
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
 
     updateUser: builder.mutation<UserPublic, { id: string } & UserUpdatePayload>({
-      query: ({ id, ...body }) => ({
-        url: `/users/${id}`,
-        method: 'PUT',
-        body,
-      }),
+      query: ({ id, ...body }) => ({ url: `/users/${id}`, method: 'PUT', body }),
       invalidatesTags: (_result, _error, { id }) => [
         { type: 'User', id },
         { type: 'User', id: 'LIST' },
       ],
     }),
 
-    toggleUserActive: builder.mutation<UserPublic, string>({
-      query: (userId) => ({
-        url: `/users/${userId}`,
-        method: 'PATCH',
-      }),
-      invalidatesTags: (_result, _error, id) => [{ type: 'User', id }],
+    updateUserStatus: builder.mutation<UserPublic, { userId: string } & UserStatusUpdatePayload>({
+      query: ({ userId, ...body }) => ({ url: `/users/${userId}/status`, method: 'PATCH', body }),
+      invalidatesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }],
     }),
   }),
 });
@@ -72,5 +72,5 @@ export const {
   useGetUserQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
-  useToggleUserActiveMutation,
+  useUpdateUserStatusMutation,
 } = usersApi;

@@ -2,80 +2,149 @@
 import { use, useState } from 'react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import Tabs from '@/components/ui/Tabs';
 import Badge from '@/components/ui/Badge';
-import Input from '@/components/ui/Input';
+import Tabs from '@/components/ui/Tabs';
 import Spinner from '@/components/ui/Spinner';
 import QuestionCard from '@/components/test-editor/QuestionCard';
 import QuestionForm from '@/components/test-editor/QuestionForm';
 import AIGeneratePanel from '@/components/test-editor/AIGeneratePanel';
-import { useGetCourseTestsQuery, useCreateTestMutation } from '@/services/testsApi';
-import type { Question } from '@/types';
+import { useGetCourseQuery } from '@/services/coursesApi';
+import { useGetTestByLessonQuery, useCreateTestMutation, usePublishTestMutation } from '@/services/testsApi';
+import { useGetQuestionsQuery, useCreateQuestionMutation, useDeleteQuestionMutation } from '@/services/questionsApi';
+import type { ChapterWithLessons, Lesson, Question } from '@/types';
 
 const TABS = [{ id: 'ai', label: '✨ AI Generate' }, { id: 'manual', label: 'Manual' }];
 
-export default function TestEditorPage({ params }: { params: Promise<{ courseId: string }> }) {
-  const { courseId } = use(params);
-  const [tab, setTab] = useState('ai');
-  const [testTitle, setTestTitle] = useState('');
-  const [questions, setQuestions] = useState<Omit<Question, 'id' | 'testId'>[]>([]);
-  const [editingIdx, setEditingIdx] = useState<number | null>(null);
+function LessonTestEditor({ courseId, lesson }: { courseId: string; lesson: Lesson }) {
+  const [tab, setTab] = useState('manual');
   const [showForm, setShowForm] = useState(false);
+  const [editingQ, setEditingQ] = useState<Question | null>(null);
 
-  const { data: tests = [], isLoading: testsLoading } = useGetCourseTestsQuery({ courseId });
-  const [createTest, { isLoading: saving }] = useCreateTestMutation();
+  const { data: test, isLoading: testLoading } = useGetTestByLessonQuery(lesson.id);
+  const { data: questions = [], isLoading: questionsLoading } = useGetQuestionsQuery(test?.id ?? '', { skip: !test?.id });
+  const [createTest, { isLoading: creatingTest }] = useCreateTestMutation();
+  const [publishTest, { isLoading: publishing }] = usePublishTestMutation();
+  const [createQuestion] = useCreateQuestionMutation();
+  const [deleteQuestion] = useDeleteQuestionMutation();
 
-  function handleGenerated(qs: Question[]) {
-    setQuestions(qs.map(({ id: _id, testId: _tid, ...rest }) => rest));
-    setTestTitle('AI Generated Test');
+  async function handleCreateTest() {
+    await createTest({ lessonId: lesson.id, title: lesson.title + ' — Test' });
   }
 
-  function handleAddQuestion(q: Omit<Question, 'id' | 'testId'>) {
-    if (editingIdx !== null) {
-      setQuestions(prev => prev.map((x, i) => i === editingIdx ? q : x));
-      setEditingIdx(null);
-    } else {
-      setQuestions(prev => [...prev, q]);
-    }
+  async function handleSaveQuestion(q: Omit<Question, 'questionId'>) {
+    if (!test) return;
+    await createQuestion({ testId: test.id, body: q });
     setShowForm(false);
+    setEditingQ(null);
   }
 
-  async function handleSave() {
-    if (!testTitle.trim() || questions.length === 0) return;
-    await createTest({
-      courseId,
-      body: {
-        courseId,
-        title: testTitle.trim(),
-        isAIGenerated: tab === 'ai',
-        questions: questions.map((q, i) => ({ ...q, id: 'q-' + Date.now() + i, testId: '' })),
-      },
-    }).unwrap();
-    setQuestions([]);
-    setTestTitle('');
-  }
+  if (testLoading) return <div className="flex justify-center py-8"><Spinner size="sm" /></div>;
 
   return (
-    <div className="flex gap-6">
-      {/* Sidebar: existing tests */}
+    <div className="space-y-4">
+      {/* Test header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-on-surface">{lesson.title}</h3>
+          {test && (
+            <Badge variant={test.status === 'PUBLISHED' ? 'success' : 'neutral'}>{test.status}</Badge>
+          )}
+        </div>
+        {test && test.status === 'DRAFT' && (
+          <Button variant="primary" size="sm" onClick={() => publishTest(test.id)} isLoading={publishing}>
+            Publish Test
+          </Button>
+        )}
+        {!test && (
+          <Button variant="secondary" size="sm" onClick={handleCreateTest} isLoading={creatingTest}>
+            Create Test
+          </Button>
+        )}
+      </div>
+
+      {test && (
+        <>
+          <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
+
+          {tab === 'ai' && (
+            <div className="bg-surface-raised border border-surface-border rounded-xl p-5">
+              <AIGeneratePanel lessonId={lesson.id} onDone={() => {}} />
+            </div>
+          )}
+
+          {tab === 'manual' && (
+            <div className="space-y-3">
+              {questionsLoading ? (
+                <div className="flex justify-center py-4"><Spinner size="sm" /></div>
+              ) : (
+                <>
+                  {questions.map((q, i) => (
+                    <QuestionCard
+                      key={q.questionId}
+                      question={q}
+                      index={i}
+                      onEdit={() => { setEditingQ(q); setShowForm(true); }}
+                      onDelete={() => deleteQuestion({ testId: test.id, questionId: q.questionId })}
+                    />
+                  ))}
+
+                  {showForm && (
+                    <QuestionForm
+                      initial={editingQ ?? undefined}
+                      onSave={handleSaveQuestion}
+                      onCancel={() => { setShowForm(false); setEditingQ(null); }}
+                    />
+                  )}
+
+                  {!showForm && (
+                    <Button variant="secondary" onClick={() => { setEditingQ(null); setShowForm(true); }}>
+                      + Add Question
+                    </Button>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function TestEditorPage({ params }: { params: Promise<{ courseId: string }> }) {
+  const { courseId } = use(params);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
+  const { data: course, isLoading } = useGetCourseQuery(courseId);
+  const chapters: ChapterWithLessons[] = course?.chapters ?? [];
+  const allLessons = chapters.flatMap(c => c.lessons);
+
+  if (isLoading) return <div className="flex justify-center py-20"><Spinner size="lg" /></div>;
+
+  return (
+    <div className="flex gap-6 max-w-5xl mx-auto">
+      {/* Lesson picker sidebar */}
       <div className="w-64 shrink-0">
         <div className="bg-surface-raised border border-surface-border rounded-xl overflow-hidden">
           <div className="px-4 py-3 border-b border-surface-border">
-            <h3 className="text-sm font-semibold text-on-surface">Saved Tests</h3>
+            <h3 className="text-sm font-semibold text-on-surface">Select Lesson</h3>
           </div>
-          {testsLoading ? (
-            <div className="flex justify-center py-4"><Spinner size="sm" /></div>
-          ) : tests.length === 0 ? (
-            <p className="px-4 py-4 text-xs text-on-surface-faint">No tests yet</p>
+          {allLessons.length === 0 ? (
+            <p className="px-4 py-4 text-xs text-on-surface-faint">No lessons yet. Add lessons in the course editor first.</p>
           ) : (
-            <div className="divide-y divide-surface-border">
-              {tests.map(t => (
-                <div key={t.id} className="px-4 py-3">
-                  <p className="text-sm font-medium text-on-surface truncate">{t.title}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant={t.isAIGenerated ? 'primary' : 'neutral'}>{t.isAIGenerated ? 'AI' : 'Manual'}</Badge>
-                    <span className="text-xs text-on-surface-faint">{t.questions.length} questions</span>
-                  </div>
+            <div className="divide-y divide-surface-border max-h-96 overflow-y-auto">
+              {chapters.map(chapter => (
+                <div key={chapter.id}>
+                  <p className="px-4 py-2 text-xs font-semibold text-on-surface-faint uppercase tracking-wide bg-surface">{chapter.title}</p>
+                  {chapter.lessons.map(lesson => (
+                    <button
+                      key={lesson.id}
+                      onClick={() => setSelectedLesson(lesson)}
+                      className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${selectedLesson?.id === lesson.id ? 'bg-brand/5 text-brand' : 'hover:bg-surface text-on-surface'}`}
+                    >
+                      <span className="truncate block">{lesson.title}</span>
+                      {lesson.testId && <span className="text-xs text-on-surface-faint">📝 has test</span>}
+                    </button>
+                  ))}
                 </div>
               ))}
             </div>
@@ -89,53 +158,20 @@ export default function TestEditorPage({ params }: { params: Promise<{ courseId:
       {/* Main area */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-xl font-bold text-on-surface">Test Editor</h1>
+          <h1 className="text-xl font-bold text-on-surface">Test Editor — {course?.title}</h1>
         </div>
 
-        <Tabs tabs={TABS} activeTab={tab} onChange={setTab} />
-
-        <div className="mt-4 space-y-4">
-          {tab === 'ai' && (
-            <div className="bg-surface-raised border border-surface-border rounded-xl p-5">
-              <AIGeneratePanel courseId={courseId} onGenerated={handleGenerated} />
-            </div>
-          )}
-
-          {tab === 'manual' && (
-            <div className="bg-surface-raised border border-surface-border rounded-xl p-5">
-              {!showForm ? (
-                <Button variant="secondary" onClick={() => { setEditingIdx(null); setShowForm(true); }}>+ Add Question</Button>
-              ) : (
-                <QuestionForm
-                  initial={editingIdx !== null ? { ...(questions[editingIdx] as Partial<Question>) } : undefined}
-                  onSave={handleAddQuestion}
-                  onCancel={() => { setShowForm(false); setEditingIdx(null); }}
-                />
-              )}
-            </div>
-          )}
-
-          {questions.length > 0 && (
-            <div className="space-y-3">
-              <h2 className="text-sm font-semibold text-on-surface">Questions ({questions.length})</h2>
-              {questions.map((q, i) => (
-                <QuestionCard
-                  key={i}
-                  question={{ ...q, id: String(i), testId: '' }}
-                  index={i}
-                  onEdit={() => { setEditingIdx(i); setShowForm(true); }}
-                  onDelete={() => setQuestions(prev => prev.filter((_, idx) => idx !== i))}
-                />
-              ))}
-              <div className="bg-surface-raised border border-surface-border rounded-xl p-4 flex items-end gap-4">
-                <div className="flex-1">
-                  <Input label="Test Title" value={testTitle} onChange={e => setTestTitle(e.target.value)} placeholder="Give this test a name" />
-                </div>
-                <Button variant="primary" onClick={handleSave} isLoading={saving}>Save Test</Button>
-              </div>
-            </div>
-          )}
-        </div>
+        {!selectedLesson ? (
+          <div className="bg-surface-raised border border-surface-border rounded-xl p-8 text-center">
+            <div className="text-4xl mb-3">📝</div>
+            <p className="text-on-surface font-medium mb-1">Select a lesson</p>
+            <p className="text-on-surface-faint text-sm">Pick a lesson from the left to create or edit its test.</p>
+          </div>
+        ) : (
+          <div className="bg-surface-raised border border-surface-border rounded-xl p-5">
+            <LessonTestEditor courseId={courseId} lesson={selectedLesson} />
+          </div>
+        )}
       </div>
     </div>
   );

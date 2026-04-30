@@ -9,13 +9,7 @@ import { setCredentials } from '@/store/slices/authSlice'
 import { useAppDispatch } from '@/store/hooks'
 import { BookDoodle, PencilDoodle, StarDoodle, LightbulbDoodle } from '@/components/landing/Doodles'
 
-function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
+const ORG_TYPES = ['School', 'University', 'Company', 'NGO', 'Government', 'Other']
 
 function passwordStrength(pw: string): { score: number; label: string; color: string } {
   if (pw.length === 0) return { score: 0, label: '', color: '#e8e0cc' }
@@ -122,47 +116,50 @@ function EyeToggle({ show, onToggle }: { show: boolean; onToggle: () => void }) 
   )
 }
 
+/* Section divider */
+function SectionLabel({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#a27246' }}>{label}</span>
+      <div className="flex-1 h-px" style={{ backgroundColor: '#e8e0cc' }} />
+    </div>
+  )
+}
+
 export default function RegisterPage() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const [register, { isLoading }] = useRegisterMutation()
 
   const [orgName, setOrgName] = useState('')
-  const [orgSlug, setOrgSlug] = useState('')
-  const [slugTouched, setSlugTouched] = useState(false)
+  const [country, setCountry] = useState('')
+  const [city, setCity] = useState('')
+  const [organizationType, setOrganizationType] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [adminEmail, setAdminEmail] = useState('')
-  const [adminPassword, setAdminPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
-  const strength = passwordStrength(adminPassword)
-
-  function handleOrgNameChange(value: string) {
-    setOrgName(value)
-    if (!slugTouched) setOrgSlug(slugify(value))
-  }
-
-  function handleSlugChange(value: string) {
-    setSlugTouched(true)
-    setOrgSlug(slugify(value))
-  }
+  const strength = passwordStrength(password)
 
   function validate(): boolean {
     const errors: Record<string, string> = {}
-    if (!orgName.trim()) errors.orgName = 'Organization name is required.'
-    if (!orgSlug.trim()) errors.orgSlug = 'Slug is required.'
+    if (!orgName.trim()) errors.orgName = 'Organisation name is required.'
+    if (!country.trim()) errors.country = 'Country is required.'
+    if (!city.trim()) errors.city = 'City is required.'
+    if (!organizationType) errors.organizationType = 'Organisation type is required.'
     if (!firstName.trim()) errors.firstName = 'First name is required.'
     if (!lastName.trim()) errors.lastName = 'Last name is required.'
-    if (!adminEmail.trim()) errors.adminEmail = 'Email is required.'
-    if (!adminPassword) errors.adminPassword = 'Password is required.'
-    if (adminPassword.length > 0 && adminPassword.length < 8)
-      errors.adminPassword = 'Password must be at least 8 characters.'
-    if (adminPassword !== confirmPassword)
+    if (!email.trim()) errors.email = 'Email is required.'
+    if (!password) errors.password = 'Password is required.'
+    if (password.length > 0 && password.length < 8)
+      errors.password = 'Password must be at least 8 characters.'
+    if (password !== confirmPassword)
       errors.confirmPassword = 'Passwords do not match.'
     setFieldErrors(errors)
     return Object.keys(errors).length === 0
@@ -175,14 +172,16 @@ export default function RegisterPage() {
     try {
       const result = await register({
         organizationName: orgName.trim(),
-        organizationSlug: orgSlug,
-        adminFirstName: firstName.trim(),
-        adminLastName: lastName.trim(),
-        adminEmail: adminEmail.trim(),
-        adminPassword,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+        password,
+        confirmPassword,
+        country: country.trim(),
+        city: city.trim(),
+        organizationType,
       }).unwrap()
-      dispatch(setCredentials({ user: result.user, token: result.token }))
-      document.cookie = `auth_token=${result.token}; path=/; max-age=86400`
+      dispatch(setCredentials({ user: result.user, token: result.accessToken }))
       router.push('/dashboard')
     } catch (err: unknown) {
       const message =
@@ -221,40 +220,61 @@ export default function RegisterPage() {
 
             {/* ─ Organisation section ─ */}
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#a27246' }}>
-                  Organisation
-                </span>
-                <div className="flex-1 h-px" style={{ backgroundColor: '#e8e0cc' }} />
-              </div>
+              <SectionLabel label="Organisation" />
               <div className="space-y-4">
                 <FloatField
                   id="orgName"
                   label="Organisation name"
                   value={orgName}
-                  onChange={(e) => handleOrgNameChange(e.target.value)}
+                  onChange={(e) => setOrgName(e.target.value)}
                   error={fieldErrors.orgName}
                   required
                 />
 
-                <div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FloatField
-                    id="orgSlug"
-                    label="URL slug"
-                    value={orgSlug}
-                    onChange={(e) => handleSlugChange(e.target.value)}
-                    error={fieldErrors.orgSlug}
+                    id="country"
+                    label="Country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    error={fieldErrors.country}
                     required
                   />
-                  {orgSlug && !fieldErrors.orgSlug && (
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="mt-1.5 text-xs"
-                      style={{ color: '#6b5744' }}
+                  <FloatField
+                    id="city"
+                    label="City"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    error={fieldErrors.city}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <div className="relative">
+                    <select
+                      id="organizationType"
+                      value={organizationType}
+                      onChange={(e) => setOrganizationType(e.target.value)}
+                      className="w-full rounded-xl border bg-white px-4 py-3.5 text-sm outline-none transition-all appearance-none"
+                      style={{
+                        color: organizationType ? '#29241f' : '#6b5744',
+                        borderColor: fieldErrors.organizationType ? '#f87171' : '#e8e0cc',
+                      }}
                     >
-                      Your URL: <span className="font-mono" style={{ color: '#a27246' }}>eduplatform.io/<strong>{orgSlug}</strong></span>
-                    </motion.p>
+                      <option value="" disabled>Organisation type</option>
+                      {ORG_TYPES.map(t => (
+                        <option key={t} value={t} style={{ color: '#29241f' }}>{t}</option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#6b5744" strokeWidth="2">
+                        <path d="M2 4l4 4 4-4" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  {fieldErrors.organizationType && (
+                    <p className="mt-1 text-xs" style={{ color: '#ef4444' }}>{fieldErrors.organizationType}</p>
                   )}
                 </div>
               </div>
@@ -262,12 +282,7 @@ export default function RegisterPage() {
 
             {/* ─ Admin account section ─ */}
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#a27246' }}>
-                  Admin account
-                </span>
-                <div className="flex-1 h-px" style={{ backgroundColor: '#e8e0cc' }} />
-              </div>
+              <SectionLabel label="Admin account" />
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FloatField
@@ -289,30 +304,30 @@ export default function RegisterPage() {
                 </div>
 
                 <FloatField
-                  id="adminEmail"
+                  id="email"
                   label="Email address"
                   type="email"
                   autoComplete="email"
-                  value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
-                  error={fieldErrors.adminEmail}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={fieldErrors.email}
                   required
                 />
 
                 <div>
                   <FloatField
-                    id="adminPassword"
+                    id="password"
                     label="Password"
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="new-password"
-                    value={adminPassword}
-                    onChange={(e) => setAdminPassword(e.target.value)}
-                    error={fieldErrors.adminPassword}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    error={fieldErrors.password}
                     required
                     rightSlot={<EyeToggle show={showPassword} onToggle={() => setShowPassword(v => !v)} />}
                   />
                   {/* Strength bar */}
-                  {adminPassword.length > 0 && (
+                  {password.length > 0 && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -347,7 +362,7 @@ export default function RegisterPage() {
                     error={fieldErrors.confirmPassword}
                     required
                     rightSlot={
-                      confirmPassword.length > 0 && !fieldErrors.confirmPassword && adminPassword === confirmPassword ? (
+                      confirmPassword.length > 0 && !fieldErrors.confirmPassword && password === confirmPassword ? (
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#16a34a" strokeWidth="2">
                           <path d="M3 8l3.5 3.5L13 5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
@@ -470,8 +485,8 @@ export default function RegisterPage() {
             className="space-y-5"
           >
             {[
-              { title: 'Build structured courses', desc: 'Rich content trees with text, video, and file resources.' },
-              { title: 'AI-powered assessments', desc: 'Generate tests automatically from your course content.' },
+              { title: 'Build structured courses', desc: 'Rich content with chapters, lessons, and file resources.' },
+              { title: 'AI-powered assessments', desc: 'Generate tests automatically from your lesson content.' },
               { title: 'Track every learner', desc: 'Real-time progress dashboards for admins and teachers.' },
             ].map(({ title, desc }, i) => (
               <motion.div

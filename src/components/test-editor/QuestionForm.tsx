@@ -1,64 +1,62 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
 import type { Question, QuestionType, AnswerOption } from '@/types';
 
 interface Props {
   initial?: Partial<Question>;
-  onSave: (q: Omit<Question, 'id' | 'testId'>) => void;
+  onSave: (q: Omit<Question, 'questionId'>) => void;
   onCancel: () => void;
 }
 
+function makeOption(displayOrder: number): AnswerOption {
+  return { optionId: displayOrder, text: '', isCorrect: false, displayOrder };
+}
+
 const TRUE_FALSE_OPTIONS: AnswerOption[] = [
-  { id: 'tf-true', text: 'True', isCorrect: false },
-  { id: 'tf-false', text: 'False', isCorrect: false },
+  { optionId: 1, text: 'True', isCorrect: false, displayOrder: 1 },
+  { optionId: 2, text: 'False', isCorrect: false, displayOrder: 2 },
 ];
 
 export default function QuestionForm({ initial, onSave, onCancel }: Props) {
-  const [text, setText] = useState(initial?.text ?? '');
-  const [type, setType] = useState<QuestionType>(initial?.type ?? 'single');
-  const [topicTag, setTopicTag] = useState(initial?.topicTag ?? '');
-  const [explanation, setExplanation] = useState(initial?.explanation ?? '');
+  const [content, setContent] = useState(initial?.content ?? '');
+  const [type, setType] = useState<QuestionType>(initial?.questionType ?? 'SINGLE_CHOICE');
   const [options, setOptions] = useState<AnswerOption[]>(
-    initial?.options ?? [
-      { id: 'opt-1', text: '', isCorrect: false },
-      { id: 'opt-2', text: '', isCorrect: false },
-    ]
+    initial?.options ?? [makeOption(1), makeOption(2)]
   );
 
   useEffect(() => {
-    if (type === 'true_false') setOptions(TRUE_FALSE_OPTIONS.map(o => ({ ...o })));
-    else if (options === TRUE_FALSE_OPTIONS) {
-      setOptions([
-        { id: 'opt-1', text: '', isCorrect: false },
-        { id: 'opt-2', text: '', isCorrect: false },
-      ]);
+    if (type === 'TRUE_FALSE') {
+      setOptions(TRUE_FALSE_OPTIONS.map(o => ({ ...o })));
+    } else if (options.length === 2 && options[0].text === 'True') {
+      setOptions([makeOption(1), makeOption(2)]);
     }
   }, [type]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function setCorrect(id: string, checked: boolean) {
+  function setCorrect(optionId: number, checked: boolean) {
     setOptions(opts => opts.map(o => ({
       ...o,
-      isCorrect: type === 'single' || type === 'true_false' ? o.id === id && checked : o.id === id ? checked : o.isCorrect,
+      isCorrect: type === 'SINGLE_CHOICE' || type === 'TRUE_FALSE'
+        ? o.optionId === optionId && checked
+        : o.optionId === optionId ? checked : o.isCorrect,
     })));
   }
 
   function addOption() {
-    setOptions(o => [...o, { id: 'opt-' + Date.now(), text: '', isCorrect: false }]);
+    setOptions(o => [...o, makeOption(Date.now())]);
   }
 
-  function updateOption(id: string, text: string) {
-    setOptions(opts => opts.map(o => o.id === id ? { ...o, text } : o));
+  function updateOption(optionId: number, text: string) {
+    setOptions(opts => opts.map(o => o.optionId === optionId ? { ...o, text } : o));
   }
 
-  function removeOption(id: string) {
-    setOptions(opts => opts.filter(o => o.id !== id));
+  function removeOption(optionId: number) {
+    setOptions(opts => opts.filter(o => o.optionId !== optionId));
   }
 
   function handleSave() {
-    if (!text.trim() || options.every(o => !o.text.trim())) return;
-    onSave({ text: text.trim(), type, topicTag: topicTag.trim(), explanation: explanation.trim(), options });
+    if (!content.trim() || options.every(o => !o.text.trim())) return;
+    onSave({ content: content.trim(), questionType: type, options });
   }
 
   return (
@@ -68,53 +66,53 @@ export default function QuestionForm({ initial, onSave, onCancel }: Props) {
         <textarea
           className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand resize-none"
           rows={3}
-          value={text}
-          onChange={e => setText(e.target.value)}
+          value={content}
+          onChange={e => setContent(e.target.value)}
           placeholder="Enter your question..."
         />
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="block text-sm font-medium text-on-surface mb-1">Type</label>
-          <select className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand" value={type} onChange={e => setType(e.target.value as QuestionType)}>
-            <option value="single">Single choice</option>
-            <option value="multiple">Multiple choice</option>
-            <option value="true_false">True / False</option>
-          </select>
-        </div>
-        <Input label="Topic Tag" value={topicTag} onChange={e => setTopicTag(e.target.value)} placeholder="e.g. variables" />
+      <div>
+        <label className="block text-sm font-medium text-on-surface mb-1">Type</label>
+        <select
+          className="w-full border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
+          value={type}
+          onChange={e => setType(e.target.value as QuestionType)}
+        >
+          <option value="SINGLE_CHOICE">Single choice</option>
+          <option value="MULTI_CHOICE">Multiple choice</option>
+          <option value="TRUE_FALSE">True / False</option>
+        </select>
       </div>
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium text-on-surface">Answer Options</label>
-          {type !== 'true_false' && <button onClick={addOption} className="text-xs text-brand hover:underline">+ Add option</button>}
+          {type !== 'TRUE_FALSE' && <button onClick={addOption} className="text-xs text-brand hover:underline">+ Add option</button>}
         </div>
         <div className="space-y-2">
           {options.map(opt => (
-            <div key={opt.id} className="flex items-center gap-2">
+            <div key={opt.optionId} className="flex items-center gap-2">
               <input
-                type={type === 'multiple' ? 'checkbox' : 'radio'}
-                checked={opt.isCorrect}
-                onChange={e => setCorrect(opt.id, e.target.checked)}
+                type={type === 'MULTI_CHOICE' ? 'checkbox' : 'radio'}
+                checked={opt.isCorrect ?? false}
+                onChange={e => setCorrect(opt.optionId, e.target.checked)}
                 className="text-brand"
               />
               <input
                 type="text"
                 className="flex-1 border border-surface-border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-brand/30 focus:border-brand"
                 value={opt.text}
-                onChange={e => updateOption(opt.id, e.target.value)}
-                disabled={type === 'true_false'}
+                onChange={e => updateOption(opt.optionId, e.target.value)}
+                disabled={type === 'TRUE_FALSE'}
                 placeholder="Option text"
               />
-              {type !== 'true_false' && options.length > 2 && (
-                <button onClick={() => removeOption(opt.id)} className="text-on-surface-faint hover:text-red-500 text-lg leading-none">×</button>
+              {type !== 'TRUE_FALSE' && options.length > 2 && (
+                <button onClick={() => removeOption(opt.optionId)} className="text-on-surface-faint hover:text-red-500 text-lg leading-none">×</button>
               )}
             </div>
           ))}
         </div>
         <p className="text-xs text-on-surface-faint mt-1">Check the correct answer(s)</p>
       </div>
-      <Input label="Explanation (optional)" value={explanation} onChange={e => setExplanation(e.target.value)} placeholder="Why is this the correct answer?" />
       <div className="flex justify-end gap-2 pt-1">
         <Button variant="secondary" onClick={onCancel}>Cancel</Button>
         <Button variant="primary" onClick={handleSave}>Save Question</Button>

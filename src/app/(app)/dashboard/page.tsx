@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useGetUsersQuery } from '@/services/usersApi'
-import { useGetClassesQuery } from '@/services/classesApi'
+import { useGetClassroomsQuery } from '@/services/classesApi'
 import { useGetOrganizationQuery } from '@/services/organizationsApi'
 
 // ---------------------------------------------------------------------------
@@ -114,7 +114,7 @@ function QuickLinkCard({ title, description, href, icon }: QuickLinkCardProps) {
 export default function AdminDashboardPage() {
   const { data: studentsData, isLoading: studentsLoading } = useGetUsersQuery({ role: 'student' })
   const { data: teachersData, isLoading: teachersLoading } = useGetUsersQuery({ role: 'teacher' })
-  const { data: classes, isLoading: classesLoading } = useGetClassesQuery()
+  const { data: classes, isLoading: classesLoading } = useGetClassroomsQuery()
   const { data: org, isLoading: orgLoading } = useGetOrganizationQuery()
 
   const studentCount = studentsData?.total ?? 0
@@ -191,8 +191,12 @@ export default function AdminDashboardPage() {
                 <dd className="mt-0.5 text-sm font-medium text-on-surface" >{org.name}</dd>
               </div>
               <div>
-                <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Slug</dt>
-                <dd className="mt-0.5 font-mono text-sm text-on-surface-muted" >{org.slug}</dd>
+                <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Type</dt>
+                <dd className="mt-0.5 text-sm text-on-surface-muted" >{org.organizationType}</dd>
+              </div>
+              <div>
+                <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Location</dt>
+                <dd className="mt-0.5 text-sm text-on-surface-muted" >{org.city}, {org.country}</dd>
               </div>
               <div>
                 <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Member since</dt>
@@ -200,12 +204,6 @@ export default function AdminDashboardPage() {
                   {new Date(org.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long' })}
                 </dd>
               </div>
-              {org.description && (
-                <div>
-                  <dt className="text-xs font-medium uppercase tracking-wide text-on-surface-faint" >Description</dt>
-                  <dd className="mt-0.5 text-sm text-on-surface-muted" >{org.description}</dd>
-                </div>
-              )}
             </dl>
           ) : (
             <p className="text-sm text-on-surface-faint" >No organization data available.</p>

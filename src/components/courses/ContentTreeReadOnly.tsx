@@ -1,56 +1,58 @@
 'use client';
 import { useState } from 'react';
-import { buildTree, getTypeIcon } from '@/lib/contentTree';
-import Badge from '@/components/ui/Badge';
-import type { ContentNode } from '@/types';
+import type { ChapterWithLessons, Lesson } from '@/types';
 
 interface Props {
-  nodes: ContentNode[]
-  selectedId?: string | null
-  onSelect?: (node: ContentNode) => void
+  chapters: ChapterWithLessons[];
+  selectedId?: string | null;
+  onSelect?: (lesson: Lesson) => void;
 }
 
-export default function ContentTreeReadOnly({ nodes, selectedId, onSelect }: Props) {
-  const tree = buildTree(nodes);
-  const [open, setOpen] = useState<Set<string>>(new Set(tree.map(c => c.id)));
+export default function ContentTreeReadOnly({ chapters, selectedId, onSelect }: Props) {
+  const [open, setOpen] = useState<Set<string>>(new Set(chapters.map(c => c.id)));
 
-  if (!tree.length) return <p className="text-on-surface-faint text-sm py-4 text-center">No content yet.</p>;
+  if (!chapters.length) return <p className="text-on-surface-faint text-sm py-4 text-center">No content yet.</p>;
 
   return (
     <div className="space-y-2">
-      {tree.map(chapter => (
+      {chapters.map(chapter => (
         <div key={chapter.id} className="border border-surface-border rounded-lg overflow-hidden">
           <button
-            onClick={() => setOpen(prev => { const s = new Set(prev); s.has(chapter.id) ? s.delete(chapter.id) : s.add(chapter.id); return s; })}
+            onClick={() => setOpen(prev => {
+              const s = new Set(prev);
+              s.has(chapter.id) ? s.delete(chapter.id) : s.add(chapter.id);
+              return s;
+            })}
             className="w-full flex items-center gap-2 px-4 py-3 bg-surface hover:bg-surface-border text-left transition-colors"
           >
-            <span>{getTypeIcon('chapter')}</span>
+            <span>📁</span>
             <span className="font-medium text-on-surface text-sm flex-1">{chapter.title}</span>
-            <span className="text-on-surface-faint text-xs">{chapter.children.length} items</span>
+            <span className="text-on-surface-faint text-xs">{chapter.lessons.length} lessons</span>
             <span className="text-on-surface-faint">{open.has(chapter.id) ? '▾' : '▸'}</span>
           </button>
           {open.has(chapter.id) && (
             <div className="divide-y divide-surface-border">
-              {chapter.children.length === 0 && (
-                <p className="px-6 py-2 text-xs text-on-surface-faint italic">No resources in this chapter</p>
+              {chapter.lessons.length === 0 && (
+                <p className="px-6 py-2 text-xs text-on-surface-faint italic">No lessons in this chapter</p>
               )}
-              {chapter.children.map(node => (
+              {chapter.lessons.map(lesson => (
                 <div
-                  key={node.id}
-                  onClick={() => onSelect?.(node)}
+                  key={lesson.id}
+                  onClick={() => onSelect?.(lesson)}
                   className={[
                     'flex items-center gap-3 px-6 py-2.5 transition-colors',
                     onSelect ? 'cursor-pointer' : '',
-                    selectedId === node.id
-                      ? 'bg-brand/10 text-brand-light'
-                      : 'hover:bg-surface',
+                    selectedId === lesson.id ? 'bg-brand/10 text-brand-light' : 'hover:bg-surface',
                   ].join(' ')}
                 >
-                  <span className="text-base">{getTypeIcon(node.type)}</span>
-                  <span className={['text-sm flex-1', selectedId === node.id ? 'text-brand-light font-medium' : 'text-on-surface'].join(' ')}>{node.title}</span>
-                  <Badge variant={node.type === 'test' ? 'warning' : node.type === 'video' ? 'info' : 'neutral'}>
-                    {node.type}
-                  </Badge>
+                  <span className="text-base">📄</span>
+                  <span className={['text-sm flex-1', selectedId === lesson.id ? 'text-brand-light font-medium' : 'text-on-surface'].join(' ')}>
+                    {lesson.title}
+                  </span>
+                  {lesson.testId && <span className="text-xs text-on-surface-faint">📝 test</span>}
+                  {lesson.lessonResources.length > 0 && (
+                    <span className="text-xs text-on-surface-faint">{lesson.lessonResources.length} resources</span>
+                  )}
                 </div>
               ))}
             </div>

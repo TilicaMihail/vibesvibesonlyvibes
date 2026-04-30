@@ -2,97 +2,70 @@
 import { useState } from 'react';
 import Button from '@/components/ui/Button';
 import Spinner from '@/components/ui/Spinner';
-import { useGenerateTestMutation } from '@/services/testsApi';
-import type { Question } from '@/types';
+import { useGenerateTestAIMutation, useGetAIRequestStatusQuery, useInjectAIQuestionsMutation } from '@/services/testsApi';
 
 interface Props {
-  courseId: string;
-  onGenerated: (questions: Question[]) => void;
+  lessonId: string;
+  onDone: () => void;
 }
 
-export default function AIGeneratePanel({ courseId, onGenerated }: Props) {
-  const [tagInput, setTagInput] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [count, setCount] = useState(10);
-  const [generating, setGenerating] = useState(false);
+export default function AIGeneratePanel({ lessonId, onDone }: Props) {
+  const [requestId, setRequestId] = useState<string | null>(null);
   const [error, setError] = useState('');
 
-  const [generateTest] = useGenerateTestMutation();
+  const [generateAI, { isLoading: generating }] = useGenerateTestAIMutation();
+  const [injectAI, { isLoading: injecting }] = useInjectAIQuestionsMutation();
+  const { data: statusData } = useGetAIRequestStatusQuery(requestId ?? '', { skip: !requestId, pollingInterval: 3000 });
 
-  function addTag() {
-    const trimmed = tagInput.trim().toLowerCase();
-    if (trimmed && !tags.includes(trimmed)) setTags(t => [...t, trimmed]);
-    setTagInput('');
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTag(); }
-  }
+  const status = statusData?.status;
+  const done = status === 'DONE' || status === 'COMPLETED';
 
   async function handleGenerate() {
-    if (tags.length === 0) { setError('Add at least one topic tag'); return; }
     setError('');
-    setGenerating(true);
     try {
-      await new Promise(r => setTimeout(r, 1500)); // simulated delay
-      const result = await generateTest({ courseId, topics: tags, count }).unwrap();
-      onGenerated(result.questions);
+      const result = await generateAI({ lessonId }).unwrap();
+      setRequestId(result.requestId);
     } catch {
-      setError('Failed to generate questions. Try again.');
-    } finally {
-      setGenerating(false);
+      setError('Failed to start AI generation. Try again.');
+    }
+  }
+
+  async function handleInject() {
+    if (!requestId) return;
+    try {
+      await injectAI(requestId).unwrap();
+      setRequestId(null);
+      onDone();
+    } catch {
+      setError('Failed to inject questions. Try again.');
     }
   }
 
   return (
     <div className="space-y-5">
-      <div>
-        <label className="block text-sm font-medium text-on-surface mb-1">Topic Tags</label>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            className="flex-1 border border-surface-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand"
-            value={tagInput}
-            onChange={e => setTagInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="e.g. variables, functions — press Enter to add"
-          />
-          <Button variant="secondary" onClick={addTag}>Add</Button>
-        </div>
-        {tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {tags.map(tag => (
-              <span key={tag} className="inline-flex items-center gap-1 bg-brand/10 text-brand text-xs px-2.5 py-1 rounded-full">
-                {tag}
-                <button onClick={() => setTags(t => t.filter(x => x !== tag))} className="hover:text-brand-dark">×</button>
-              </span>
-            ))}
-          </div>
-        )}
-        <p className="text-xs text-on-surface-faint mt-1">💡 Tip: tags match question topic tags in your course tests</p>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-on-surface mb-1">Number of Questions: <strong>{count}</strong></label>
-        <input
-          type="range" min={3} max={20} value={count}
-          onChange={e => setCount(Number(e.target.value))}
-          className="w-full accent-brand"
-        />
-        <div className="flex justify-between text-xs text-on-surface-faint"><span>3</span><span>20</span></div>
-      </div>
+      <p className="text-sm text-on-surface-muted">
+        AI will analyze this lesson content and generate relevant questions automatically.
+      </p>
 
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      <Button variant="primary" onClick={handleGenerate} isLoading={generating} fullWidth>
-        {generating ? 'Generating questions...' : '✨ Generate with AI'}
-      </Button>
+      {!requestId && (
+        <Button variant="primary" onClick={handleGenerate} isLoading={generating} fullWidth>
+          {generating ? 'Starting generation...' : '✨ Generate Questions with AI'}
+        </Button>
+      )}
 
-      {generating && (
+      {requestId && !done && (
         <div className="flex items-center gap-3 text-on-surface-muted text-sm">
           <Spinner size="sm" />
-          <span>Analyzing your course content and building questions...</span>
+          <span>Generating questions... (status: {status ?? 'pending'})</span>
         </div>
+      )}
+
+      {requestId && done && (
+        <Button variant="primary" onClick={handleInject} isLoading={injecting} fullWidth>
+          ✓ Questions ready — Add to test
+        </Button>
       )}
     </div>
   );

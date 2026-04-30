@@ -1,89 +1,64 @@
 import { baseApi } from './baseApi';
-import type { Test, Question } from '@/types';
-
-interface GetCourseTestsParams {
-  courseId: string;
-}
-
-interface GetTestParams {
-  courseId: string;
-  testId: string;
-}
-
-interface CreateTestParams {
-  courseId: string;
-  body: Partial<Test>;
-}
-
-interface UpdateTestParams {
-  courseId: string;
-  testId: string;
-  body: Partial<Test>;
-}
-
-interface GenerateTestParams {
-  courseId: string;
-  topics: string[];
-  count: number;
-  title?: string;
-}
+import type { Test } from '@/types';
 
 export const testsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCourseTests: builder.query<Test[], GetCourseTestsParams>({
-      query: ({ courseId }) => `/courses/${courseId}/tests`,
-      providesTags: (result, _error, { courseId }) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: 'Test' as const, id })),
-              { type: 'Test', id: `COURSE-${courseId}` },
-            ]
-          : [{ type: 'Test', id: `COURSE-${courseId}` }],
+    getTestByLesson: builder.query<Test, string>({
+      query: (lessonId) => `/lessons/${lessonId}/test`,
+      providesTags: (_result, _error, lessonId) => [{ type: 'Test', id: `lesson-${lessonId}` }],
     }),
 
-    getTest: builder.query<Test, GetTestParams>({
-      query: ({ courseId, testId }) => `/courses/${courseId}/tests/${testId}`,
-      providesTags: (_result, _error, { testId }) => [{ type: 'Test', id: testId }],
-    }),
-
-    createTest: builder.mutation<Test, CreateTestParams>({
-      query: ({ courseId, body }) => ({
-        url: `/courses/${courseId}/tests`,
+    createTest: builder.mutation<Test, { lessonId: string; title: string; description?: string; timeLimitSec?: number; aiEnabled?: boolean }>({
+      query: ({ lessonId, ...body }) => ({
+        url: `/lessons/${lessonId}/test`,
         method: 'POST',
         body,
       }),
-      invalidatesTags: (_result, _error, { courseId }) => [
-        { type: 'Test', id: `COURSE-${courseId}` },
-      ],
+      invalidatesTags: (_result, _error, { lessonId }) => [{ type: 'Test', id: `lesson-${lessonId}` }],
     }),
 
-    updateTest: builder.mutation<Test, UpdateTestParams>({
-      query: ({ courseId, testId, body }) => ({
-        url: `/courses/${courseId}/tests/${testId}`,
-        method: 'PUT',
-        body,
-      }),
-      invalidatesTags: (_result, _error, { testId, courseId }) => [
-        { type: 'Test', id: testId },
-        { type: 'Test', id: `COURSE-${courseId}` },
-      ],
+    updateTest: builder.mutation<Test, { testId: string; title?: string; description?: string; timeLimitSec?: number }>({
+      query: ({ testId, ...body }) => ({ url: `/tests/${testId}`, method: 'PATCH', body }),
+      invalidatesTags: (_result, _error, { testId }) => [{ type: 'Test', id: testId }],
     }),
 
-    generateTest: builder.mutation<{ questions: Question[] }, GenerateTestParams>({
-      query: ({ courseId, topics, count, title }) => ({
-        url: `/courses/${courseId}/tests/generate`,
+    publishTest: builder.mutation<Test, string>({
+      query: (testId) => ({ url: `/tests/${testId}/publish`, method: 'PATCH' }),
+      invalidatesTags: (_result, _error, testId) => [{ type: 'Test', id: testId }],
+    }),
+
+    deleteTest: builder.mutation<void, string>({
+      query: (testId) => ({ url: `/tests/${testId}`, method: 'DELETE' }),
+      invalidatesTags: [{ type: 'Test', id: 'LIST' }],
+    }),
+
+    generateTestAI: builder.mutation<{ requestId: string; status: string }, { lessonId: string }>({
+      query: ({ lessonId }) => ({
+        url: `/lessons/${lessonId}/ai/generate-test`,
         method: 'POST',
-        body: { topics, count, title },
       }),
-      // No invalidation — generate no longer saves a test
+    }),
+
+    getAIRequestStatus: builder.query<{ status: string; requestId: string }, string>({
+      query: (requestId) => `/ai/request/${requestId}/status`,
+    }),
+
+    injectAIQuestions: builder.mutation<void, string>({
+      query: (requestId) => ({
+        url: `/ai/request/${requestId}/inject`,
+        method: 'POST',
+      }),
     }),
   }),
 });
 
 export const {
-  useGetCourseTestsQuery,
-  useGetTestQuery,
+  useGetTestByLessonQuery,
   useCreateTestMutation,
   useUpdateTestMutation,
-  useGenerateTestMutation,
+  usePublishTestMutation,
+  useDeleteTestMutation,
+  useGenerateTestAIMutation,
+  useGetAIRequestStatusQuery,
+  useInjectAIQuestionsMutation,
 } = testsApi;
